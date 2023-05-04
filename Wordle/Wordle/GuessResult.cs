@@ -14,12 +14,12 @@ namespace Wordle
         }
         public int GetExactMatches()
         {
-            return 0;
+            return 5;
         }
 
         public int GetPartialMatches()
         {
-            return 0;
+            return 5;
         }
 
     }

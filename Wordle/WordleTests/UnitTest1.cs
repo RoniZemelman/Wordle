@@ -5,6 +5,8 @@ namespace WordleTests
 {
     public class Tests
     {
+        private const int lenOfWord = 5;
+
         [SetUp]
         public void Setup()
         {
@@ -23,6 +25,19 @@ namespace WordleTests
 
             Assert.IsTrue(guessResult.GetPartialMatches() == 0 
                     && guessResult.GetExactMatches() == 0);
+        }
+        [Test]
+        public void AnalyzeGuess_UserHasAllHits_ReturnsCorrectResult()
+        {
+            string userGuess = "bingo";
+            //string answer = "bingo";
+
+            var analyzer = new GuessAnalyzer(); 
+
+            var guessResult = analyzer.Analyze(userGuess);
+
+            Assert.IsTrue(guessResult.GetExactMatches() == lenOfWord
+                        && guessResult.GetPartialMatches() == lenOfWord);
         }
 
         //test case of all hits, partial matches, exact and partial etc.
