@@ -18,8 +18,10 @@ namespace WordleTests
         public void AnalyzeGuess_UserGuessHasNoHits_ReturnsCorrectResult()
         {
             string userGuess = "guess";
+            string answer = "xxxxx";
+
             //var guessValidator = MockRepos
-            var analyzer = new GuessAnalyzer();
+            var analyzer = new GuessAnalyzer(answer);
 
             var guessResult = analyzer.Analyze(userGuess);
 
@@ -27,18 +29,33 @@ namespace WordleTests
                     && guessResult.GetExactMatches() == 0);
         }
         [Test]
-        public void AnalyzeGuess_UserHasAllHits_ReturnsCorrectResult()
+        public void AnalyzeGuess_UserGuessHasAllHits_ReturnsCorrectResult()
         {
             string userGuess = "bingo";
-            //string answer = "bingo";
+            string answer = "bingo";
 
-            var analyzer = new GuessAnalyzer(); 
+            //var guessValidator = MockRepos
+            var analyzer = new GuessAnalyzer(answer); 
 
             var guessResult = analyzer.Analyze(userGuess);
 
-            Assert.IsTrue(guessResult.GetExactMatches() == lenOfWord
-                        && guessResult.GetPartialMatches() == lenOfWord);
+            Assert.IsTrue(guessResult.GetPartialMatches() == 5
+                    && guessResult.GetExactMatches() == 5);
         }
+        [Test]
+        public void AnalyzeGuess_UserGuessHasOneHit_ReturnsCorrectResult()
+        {
+            string userGuess = "bingo";
+            string answer = "bxxxx";
+
+            var analyzer = new GuessAnalyzer(answer);
+
+            var guessResult = analyzer.Analyze(userGuess);
+
+            Assert.IsTrue(guessResult.GetExactMatches() == 1);            
+        }
+
+
 
         //test case of all hits, partial matches, exact and partial etc.
     }
