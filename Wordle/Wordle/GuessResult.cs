@@ -42,7 +42,8 @@ namespace Wordle
 
         public int GetNumPartialMatches()
         {
-            return this.guessItems.Count(g => g.isInWord == true);
+            return 0; 
+            // this.guessItems.Count(g => g.isInWord == true); // TODO - disregard previous exact matches
         }
 
     }

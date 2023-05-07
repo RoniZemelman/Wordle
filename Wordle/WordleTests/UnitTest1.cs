@@ -25,8 +25,7 @@ namespace WordleTests
 
             var guessResult = analyzer.Analyze(userGuess);
 
-            Assert.IsTrue(guessResult.GetNumPartialMatches() == 0 
-                    && guessResult.GetNumExactMatches() == 0);
+            Assert.IsTrue(guessResult.GetNumExactMatches() == 0); // Only testing exact matches right now
         }
         [Test]
         public void AnalyzeGuess_UserGuessHasAllHits_ReturnsCorrectResult()
@@ -39,8 +38,7 @@ namespace WordleTests
 
             var guessResult = analyzer.Analyze(userGuess);
 
-            Assert.IsTrue(guessResult.GetNumPartialMatches() == 5
-                    && guessResult.GetNumExactMatches() == 5);
+            Assert.IsTrue(guessResult.GetNumExactMatches() == 5);
         }
         [Test]
         [TestCase("bxxxx")]
@@ -48,12 +46,12 @@ namespace WordleTests
         [TestCase("xxnxx")]
         [TestCase("xxxgx")]
         [TestCase("xxxxo")]
-        public void AnalyzeGuess_UserGuessHasOneExactMatch_ReturnsCorrectResult(string answer)
+        public void AnalyzeGuess_UserGuessHasOneExactMatch_ReturnsCorrectResult(string userGuess)
         {
-            string userGuess = "bingo";
+            string answer = "bingo";
 
             //var guessValidator = MockRepos // GuessValidator should be mocked out
-                                            // to isolate testing of functionality
+                                            // to isolate testing of functionality of Analyzer
             
             var analyzer = new GuessAnalyzer(answer);
 
@@ -62,6 +60,24 @@ namespace WordleTests
             Assert.IsTrue(guessResult.GetNumExactMatches() == 1);            
         }
 
-        // test case of all hits, partial matches, exact and partial etc.
+        [Test]
+        public void AnalyzeGuess_UserHasOnePartialHit_ReturnsCorrectResult()
+        {
+            string userGuess = "xxxxa";
+            string answer = "abcde";
+
+            var analyzer = new GuessAnalyzer(answer);
+
+            var guessResult = analyzer.Analyze(userGuess);
+
+            System.Console.WriteLine(" guess Partial hits " + guessResult.GetNumPartialMatches());
+            System.Console.WriteLine(" guess Exact hits " + guessResult.GetNumExactMatches());
+
+            Assert.IsTrue(guessResult.GetNumPartialMatches() == 1);
+        }
+
+        // Next: Test one (yellow) partial hit in all guess spots. 
+
+        // partial matches, exact and partial etc.
     }
 }
