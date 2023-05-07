@@ -25,8 +25,8 @@ namespace WordleTests
 
             var guessResult = analyzer.Analyze(userGuess);
 
-            Assert.IsTrue(guessResult.GetPartialMatches() == 0 
-                    && guessResult.GetExactMatches() == 0);
+            Assert.IsTrue(guessResult.GetNumPartialMatches() == 0 
+                    && guessResult.GetNumExactMatches() == 0);
         }
         [Test]
         public void AnalyzeGuess_UserGuessHasAllHits_ReturnsCorrectResult()
@@ -39,24 +39,27 @@ namespace WordleTests
 
             var guessResult = analyzer.Analyze(userGuess);
 
-            Assert.IsTrue(guessResult.GetPartialMatches() == 5
-                    && guessResult.GetExactMatches() == 5);
+            Assert.IsTrue(guessResult.GetNumPartialMatches() == 5
+                    && guessResult.GetNumExactMatches() == 5);
         }
         [Test]
-        public void AnalyzeGuess_UserGuessHasOneHit_ReturnsCorrectResult()
+        public void AnalyzeGuess_UserGuessHasOneHitOnFirstLetter_ReturnsCorrectResult()
         {
             string userGuess = "bingo";
             string answer = "bxxxx";
 
+            //var guessValidator = MockRepos // GuessValidator should be mocked out
+                                            // to isolate testing of functionality
+            
             var analyzer = new GuessAnalyzer(answer);
 
             var guessResult = analyzer.Analyze(userGuess);
 
-            Assert.IsTrue(guessResult.GetExactMatches() == 1);            
+            Assert.IsTrue(guessResult.GetNumExactMatches() == 1);            
         }
 
+        // Should I test a exactMatch in every spot? 
 
-
-        //test case of all hits, partial matches, exact and partial etc.
+        // test case of all hits, partial matches, exact and partial etc.
     }
 }

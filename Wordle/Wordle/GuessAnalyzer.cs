@@ -1,4 +1,4 @@
-﻿
+﻿using System.Linq;
 using Wordle;
 
 public class GuessAnalyzer
@@ -16,15 +16,11 @@ public class GuessAnalyzer
 
         for (int i = 0; i < 5; ++i)
         {
-            if (userGuess == answer)
-            {
-                currGuess.setItem(i, 'a', true, true);
-            }
-            else
-            {
-                currGuess.setItem(i, 'a', false, false);
-            }
-            
+            char currLetter = userGuess[i];
+            bool IsExactMatch = userGuess[i] == answer[i];
+            bool isInAnswer = this.answer.Contains(currLetter);
+
+            currGuess.setItemAt(i, currLetter, IsExactMatch, isInAnswer);
         }
         return currGuess;
     }

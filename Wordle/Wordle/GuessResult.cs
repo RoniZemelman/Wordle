@@ -29,22 +29,23 @@ namespace Wordle
             this.guessItems = new GuessItem[5];
         }
 
-        public void setItem(int index, char letter, bool isExactMatch, bool isInWord)
+        public void setItemAt(int index, char letter, bool isExactMatch, bool isInWord)
         {
             guessItems[index] = new GuessItem(letter, isExactMatch, isInWord);  // TODO: Make sure this is not double
                                                                              // instantiation of GuessItem (see ctor)
         }
 
-        public int GetExactMatches()
+        public int GetNumExactMatches()
         {
-
             return this.guessItems.Count(g => g.isExactMatch == true);
         }
 
-        public int GetPartialMatches()
+        public int GetNumPartialMatches()
         {
             return this.guessItems.Count(g => g.isInWord == true);
         }
 
     }
+
+    
 }
