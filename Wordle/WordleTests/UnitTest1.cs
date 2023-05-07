@@ -43,10 +43,14 @@ namespace WordleTests
                     && guessResult.GetNumExactMatches() == 5);
         }
         [Test]
-        public void AnalyzeGuess_UserGuessHasOneHitOnFirstLetter_ReturnsCorrectResult()
+        [TestCase("bxxxx")]
+        [TestCase("xixxx")]
+        [TestCase("xxnxx")]
+        [TestCase("xxxgx")]
+        [TestCase("xxxxo")]
+        public void AnalyzeGuess_UserGuessHasOneExactMatch_ReturnsCorrectResult(string answer)
         {
             string userGuess = "bingo";
-            string answer = "bxxxx";
 
             //var guessValidator = MockRepos // GuessValidator should be mocked out
                                             // to isolate testing of functionality
@@ -57,8 +61,6 @@ namespace WordleTests
 
             Assert.IsTrue(guessResult.GetNumExactMatches() == 1);            
         }
-
-        // Should I test a exactMatch in every spot? 
 
         // test case of all hits, partial matches, exact and partial etc.
     }
