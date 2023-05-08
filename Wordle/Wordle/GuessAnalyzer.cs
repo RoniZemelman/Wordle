@@ -18,9 +18,9 @@ public class GuessAnalyzer
         {
             char currLetter = userGuess[i];
             bool IsExactMatch = userGuess[i] == answer[i];
-            bool isInAnswer = this.answer.Contains(currLetter);
+            bool isPartialMatch = !IsExactMatch && answer.Contains(currLetter);  
 
-            currGuess.setItemAt(i, currLetter, IsExactMatch, isInAnswer);
+            currGuess.setItemAt(i, currLetter, IsExactMatch, isPartialMatch);
         }
         return currGuess;
     }

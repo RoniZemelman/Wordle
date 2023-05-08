@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace Wordle
 {
-    public class GuessResult
+    public class GuessResult  
     {
         public class GuessItem
         {
             public char letter;
             public bool isExactMatch;
-            public bool isInWord;
+            public bool isPartialMatch;
 
-            public GuessItem(char letter, bool isExactMatch, bool isInWord)
+            public GuessItem(char letter, bool isExactMatch, bool isPartialMatch)
             {
                 this.letter = letter;
                 this.isExactMatch = isExactMatch;
-                this.isInWord = isInWord;
+                this.isPartialMatch = isPartialMatch;
             }
         }
 
@@ -29,21 +29,21 @@ namespace Wordle
             this.guessItems = new GuessItem[5];
         }
 
-        public void setItemAt(int index, char letter, bool isExactMatch, bool isInWord)
+        public void setItemAt(int index, char letter, bool isExactMatch, bool isPartialMatch)
         {
-            guessItems[index] = new GuessItem(letter, isExactMatch, isInWord);  // TODO: Make sure this is not double
+            guessItems[index] = new GuessItem(letter, isExactMatch, isPartialMatch);  // TODO: Make sure this is not double
                                                                              // instantiation of GuessItem (see ctor)
         }
 
+        // Maybe pass in lambda to helper methods for next 2 methods
         public int GetNumExactMatches()
         {
-            return this.guessItems.Count(g => g.isExactMatch == true);
+            return guessItems.Count(g => g.isExactMatch == true);
         }
 
         public int GetNumPartialMatches()
         {
-            return 0; 
-            // this.guessItems.Count(g => g.isInWord == true); // TODO - disregard previous exact matches
+            return guessItems.Count(g => g.isPartialMatch == true);  
         }
 
     }
