@@ -171,30 +171,24 @@ namespace WordleTests
 
         /*********************************************** END SANITY CHECK TESTS ******************************************/
 
+        // Test Partial and Exact Matches 
+        [Test]
+        public void AnalyzeGuess_UserGuessesSameLetterTwice_ReturnsOneExactMatchZeroPartialMatches()
+        {
+            string userGuess = "xxeex";  // for example, the word "sweet"
+            string answer = "sweat";
 
+            //var guessValidator = MockRepos
+            var analyzer = new GuessAnalyzer(answer);
 
+            var guessResult = analyzer.Analyze(userGuess);
 
-        //// Test Partial and Exact Matches - too early for this edge case test?
-        //[Test]
-        //public void AnalyzeGuess_UserGuessesSameLetterTwice_ReturnsOneExactMatchZeroPartialMatches()
-        //{
-        //    string answer = "sweat";
+            Assert.AreEqual(1, guessResult.GetNumExactMatches());
+            Assert.AreEqual(0, guessResult.GetNumPartialMatches());
+        }
 
-        //    string userGuess = "xxeex";
-
-        //    //var guessValidator = MockRepos
-        //    var analyzer = new GuessAnalyzer(answer);
-
-        //    var guessResult = analyzer.Analyze(userGuess);
-
-        //    Assert.AreEqual(1, guessResult.GetNumExactMatches());
-        //    Assert.AreEqual(0, guessResult.GetNumPartialMatches());
-        //}
-
-
-        // one partial match positions?
+        // Check positions of matches?
         // Integration test of partial and exact matches 
-        // Add Edge Case: answer "sweat" and guess "xxeex" - 1 exact, 0 partial
     }
 
 

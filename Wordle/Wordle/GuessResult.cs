@@ -30,7 +30,7 @@ namespace Wordle
         public void setItemAt(int index, char letter, bool isExactMatch, bool isPartialMatch)
         {
             guessItems[index] = new GuessItem(letter, isExactMatch, isPartialMatch);  // TODO: Make sure this is not double
-                                                                             // instantiation of GuessItem (see ctor)
+                                                                                      // instantiation of GuessItem (see ctor)
         }
 
         // Maybe pass in lambda to helper methods for next 2 methods

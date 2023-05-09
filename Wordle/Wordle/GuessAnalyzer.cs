@@ -10,6 +10,16 @@ public class GuessAnalyzer
         this.answer = answer;
     }
 
+    private bool IsFound(char currLetter)
+    {
+        return answer.Contains(currLetter);
+    }
+
+    private bool FoundLetterIsExactMatch(char currLetter, string userGuess)
+    {
+        return answer[answer.IndexOf(currLetter)] == userGuess[answer.IndexOf(currLetter)];
+    }
+
     public GuessResult Analyze(string userGuess)
     {
         GuessResult currGuess = new GuessResult();
@@ -18,7 +28,8 @@ public class GuessAnalyzer
         {
             char currLetter = userGuess[i];
             bool IsExactMatch = userGuess[i] == answer[i];
-            bool isPartialMatch = !IsExactMatch && answer.Contains(currLetter);  
+            bool isPartialMatch = !IsExactMatch && IsFound(currLetter)
+                                && !FoundLetterIsExactMatch(currLetter, userGuess);
 
             currGuess.setItemAt(i, currLetter, IsExactMatch, isPartialMatch);
         }
