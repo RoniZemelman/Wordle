@@ -187,6 +187,23 @@ namespace WordleTests
             Assert.AreEqual(0, guessResult.GetNumPartialMatches());
         }
 
+
+        // Mini-sanity check - looking for more edge case examples of multiple letters
+        [Test]
+        public void AnalyzeGuess_UserGuessesSameLetter3Times_ReturnsCorrectResult()
+        {
+            string userGuess = "daddy";
+            string answer = "kiddy";
+
+            //var guessValidator = MockRepos
+            var analyzer = new GuessAnalyzer(answer);
+
+            var guessResult = analyzer.Analyze(userGuess);
+
+            Assert.AreEqual(3, guessResult.GetNumExactMatches());
+            Assert.AreEqual(0, guessResult.GetNumPartialMatches());
+        }
+
         // Check positions of matches?
         // Integration test of partial and exact matches 
     }

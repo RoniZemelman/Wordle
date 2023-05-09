@@ -17,7 +17,9 @@ public class GuessAnalyzer
 
     private bool FoundLetterIsExactMatch(char currLetter, string userGuess)
     {
-        return answer[answer.IndexOf(currLetter)] == userGuess[answer.IndexOf(currLetter)];
+        int indexOfFoundLetter = answer.IndexOf(currLetter);
+        
+        return answer[indexOfFoundLetter] == userGuess[indexOfFoundLetter];
     }
 
     public GuessResult Analyze(string userGuess)
@@ -29,7 +31,7 @@ public class GuessAnalyzer
             char currLetter = userGuess[i];
             bool IsExactMatch = userGuess[i] == answer[i];
             bool isPartialMatch = !IsExactMatch && IsFound(currLetter)
-                                && !FoundLetterIsExactMatch(currLetter, userGuess);
+                                && !FoundLetterIsExactMatch(currLetter, userGuess);  // TODO check all found locations?
 
             currGuess.setItemAt(i, currLetter, IsExactMatch, isPartialMatch);
         }
