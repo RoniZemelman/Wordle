@@ -1,55 +1,62 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Wordle;
 
 public class GuessAnalyzer
 {
     private string answer;
+    private bool[] letterIsMatched;
 
     public GuessAnalyzer(string answer)
     {
-        this.answer = answer; 
+        this.answer = answer;
+        // Note: letterIsMatched[] is lazily constructed in Analyze method
     }
 
-    private bool IsTheLetterAvailableForMatching(char currGuessLetter, bool [] isAlreadyMatched)
+    private void CheckForUnMatchedLetterInAnswer(char currGuessLetter, out bool result)
     {
+        result = false;
+
         for (int answerIndex = 0; answerIndex < 5; ++answerIndex)
-        {
-            if (answer[answerIndex] == currGuessLetter && isAlreadyMatched[answerIndex] == false)
+        { 
+            if (currGuessLetter == answer[answerIndex] 
+                && letterIsMatched[answerIndex] == false)
             {
-                isAlreadyMatched[answerIndex] = true;
-                return true;
+                letterIsMatched[answerIndex] = true;
+                
+                result = true;
+                
+                break;
             }
-        }
-        
-        return false;
+        }        
     }
 
     public GuessResult Analyze(string userGuess)
     {
-        GuessResult currGuess = new GuessResult();
-        var isAlreadyMatched = new bool[5]; 
+        GuessResult guessResult = new GuessResult();
+        letterIsMatched = new bool[5];
 
-        for (int guessIndex = 0; guessIndex < 5; ++guessIndex)
-        {
-            char currGuessLetter = userGuess[guessIndex];
-
-            bool IsExactMatch = (currGuessLetter == answer[guessIndex]);
-            
-            if (IsExactMatch)
+        int guessIndex = 0;
+        foreach (char guessLetter in userGuess)
+        {            
+            if (guessLetter == answer[guessIndex])
             {
-                isAlreadyMatched[guessIndex] = true;
-                currGuess.setItemAt(guessIndex, currGuessLetter, IsExactMatch, false);
+                letterIsMatched[guessIndex] = true; // Note: actually setting answerIndex,
+                                                    // but here answerIndex == guessIndex
 
+                guessResult.setItemAt(guessIndex++, guessLetter,
+                                        isExactMatch: true, isPartialMatch: false);
                 continue;
             }
 
-            bool isPartialMatch = IsTheLetterAvailableForMatching(currGuessLetter, isAlreadyMatched); // answer.Any(letter => letter == currGuessLetter && isAlreadyMatched[i] == false);
+            bool _isPartialMatch;
 
-            currGuess.setItemAt(guessIndex, currGuessLetter, IsExactMatch, isPartialMatch);
+            CheckForUnMatchedLetterInAnswer(guessLetter, out _isPartialMatch);
+
+            guessResult.setItemAt(guessIndex++, guessLetter,
+                                isExactMatch: false, isPartialMatch: _isPartialMatch);
         }
 
-        return currGuess;
+        return guessResult;
     }
 
 }
