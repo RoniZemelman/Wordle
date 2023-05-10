@@ -40,6 +40,7 @@ namespace WordleTests
 
             Assert.IsTrue(guessResult.GetNumExactMatches() == 5);
         }
+
         [Test]
         [TestCase("bxxxx")]
         [TestCase("xixxx")]
@@ -117,7 +118,7 @@ namespace WordleTests
         [TestCase("bxngo", 4)]
         [TestCase("bixgo", 4)]
         [TestCase("binxo", 4)]
-        public void AnalyzeGuess_UserHasVariableExactMatches_ReturnsCorrectResult(string userGuess, int expectedResult)
+        public void AnalyzeGuess_UserHasVariableNumExactMatches_ReturnsCorrectResult(string userGuess, int expectedResult)
         {
             string answer = "bingo";
 
@@ -142,7 +143,7 @@ namespace WordleTests
         [TestCase("ibgon", 5)]
         [TestCase("ingob", 5)]
         [TestCase("ibgon", 5)]
-        public void AnalyzeGuess_UserHasVariablePartialMatches_ReturnsCorrectResult(string userGuess, int expectedResult)
+        public void AnalyzeGuess_UserHasVariableNumPartialMatches_ReturnsCorrectResult(string userGuess, int expectedResult)
         {
             string answer = "bingo";
 
@@ -169,7 +170,7 @@ namespace WordleTests
             Assert.AreEqual(1, guessResult.GetNumPartialMatches());
         }
 
-        /*********************************************** END SANITY CHECK TESTS ******************************************/
+        /*****************************************************************************************/
 
         // Test Partial and Exact Matches 
         [Test]
@@ -187,22 +188,21 @@ namespace WordleTests
             Assert.AreEqual(0, guessResult.GetNumPartialMatches());
         }
 
-
-        // Mini-sanity check - looking for more edge case examples of multiple letters
         [Test]
-        public void AnalyzeGuess_UserGuessesSameLetter3Times_ReturnsCorrectResult()
+        public void GuessAnalyzer_UserGuessesSameLetter3TimesTwoInAnswer_ReturnsCorrectResult()
         {
             string userGuess = "daddy";
-            string answer = "kiddy";
+            string answer =    "diced";
 
             //var guessValidator = MockRepos
             var analyzer = new GuessAnalyzer(answer);
 
             var guessResult = analyzer.Analyze(userGuess);
 
-            Assert.AreEqual(3, guessResult.GetNumExactMatches());
-            Assert.AreEqual(0, guessResult.GetNumPartialMatches());
+            Assert.AreEqual(1, guessResult.GetNumExactMatches());
+            Assert.AreEqual(1, guessResult.GetNumPartialMatches());
         }
+
 
         // Check positions of matches?
         // Integration test of partial and exact matches 
