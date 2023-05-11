@@ -222,8 +222,35 @@ namespace WordleTests
             Assert.IsTrue(guessResult.At(4).IsPartialMatch());
         }
         
-        // 1. Check positions of matches (Getters for Index -> isExactMatch, isPartialMatch)
-        // 2. IValidator (need dictionary lookup + Mocking of previous tests 
+        [Test]  // Sanity check - probably could test this logic earlier
+        public void GuessResult_UserHasVariableHits_ExactAndPartialMatchesAreMutuallyExclusive()
+        {
+            string userGuess = "bgnio";
+            string answer = "bingo";
+
+            var analyzer = new GuessAnalyzer(answer);
+
+            // TODO mock out guess validator
+
+            var guessResult = analyzer.Analyze(userGuess);
+            
+            Assert.IsTrue(guessResult.At(0).IsExactMatch() == true
+                            && guessResult.At(0).IsPartialMatch() == false);
+
+            Assert.IsTrue(guessResult.At(1).IsExactMatch() == false
+                            && guessResult.At(1).IsPartialMatch() == true);
+
+            Assert.IsTrue(guessResult.At(2).IsExactMatch() == true
+                            && guessResult.At(2).IsPartialMatch() == false);
+
+            Assert.IsTrue(guessResult.At(3).IsExactMatch() == false
+                            && guessResult.At(3).IsPartialMatch() == true);
+
+            Assert.IsTrue(guessResult.At(4).IsExactMatch() == true
+                            && guessResult.At(4).IsPartialMatch() == false);
+        }
+
+        // IValidator (need dictionary lookup + Mocking of previous tests 
     }
 
 
