@@ -12,12 +12,18 @@ namespace Wordle
             public bool isExactMatch;
             public bool isPartialMatch;
 
-            public GuessItem(char letter, bool isExactMatch, bool isPartialMatch)
+            public GuessItem(char letter, bool isExactMatch = false, bool isPartialMatch = false)
             {
                 this.letter = letter;
                 this.isExactMatch = isExactMatch;
                 this.isPartialMatch = isPartialMatch;
             }
+
+            public bool IsExactMatch() { return isExactMatch; }
+
+            public bool IsPartialMatch() { return isPartialMatch; }
+
+            public bool Missed() { return !isExactMatch && !isPartialMatch; }
         }
 
         private GuessItem[] guessItems;
@@ -33,17 +39,20 @@ namespace Wordle
                                                                                       // instantiation of GuessItem (see ctor)
         }
 
-        // Maybe pass in lambda to helper methods for next 2 methods
         public int GetNumExactMatches()
         {
-            return guessItems.Count(g => g.isExactMatch == true);
+            return guessItems.Count(g => g.IsExactMatch() == true);
         }
 
         public int GetNumPartialMatches()
         {
-            return guessItems.Count(g => g.isPartialMatch == true);  
+            return guessItems.Count(g => g.IsPartialMatch() == true);  
         }
 
+        public GuessItem At(int index)
+        {
+            return guessItems[index];
+        }
     }
 
     

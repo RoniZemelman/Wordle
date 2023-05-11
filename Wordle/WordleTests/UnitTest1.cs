@@ -176,7 +176,7 @@ namespace WordleTests
         [Test]
         public void AnalyzeGuess_UserGuessesSameLetterTwice_ReturnsOneExactMatchZeroPartialMatches()
         {
-            string userGuess = "xxeex";  // for example, the word "sweet"
+            string userGuess = "sweet";  
             string answer = "sweat";
 
             //var guessValidator = MockRepos
@@ -184,12 +184,12 @@ namespace WordleTests
 
             var guessResult = analyzer.Analyze(userGuess);
 
-            Assert.AreEqual(1, guessResult.GetNumExactMatches());
+            Assert.AreEqual(4, guessResult.GetNumExactMatches());
             Assert.AreEqual(0, guessResult.GetNumPartialMatches());
         }
 
         [Test]
-        public void GuessAnalyzer_UserGuessesSameLetter3TimesTwoInAnswer_ReturnsCorrectResult()
+        public void AnalyzeGueuss_UserGuessesSameLetter3TimesTwoInAnswer_ReturnsCorrectResult()
         {
             string userGuess = "daddy";
             string answer =    "diced";
@@ -203,9 +203,27 @@ namespace WordleTests
             Assert.AreEqual(1, guessResult.GetNumPartialMatches());
         }
 
+        [Test]
+        public void GuessResult_UserHasVariableHits_LocationGettersReturnCorrectResult()
+        {
+            string userGuess = "bxxxi";
+            string answer = "bingo";
 
-        // Check positions of matches?
-        // Integration test of partial and exact matches 
+            var analyzer = new GuessAnalyzer(answer);
+
+            // TODO mock out guess validator
+
+            var guessResult = analyzer.Analyze(userGuess);
+
+            Assert.IsTrue(guessResult.At(0).IsExactMatch());
+            Assert.IsTrue(guessResult.At(1).Missed());
+            Assert.IsTrue(guessResult.At(2).Missed());
+            Assert.IsTrue(guessResult.At(3).Missed());
+            Assert.IsTrue(guessResult.At(4).IsPartialMatch());
+        }
+        
+        // 1. Check positions of matches (Getters for Index -> isExactMatch, isPartialMatch)
+        // 2. IValidator (need dictionary lookup + Mocking of previous tests 
     }
 
 
