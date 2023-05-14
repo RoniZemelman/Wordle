@@ -249,8 +249,11 @@ namespace WordleTests
         // IValidator (need dictionary lookup + Mocking of previous tests
         [Test]
         [TestCase("")]
+        [TestCase("all")]
         [TestCase("byte")]
         [TestCase("remark")]
+        [TestCase("acknowledge")]
+        [TestCase("letter")]
         public static void WordValidator_UserEntersWordThatIsNot5Letters_ReturnsFalse(string userGuess)
         {
             var guessValidator = new WordleValidator();
@@ -262,13 +265,36 @@ namespace WordleTests
         [TestCase("eaten")]
         [TestCase("alive")]
         [TestCase("crave")]
-        public static void WordValidator_UserEnters5LetterWord_ReturnsTrue(string userGuess)
+        [TestCase("start")]
+        [TestCase("relax")]
+        public static void WordValidator_UserEntersValid5LetterWord_ReturnsTrue(string userGuess)
         {
             var guessValidator = new WordleValidator();
 
             Assert.IsTrue(guessValidator.Validate(userGuess) == true);
         }
 
+        [Test]
+        [TestCase("rent!")]
+        [TestCase("tent$")]
+        [TestCase("^left")]
+        [TestCase("$tart")]
+        public static void WordValidator_UserEnters5LetterWordWithNonLetter_ReturnsFalse(string userGuess)
+        {
+            var guessValidator = new WordleValidator();
+            Assert.IsTrue(guessValidator.Validate(userGuess) == false);
+        }
+
+        [Test]
+        [TestCase("eated")]
+        [TestCase("relix")]
+        [TestCase("tomao")]
+        public static void WordValidator_UserEnters5LetterInvalidWord_ReturnsFalse(string userGuess)
+        {
+            var guessValidator = new WordleValidator();
+
+            Assert.IsTrue(guessValidator.Validate(userGuess) == false);
+        }
 
     }
 
