@@ -234,26 +234,43 @@ namespace WordleTests
 
             var guessResult = analyzer.Analyze(userGuess);
             
-            Assert.IsTrue(guessResult.At(0).IsExactMatch() == true
-                            && guessResult.At(0).IsPartialMatch() == false);
-
-            Assert.IsTrue(guessResult.At(1).IsExactMatch() == false
-                            && guessResult.At(1).IsPartialMatch() == true);
-
-            Assert.IsTrue(guessResult.At(2).IsExactMatch() == true
-                            && guessResult.At(2).IsPartialMatch() == false);
-
-            Assert.IsTrue(guessResult.At(3).IsExactMatch() == false
-                            && guessResult.At(3).IsPartialMatch() == true);
-
-            Assert.IsTrue(guessResult.At(4).IsExactMatch() == true
+            Assert.IsTrue(     guessResult.At(0).IsExactMatch() == true
+                            && guessResult.At(0).IsPartialMatch() == false
+                            && guessResult.At(1).IsExactMatch() == false
+                            && guessResult.At(1).IsPartialMatch() == true
+                            && guessResult.At(2).IsExactMatch() == true
+                            && guessResult.At(2).IsPartialMatch() == false
+                            && guessResult.At(3).IsExactMatch() == false
+                            && guessResult.At(3).IsPartialMatch() == true
+                            && guessResult.At(4).IsExactMatch() == true
                             && guessResult.At(4).IsPartialMatch() == false);
         }
 
-        // IValidator (need dictionary lookup + Mocking of previous tests 
+        // IValidator (need dictionary lookup + Mocking of previous tests
+        [Test]
+        [TestCase("")]
+        [TestCase("byte")]
+        [TestCase("remark")]
+        public static void WordValidator_UserEntersWordThatIsNot5Letters_ReturnsFalse(string userGuess)
+        {
+            var guessValidator = new WordleValidator();
+
+            Assert.IsTrue(guessValidator.Validate(userGuess) == false);
+        }
+
+        [Test]
+        [TestCase("eaten")]
+        [TestCase("alive")]
+        [TestCase("crave")]
+        public static void WordValidator_UserEnters5LetterWord_ReturnsTrue(string userGuess)
+        {
+            var guessValidator = new WordleValidator();
+
+            Assert.IsTrue(guessValidator.Validate(userGuess) == true);
+        }
+
+
     }
-
-
 
 
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wordle
+namespace Wordle // Maybe move IWordValidator to own namespace, should work for other games
 {
     interface IWordValidator
     {
@@ -22,7 +22,7 @@ namespace Wordle
 
         public bool Validate(string guess)
         {
-            return false;
+            return guess.Length == 5;
         }
     }
 

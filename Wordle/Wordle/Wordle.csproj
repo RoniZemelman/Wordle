@@ -47,7 +47,8 @@
   <ItemGroup>
     <Compile Include="GuessResult.cs" />
     <Compile Include="GuessAnalyzer.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="DriverProgram.cs" />
+    <Compile Include="IWordValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

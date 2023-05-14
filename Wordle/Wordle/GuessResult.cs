@@ -36,7 +36,7 @@ namespace Wordle
         public void setItemAt(int index, char letter, bool isExactMatch, bool isPartialMatch)
         {
             guessItems[index] = new GuessItem(letter, isExactMatch, isPartialMatch);  // TODO: Make sure this is not double
-                                                                                      // instantiation of GuessItem (see ctor)
+                                                                                     // instantiation of GuessItem (see ctor)
         }
 
         public int GetNumExactMatches()
