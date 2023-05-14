@@ -276,7 +276,7 @@ namespace WordleTests
 
         [Test]
         [TestCase("rent!")]
-        [TestCase("tent$")]
+        [TestCase("tent9")]
         [TestCase("^left")]
         [TestCase("$tart")]
         public static void WordValidator_UserEnters5LetterWordWithNonLetter_ReturnsFalse(string userGuess)
@@ -289,6 +289,8 @@ namespace WordleTests
         [TestCase("eated")]
         [TestCase("relix")]
         [TestCase("tomao")]
+        [TestCase("abcde")]
+        [TestCase("lolol")]
         public static void WordValidator_UserEnters5LetterInvalidWord_ReturnsFalse(string userGuess)
         {
             var guessValidator = new WordleValidator();
