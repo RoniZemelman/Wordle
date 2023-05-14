@@ -12,8 +12,6 @@ namespace WordleTests
         {
         }
 
-        //test condition of user guess, e.g. length (5 chars), dictionary word etc
-        //maybe we need a UserGuessValidator? Maybe the analyzer is initialized with one?
         [Test]
         public void AnalyzeGuess_UserGuessHasNoHits_ReturnsZeroExactMatches()
         {

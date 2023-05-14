@@ -3,34 +3,40 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Wordle
+namespace Wordle 
 {
-    // TODO move to own file
     public class WordleValidator : IWordValidator
     {
-        private static string textFilePath = "C:\\Users\\user\\Desktop\\engmix\\engmix.txt"; // Note: change to your filepath
-        private StreamReader textFileStream;
-        private Dictionary<string, bool> words;
-        public WordleValidator()
-        {
-            textFileStream = new StreamReader(textFilePath); 
+        // Q: Are there thread-safety issues with these static data structures?
+        private static readonly string textFilePath = "C:\\Users\\user\\Desktop\\engmix\\engmix.txt";  
+        private static readonly StreamReader textFileStream;  
+        private static readonly Dictionary<string, bool> words;
 
+        static WordleValidator()  
+        {
+            textFileStream = new StreamReader(textFilePath);
+                                                              // Q: No need to manually close? CRL/GC does it?
             words = new Dictionary<string, bool>();
 
             ConstructMapOfFiveLetterWordsFromFile();
-
-            textFileStream.Close(); // Question to clarify: Is this needed? CLR/GC takes care of it?
         }
 
-        private void ConstructMapOfFiveLetterWordsFromFile()
+        private static void ConstructMapOfFiveLetterWordsFromFile()
         {
             string currWord;
             while ((currWord = textFileStream.ReadLine()) != null)
             {
-                if (currWord.Length == 5) { words[currWord] = true; }
+                if (currWord.Length == 5)
+                {
+                    words[currWord] = true;
+                }
             }
         }
 
+        public WordleValidator()
+        {
+        
+        }
         private bool IsEnglishWord(string guess)
         {
             try
@@ -50,5 +56,4 @@ namespace Wordle
                 && IsEnglishWord(guess);
         }
     }
-
 }
