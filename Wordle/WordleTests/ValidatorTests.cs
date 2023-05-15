@@ -1,14 +1,13 @@
 ﻿using NUnit.Framework;
+using Rhino.Mocks;
 using Wordle; 
 
 namespace WordleTests
 {
     class ValidatorTests
     {
-        // IValidator (need dictionary lookup + Mocking of previous tests
 
         // TODO - test empty string
-
 
         [Test]
         [TestCase("all")]
@@ -18,7 +17,8 @@ namespace WordleTests
         [TestCase("letter")]
         public static void Validate_GuessIsNot5Letters_False(string userGuess)
         {
-            var guessValidator = new WordleValidator();
+            var englishDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
+            var guessValidator = new WordleValidator(englishDictionary);
 
             Assert.IsFalse(guessValidator.Validate(userGuess));
         }
@@ -29,9 +29,13 @@ namespace WordleTests
         [TestCase("crave")]
         [TestCase("start")]
         [TestCase("relax")]
-        public static void Validate_GuessIs5LetterWord_True(string userGuess)// REMOVE
+        public static void Validate_GuessIs5LetterWord_True(string userGuess)
         {
-            var guessValidator = new WordleValidator();
+            var englishDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
+            englishDictionary.Stub(d => d.IsInDictionary(userGuess)).Return(true);
+
+
+            var guessValidator = new WordleValidator(englishDictionary);
 
             Assert.IsTrue(guessValidator.Validate(userGuess));
         }
@@ -43,24 +47,25 @@ namespace WordleTests
         [TestCase("$tart")]
         public static void Validate_GuessHasNonAsciiChar_False(string userGuess)
         {
-            var guessValidator = new WordleValidator();
+            var englishDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
+
+            var guessValidator = new WordleValidator(englishDictionary);
+            
             Assert.IsFalse(guessValidator.Validate(userGuess));
         }
 
         [Test]
-        [TestCase("eated")]
         [TestCase("relix")]
         [TestCase("tomao")]
         [TestCase("abcde")]
         [TestCase("lolol")]
+        [TestCase("eated")]
         public static void Validate_GuessNotInDictionary_False(string userGuess)
         {
-            //var englishDictionary = MockRepository.Stub<IEnglishDictionary>();
-            //englishDictionary.Stub(d => d.IsInDictionary(userGuess)).Return(false);
+            var englishDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
+            englishDictionary.Stub(d => d.IsInDictionary(userGuess)).Return(false);
 
-            // var guessValidator = new WordleValidator(englishDictionary);
-
-            var guessValidator = new WordleValidator();
+            var guessValidator = new WordleValidator(englishDictionary);
 
             Assert.IsFalse(guessValidator.Validate(userGuess));
         }

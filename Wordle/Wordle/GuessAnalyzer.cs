@@ -3,7 +3,7 @@ using Wordle;
 
 public class GuessAnalyzer
 {
-    private string answer;
+    private readonly string answer;
     private bool[] letterIsMatched;
 
     public GuessAnalyzer(string answer)
