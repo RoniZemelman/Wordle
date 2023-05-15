@@ -1,13 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
+﻿using System; // Char.IsLetter
+using System.IO; // StreamReader
+using System.Collections.Generic; // Dictionary
 using System.Linq;
 
 namespace Wordle 
 {
     public class WordleValidator : IWordValidator
     {
-        // Q: Are there thread-safety issues with these static data structures?
         private static readonly string textFilePath = "C:\\Users\\user\\Desktop\\engmix\\engmix.txt";  
         private static readonly StreamReader textFileStream;  
         private static readonly Dictionary<string, bool> words;
@@ -35,9 +34,9 @@ namespace Wordle
 
         public WordleValidator()
         {
-        
+            // Contains nothing
         }
-        private bool IsEnglishWord(string guess)
+        private bool IsValid5LetterWord(string guess)
         {
             try
             {
@@ -53,7 +52,7 @@ namespace Wordle
         {
             return guess.Length == 5 
                 && guess.All(character => Char.IsLetter(character))
-                && IsEnglishWord(guess);
+                && IsValid5LetterWord(guess);
         }
     }
 }

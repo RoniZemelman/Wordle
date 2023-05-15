@@ -3,7 +3,7 @@ using Wordle;
 
 namespace WordleTests
 {
-    public class Tests
+    public class GuessAnalyzerTests
     {
         private const int lenOfWord = 5;
 
@@ -13,7 +13,7 @@ namespace WordleTests
         }
 
         [Test]
-        public void AnalyzeGuess_UserGuessHasNoHits_ReturnsZeroExactMatches()
+        public void Analyze_GuessHasNoHits_ZeroExactMatches()
         {
             string userGuess = "guess";
             string answer = "xxxxx";
@@ -26,7 +26,7 @@ namespace WordleTests
             Assert.IsTrue(guessResult.GetNumExactMatches() == 0); 
         }
         [Test]
-        public void AnalyzeGuess_UserGuessHasAllHits_ReturnsCorrectNumExactMatches()
+        public void Analyze_GuessHasAllHits_FiveExactMatches()
         {
             string userGuess = "bingo";
             string answer = "bingo";
@@ -45,7 +45,7 @@ namespace WordleTests
         [TestCase("xxnxx")]
         [TestCase("xxxgx")]
         [TestCase("xxxxo")]
-        public void AnalyzeGuess_UserGuessHasOneExactMatch_ReturnsCorrectNumExactMatches(string userGuess)
+        public void Analyze_GuessHasOneExactMatch_OneExactMatch(string userGuess)
         {
             string answer = "bingo";
 
@@ -59,7 +59,7 @@ namespace WordleTests
         }
 
         [Test]
-        public void AnalyzeGuess_UserGuessHasNoPartialMatches_ReturnsZeroPartialMatches()
+        public void Analyze_GuessHasNoPartialMatch_ZeroPartialMatches()
         {
             string userGuess = "bingo";
             string answer = "xxxxx";
@@ -78,7 +78,7 @@ namespace WordleTests
         [TestCase("xxxxn")]
         [TestCase("xxxxg")]
         [TestCase("xxxox")]
-        public void AnalyzeGuess_UserGuessHasOnePartialMatch_ReturnsOnePartialMatch(string userGuess)
+        public void Analyze_GuessHasOnePartialMatch_OnePartialMatch(string userGuess)
         {
             string answer = "bingo";
 
@@ -91,7 +91,7 @@ namespace WordleTests
         }
         
         [Test]
-        public void AnalyzeGuess_UserGuessHasAllHits_ReturnsZeroPartialMatches()
+        public void Analyze_GuessHasAllHits_ZeroPartialMatches()
         {
             string userGuess = "bingo";
             string answer = "bingo";
@@ -116,7 +116,7 @@ namespace WordleTests
         [TestCase("bxngo", 4)]
         [TestCase("bixgo", 4)]
         [TestCase("binxo", 4)]
-        public void AnalyzeGuess_UserHasVariableNumExactMatches_ReturnsCorrectResult(string userGuess, int expectedResult)
+        public void Analyze_GuessHasVariableNumExactMatches_ReturnsCorrectResult(string userGuess, int expectedResult)
         {
             string answer = "bingo";
 
@@ -141,7 +141,7 @@ namespace WordleTests
         [TestCase("ibgon", 5)]
         [TestCase("ingob", 5)]
         [TestCase("ibgon", 5)]
-        public void AnalyzeGuess_UserHasVariableNumPartialMatches_ReturnsCorrectResult(string userGuess, int expectedResult)
+        public void Analyze_GuessHasVariableNumPartialMatches_ReturnsCorrectResult(string userGuess, int expectedResult)
         {
             string answer = "bingo";
 
@@ -154,7 +154,7 @@ namespace WordleTests
         }
 
         [Test]
-        public void AnalyzeGuess_UserGuessHas1Exact1Partial_ReturnsCorrectResult()
+        public void Analyze_GuessHas1Exact1Partial_ReturnsCorrectResult()
         {
             string userGuess = "bxxxi";
             string answer = "bingo";
@@ -172,7 +172,7 @@ namespace WordleTests
 
         // Test Partial and Exact Matches 
         [Test]
-        public void AnalyzeGuess_UserGuessesSameLetterTwice_ReturnsOneExactMatchZeroPartialMatches()
+        public void Analyze_GuessHas2RepeatedLetters1ExactMatch_1ExactMatchNoPartialMatch()
         {
             string userGuess = "sweet";  
             string answer = "sweat";
@@ -187,7 +187,7 @@ namespace WordleTests
         }
 
         [Test]
-        public void AnalyzeGueuss_UserGuessesSameLetter3TimesTwoInAnswer_ReturnsCorrectResult()
+        public void Analyze_GuessHasLetterRepeated3TimesTwoInAnswer_1ExactMatch1PartialMatch()
         {
             string userGuess = "daddy";
             string answer =    "diced";
@@ -200,103 +200,6 @@ namespace WordleTests
             Assert.AreEqual(1, guessResult.GetNumExactMatches());
             Assert.AreEqual(1, guessResult.GetNumPartialMatches());
         }
-
-        [Test]
-        public void GuessResult_UserHasVariableHits_LocationGettersReturnCorrectResult()
-        {
-            string userGuess = "bxxxi";
-            string answer = "bingo";
-
-            var analyzer = new GuessAnalyzer(answer);
-
-            // TODO mock out guess validator
-
-            var guessResult = analyzer.Analyze(userGuess);
-
-            Assert.IsTrue(guessResult.At(0).IsExactMatch());
-            Assert.IsTrue(guessResult.At(1).Missed());
-            Assert.IsTrue(guessResult.At(2).Missed());
-            Assert.IsTrue(guessResult.At(3).Missed());
-            Assert.IsTrue(guessResult.At(4).IsPartialMatch());
-        }
-        
-        [Test]  // Sanity check - probably could test this logic earlier
-        public void GuessResult_UserHasVariableHits_ExactAndPartialMatchesAreMutuallyExclusive()
-        {
-            string userGuess = "bgnio";
-            string answer = "bingo";
-
-            var analyzer = new GuessAnalyzer(answer);
-
-            // TODO mock out guess validator
-
-            var guessResult = analyzer.Analyze(userGuess);
-            
-            Assert.IsTrue(     guessResult.At(0).IsExactMatch() == true
-                            && guessResult.At(0).IsPartialMatch() == false
-                            && guessResult.At(1).IsExactMatch() == false
-                            && guessResult.At(1).IsPartialMatch() == true
-                            && guessResult.At(2).IsExactMatch() == true
-                            && guessResult.At(2).IsPartialMatch() == false
-                            && guessResult.At(3).IsExactMatch() == false
-                            && guessResult.At(3).IsPartialMatch() == true
-                            && guessResult.At(4).IsExactMatch() == true
-                            && guessResult.At(4).IsPartialMatch() == false);
-        }
-
-        // IValidator (need dictionary lookup + Mocking of previous tests
-        [Test]
-        [TestCase("")]
-        [TestCase("all")]
-        [TestCase("byte")]
-        [TestCase("remark")]
-        [TestCase("acknowledge")]
-        [TestCase("letter")]
-        public static void WordValidator_UserEntersWordThatIsNot5Letters_ReturnsFalse(string userGuess)
-        {
-            var guessValidator = new WordleValidator();
-
-            Assert.IsTrue(guessValidator.Validate(userGuess) == false);
-        }
-
-        [Test]
-        [TestCase("eaten")]
-        [TestCase("alive")]
-        [TestCase("crave")]
-        [TestCase("start")]
-        [TestCase("relax")]
-        public static void WordValidator_UserEntersValid5LetterWord_ReturnsTrue(string userGuess)
-        {
-            var guessValidator = new WordleValidator();
-
-            Assert.IsTrue(guessValidator.Validate(userGuess) == true);
-        }
-
-        [Test]
-        [TestCase("rent!")]
-        [TestCase("tent9")]
-        [TestCase("^left")]
-        [TestCase("$tart")]
-        public static void WordValidator_UserEnters5LetterWordWithNonLetter_ReturnsFalse(string userGuess)
-        {
-            var guessValidator = new WordleValidator();
-            Assert.IsTrue(guessValidator.Validate(userGuess) == false);
-        }
-
-        [Test]
-        [TestCase("eated")]
-        [TestCase("relix")]
-        [TestCase("tomao")]
-        [TestCase("abcde")]
-        [TestCase("lolol")]
-        public static void WordValidator_UserEnters5LetterInvalidWord_ReturnsFalse(string userGuess)
-        {
-            var guessValidator = new WordleValidator();
-
-            Assert.IsTrue(guessValidator.Validate(userGuess) == false);
-        }
-
     }
-
 
 }
