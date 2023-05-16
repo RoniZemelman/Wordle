@@ -6,7 +6,7 @@ namespace WordleTests
 {
     class ValidatorTests
     {
-        // TODO - how to deal with code duplication, is that not as relavant in writing tests?
+        // TODO - how to deal with code duplication, is that not as relavant a concern when writing tests?
 
         [Test]
         public static void Validate_GuessIsEmpty_False()

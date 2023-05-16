@@ -12,7 +12,7 @@ public class GuessAnalyzer
         // Note: letterIsMatched[] is lazily constructed in Analyze method
     }
 
-    private void CheckForUnMatchedGuessLetterInAnswer(char currGuessLetter, out bool result)
+    private void CheckForPartialMatch(char currGuessLetter, out bool result)
     {
         result = false;
 
@@ -35,24 +35,24 @@ public class GuessAnalyzer
         GuessResult guessResult = new GuessResult();
         letterIsMatched = new bool[5];
 
-        int guessIndex = 0;
+        int i = 0;
         foreach (char guessLetter in userGuess)
         {
             bool _isExactMatch = false;
             bool _isPartialMatch = false;
 
-            if (guessLetter == answer[guessIndex])
+            if (guessLetter == answer[i])
             {
                 _isExactMatch = true;
 
-                letterIsMatched[guessIndex] = true;    
+                letterIsMatched[i] = true;    
             }
             else 
             {
-                CheckForUnMatchedGuessLetterInAnswer(guessLetter, out _isPartialMatch);
+                CheckForPartialMatch(guessLetter, out _isPartialMatch);
             }
 
-            guessResult.setItemAt(guessIndex++, guessLetter,
+            guessResult.setItemAt(i++, guessLetter,
                                 isExactMatch: _isExactMatch, isPartialMatch: _isPartialMatch);
         }
 
