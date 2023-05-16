@@ -2,7 +2,7 @@
 
 namespace Wordle // Maybe move IWordValidator to own namespace, should work for other contexts besides Wordle
 {
-    interface IWordValidator
+    public interface IWordValidator
     {
         bool Validate(string guess);
     }

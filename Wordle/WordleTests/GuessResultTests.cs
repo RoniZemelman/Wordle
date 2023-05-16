@@ -1,4 +1,6 @@
 ﻿using NUnit.Framework;
+using Rhino.Mocks;
+using Wordle;
 
 namespace WordleTests
 {
@@ -7,15 +9,19 @@ namespace WordleTests
         [Test]
         public void GuessResult_GuessHasVariableHits_LocationGettersReturnCorrectResult()
         {
+            // Arrange
             string userGuess = "bxxxi";
             string answer = "bingo";
 
-            var analyzer = new GuessAnalyzer(answer);
+            var mockWordValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockWordValidator.Stub(v => v.Validate(userGuess)).Return(true);
 
-            // TODO mock out guess validator
+            var analyzer = new GuessAnalyzer(answer, mockWordValidator);
 
+            // Act
             var guessResult = analyzer.Analyze(userGuess);
 
+            // Assert
             Assert.IsTrue(guessResult.At(0).IsExactMatch());
             Assert.IsTrue(guessResult.At(1).Missed());
             Assert.IsTrue(guessResult.At(2).Missed());
@@ -26,15 +32,19 @@ namespace WordleTests
         [Test]  // Sanity check - probably could test this logic earlier  -- REMOVE UNNEEDED TESTS
         public void GuessResult_GuessHasVariableHits_ExactAndPartialMatchesAreMutuallyExclusive()
         {
+            // Arrange
             string userGuess = "bgnio";
             string answer = "bingo";
 
-            var analyzer = new GuessAnalyzer(answer);
+            var mockWordValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockWordValidator.Stub(v => v.Validate(userGuess)).Return(true);
 
-            // TODO mock out guess validator
+            var analyzer = new GuessAnalyzer(answer, mockWordValidator);
 
+            // Act
             var guessResult = analyzer.Analyze(userGuess);
 
+            // Assert 
             Assert.IsTrue(guessResult.At(0).IsExactMatch() == true
                             && guessResult.At(0).IsPartialMatch() == false
 

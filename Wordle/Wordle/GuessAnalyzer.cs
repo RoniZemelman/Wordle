@@ -4,12 +4,14 @@ using Wordle;
 public class GuessAnalyzer
 {
     private readonly string answer;
+    private readonly IWordValidator wordValidator;
     private bool[] letterIsMatched;
 
-    public GuessAnalyzer(string answer)
+
+    public GuessAnalyzer(string answer, IWordValidator wordValidator)
     {
         this.answer = answer;
-        // Note: letterIsMatched[] is lazily constructed in Analyze method
+        this.wordValidator = wordValidator;
     }
 
     private void CheckForPartialMatch(char currGuessLetter, out bool result)
