@@ -34,6 +34,9 @@ public class GuessAnalyzer
 
     public GuessResult Analyze(string userGuess)
     {
+        // TODO - will need to validate the userGuess first,
+        // use the services of WordValidator class
+
         GuessResult guessResult = new GuessResult();
         letterIsMatched = new bool[5];
 

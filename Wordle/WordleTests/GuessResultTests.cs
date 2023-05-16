@@ -7,7 +7,7 @@ namespace WordleTests
     class GuessResultTests
     {
         [Test]
-        public void GuessResult_GuessHasVariableHits_LocationGettersReturnCorrectResult()
+        public void GuessResult_GuessHasExactMatch_CorrectLocationIsExactMatch()
         {
             // Arrange
             string userGuess = "bxxxi";
@@ -23,17 +23,51 @@ namespace WordleTests
 
             // Assert
             Assert.IsTrue(guessResult.At(0).IsExactMatch());
+        }
+
+        [Test]
+        public void GuessResult_GuessHasAtLeast1Miss_CorrectLocationIsMissed()
+        {
+            // Arrange
+            string userGuess = "bxngo";
+            string answer = "bingo";
+
+            var mockWordValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockWordValidator.Stub(v => v.Validate(userGuess)).Return(true);
+
+            var analyzer = new GuessAnalyzer(answer, mockWordValidator);
+
+            // Act
+            var guessResult = analyzer.Analyze(userGuess);
+
+            // Assert
             Assert.IsTrue(guessResult.At(1).Missed());
-            Assert.IsTrue(guessResult.At(2).Missed());
-            Assert.IsTrue(guessResult.At(3).Missed());
+        }
+
+        [Test]
+        public void GuessResult_GuessHasAtLeast1PartialMatch_CorrectLocationIsPartialMatch()
+        {
+            // Arrange
+            string userGuess = "xxxxi";
+            string answer = "bingo";
+
+            var mockWordValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockWordValidator.Stub(v => v.Validate(userGuess)).Return(true);
+
+            var analyzer = new GuessAnalyzer(answer, mockWordValidator);
+
+            // Act
+            var guessResult = analyzer.Analyze(userGuess);
+
+            // Assert
             Assert.IsTrue(guessResult.At(4).IsPartialMatch());
         }
 
-        [Test]  // Sanity check - probably could test this logic earlier  -- REMOVE UNNEEDED TESTS
-        public void GuessResult_GuessHasVariableHits_ExactAndPartialMatchesAreMutuallyExclusive()
+        [Test]  
+        public void GuessResult_GuessHasAnExactMatch_LocationOfExactMatchIsNotPartialMatch()
         {
             // Arrange
-            string userGuess = "bgnio";
+            string userGuess = "bxxxx";
             string answer = "bingo";
 
             var mockWordValidator = MockRepository.GenerateStub<IWordValidator>();
@@ -46,21 +80,29 @@ namespace WordleTests
 
             // Assert 
             Assert.IsTrue(guessResult.At(0).IsExactMatch() == true
-                            && guessResult.At(0).IsPartialMatch() == false
-
-                            && guessResult.At(1).IsExactMatch() == false
-                            && guessResult.At(1).IsPartialMatch() == true
-
-                            && guessResult.At(2).IsExactMatch() == true
-                            && guessResult.At(2).IsPartialMatch() == false
-
-                            && guessResult.At(3).IsExactMatch() == false
-                            && guessResult.At(3).IsPartialMatch() == true
-
-                            && guessResult.At(4).IsExactMatch() == true
-                            && guessResult.At(4).IsPartialMatch() == false);
+                            && guessResult.At(0).IsPartialMatch() == false);
         }
 
+
+        [Test] // Not sure this test is logically neccessary
+        public void GuessResult_GuessHasAPartialMatch_LocationOfPartialMatchIsNotExactMatch()
+        {
+            // Arrange
+            string userGuess = "xgxxx";
+            string answer = "bingo";
+
+            var mockWordValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockWordValidator.Stub(v => v.Validate(userGuess)).Return(true);
+
+            var analyzer = new GuessAnalyzer(answer, mockWordValidator);
+
+            // Act
+            var guessResult = analyzer.Analyze(userGuess);
+
+            // Assert 
+            Assert.IsTrue(guessResult.At(1).IsPartialMatch() == true
+                            && guessResult.At(1).IsExactMatch() == false);
+        }
 
     }
 }
