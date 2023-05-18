@@ -16,7 +16,7 @@ namespace WordleTests
             var mockWordValidator = MockRepository.GenerateStub<IWordValidator>();
             mockWordValidator.Stub(v => v.Validate(userGuess)).Return(true);
 
-            var analyzer = new GuessAnalyzer(answer, mockWordValidator);
+            var analyzer = new GuessAnalyzer(answer);
 
             // Act
             var guessResult = analyzer.Analyze(userGuess);
@@ -35,7 +35,7 @@ namespace WordleTests
             var mockWordValidator = MockRepository.GenerateStub<IWordValidator>();
             mockWordValidator.Stub(v => v.Validate(userGuess)).Return(true);
 
-            var analyzer = new GuessAnalyzer(answer, mockWordValidator);
+            var analyzer = new GuessAnalyzer(answer);
 
             // Act
             var guessResult = analyzer.Analyze(userGuess);
@@ -54,7 +54,7 @@ namespace WordleTests
             var mockWordValidator = MockRepository.GenerateStub<IWordValidator>();
             mockWordValidator.Stub(v => v.Validate(userGuess)).Return(true);
 
-            var analyzer = new GuessAnalyzer(answer, mockWordValidator);
+            var analyzer = new GuessAnalyzer(answer);
 
             // Act
             var guessResult = analyzer.Analyze(userGuess);
@@ -73,7 +73,7 @@ namespace WordleTests
             var mockWordValidator = MockRepository.GenerateStub<IWordValidator>();
             mockWordValidator.Stub(v => v.Validate(userGuess)).Return(true);
 
-            var analyzer = new GuessAnalyzer(answer, mockWordValidator);
+            var analyzer = new GuessAnalyzer(answer);
 
             // Act
             var guessResult = analyzer.Analyze(userGuess);
@@ -94,7 +94,7 @@ namespace WordleTests
             var mockWordValidator = MockRepository.GenerateStub<IWordValidator>();
             mockWordValidator.Stub(v => v.Validate(userGuess)).Return(true);
 
-            var analyzer = new GuessAnalyzer(answer, mockWordValidator);
+            var analyzer = new GuessAnalyzer(answer);
 
             // Act
             var guessResult = analyzer.Analyze(userGuess);

@@ -15,7 +15,7 @@ namespace Wordle
         public bool Validate(string guess)
         {
             return guess.Length == 5
-                && guess.All(character => Char.IsLetter(character))
+                && guess.All(character => Char.IsLetter(character)) 
                 && dictionary.IsInDictionary(guess);
         }
     }
