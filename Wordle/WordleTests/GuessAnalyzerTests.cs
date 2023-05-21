@@ -1,46 +1,29 @@
 using NUnit.Framework;
-using Rhino.Mocks;
 using Wordle;
 
 namespace WordleTests
 {
     public class GuessAnalyzerTests
     {
-        private const int lenOfWord = 5;
-
-        [SetUp]
-        public void Setup()
+        private static GuessResult ArrangeAndAnalyze(string userGuess, string answer)
         {
+            var analyzer = new GuessAnalyzer(answer);
+
+            return analyzer.Analyze(userGuess);
         }
 
         [Test]
-        public void Analyze_GuessHasNoHits_ZeroExactMatches()
+        public static void Analyze_GuessHasNoHits_ZeroExactMatches()
         {
-            // Arrange
-            string userGuess = "guess";
-            string answer = "xxxxx";
-
-            var analyzer = new GuessAnalyzer(answer);
-
-            // Act
-            var guessResult = analyzer.Analyze(userGuess);
-
-            // Assert 
+            var guessResult = ArrangeAndAnalyze(userGuess: "guess", answer: "xxxxx");
+            
             Assert.IsTrue(guessResult.GetNumExactMatches() == 0); 
         }
         [Test]
         public void Analyze_GuessHasAllHits_FiveExactMatches()
         {
-            // Arrange 
-            string userGuess = "bingo";
-            string answer = "bingo";
+            var guessResult = ArrangeAndAnalyze(userGuess: "bingo", answer: "bingo");
 
-            var analyzer = new GuessAnalyzer(answer);
-
-            // Act
-            var guessResult = analyzer.Analyze(userGuess);
-
-            // Assert
             Assert.IsTrue(guessResult.GetNumExactMatches() == 5);
         }
 
@@ -50,33 +33,18 @@ namespace WordleTests
         [TestCase("xxnxx")]
         [TestCase("xxxgx")]
         [TestCase("xxxxo")]
-        public void Analyze_GuessHasOneExactMatch_OneExactMatch(string userGuess)
+        public void Analyze_GuessHasOneExactMatch_OneExactMatch(string _userGuess)
         {
-            // Arrange
-            string answer = "bingo";
+            var guessResult = ArrangeAndAnalyze(userGuess: _userGuess, answer: "bingo");
 
-            var analyzer = new GuessAnalyzer(answer);
-
-            // Act
-            var guessResult = analyzer.Analyze(userGuess);
-
-            // Assert
-            Assert.IsTrue(guessResult.GetNumExactMatches() == 1);            
+            Assert.AreEqual(1, guessResult.GetNumExactMatches());            
         }
 
         [Test]
         public void Analyze_GuessHasAllMisses_ZeroPartialMatches()
         {
-            // Arrange 
-            string userGuess = "bingo";
-            string answer = "xxxxx";
+            var guessResult = ArrangeAndAnalyze(userGuess: "guess", answer: "xxxxx");
 
-            var analyzer = new GuessAnalyzer(answer);
-            
-            // Act
-            var guessResult = analyzer.Analyze(userGuess);
-            
-            // Assert
             Assert.AreEqual(0, guessResult.GetNumPartialMatches());
         }
 
@@ -86,81 +54,43 @@ namespace WordleTests
         [TestCase("xnxxx")]
         [TestCase("xxgxx")]
         [TestCase("xxxox")]
-        public void Analyze_GuessHasOnePartialMatch_1PartialMatch(string userGuess)
+        public void Analyze_GuessHasOnePartialMatch_1PartialMatch(string _userGuess)
         {
-            // Arrange
-            string answer = "bingo";
+            var guessResult = ArrangeAndAnalyze(userGuess: _userGuess, answer: "bingo");
 
-            var analyzer = new GuessAnalyzer(answer);
-            
-            // Act
-            var guessResult = analyzer.Analyze(userGuess);
-
-            // Assert
             Assert.AreEqual(1, guessResult.GetNumPartialMatches());
         }
         
         [Test]
         public void Analyze_GuessHasAllHits_ZeroPartialMatches()
         {
-            // Arrange 
-            string userGuess = "bingo";
-            string answer = "bingo";
-
-            var analyzer = new GuessAnalyzer(answer);
             
-            // Act
-            var guessResult = analyzer.Analyze(userGuess);
-
-            // Assert
+            var guessResult = ArrangeAndAnalyze(userGuess: "bingo", answer: "bingo");
+        
             Assert.AreEqual(0, guessResult.GetNumPartialMatches());
         }
 
         [Test]
         public void Analyze_GuessHasAllPartialMatches_ZeroExactMatches()
         {
-            // Arrange 
-            string userGuess = "ibgon";
-            string answer = "bingo";
+            var guessResult = ArrangeAndAnalyze(userGuess: "ibgon", answer: "bingo");
 
-            var analyzer = new GuessAnalyzer(answer);
-
-            // Act
-            var guessResult = analyzer.Analyze(userGuess);
-
-            // Assert
             Assert.AreEqual(0, guessResult.GetNumExactMatches());
         }
 
         [Test]
         public void Analyze_GuessHas2RepeatedLettersOneIsExact_NoPartialMatch()
         {
-            // Arrange
-            string userGuess = "sweet";  
-            string answer = "sweat";
+            var guessResult = ArrangeAndAnalyze(userGuess: "sweet", answer: "sweat");
 
-            var analyzer = new GuessAnalyzer(answer);
-
-            // Act
-            var guessResult = analyzer.Analyze(userGuess);
-
-            // Assert
             Assert.AreEqual(0, guessResult.GetNumPartialMatches());
         }
 
         [Test]
         public void Analyze_GuessHasLetterRepeated3TimesTwoInAnswer_1PartialMatch()
         {
-            // Arrange
-            string userGuess = "daddy";
-            string answer =    "diced";
+            var guessResult = ArrangeAndAnalyze(userGuess: "daddy", answer: "diced");
 
-            var analyzer = new GuessAnalyzer(answer);
-
-            // Act
-            var guessResult = analyzer.Analyze(userGuess);
-
-            // Assert
             Assert.AreEqual(1, guessResult.GetNumPartialMatches());
         }                     
      }
