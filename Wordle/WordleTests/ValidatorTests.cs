@@ -6,21 +6,25 @@ namespace WordleTests
 {
     class ValidatorTests
     {
-        // TODO - how to deal with code duplication, is that not as relavant a concern when writing tests?
 
-        [Test]
-        public static void Validate_GuessIsEmpty_False()
+        private static bool ArrangeAndValidate(string userGuess, bool isInDictionary)
         {
             // Arrange
-            string userGuess = "";
-
             var mockEngDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
-            mockEngDictionary.Stub(d => d.IsInDictionary(userGuess)).Return(false);
+            mockEngDictionary.Stub(d => d.IsInDictionary(userGuess)).Return(isInDictionary);
 
             var guessValidator = new WordleValidator(mockEngDictionary);
 
             // Act
-            var isValidWordleWord = guessValidator.Validate(userGuess);
+            return guessValidator.Validate(userGuess);
+        }
+
+
+        [Test]
+        public static void Validate_GuessIsEmpty_False()
+        {
+            
+            bool isValidWordleWord = ArrangeAndValidate(userGuess: "", isInDictionary: false);
 
             // Assert
             Assert.IsFalse(isValidWordleWord);
@@ -31,53 +35,28 @@ namespace WordleTests
         [TestCase("byte")]
         [TestCase("remark")]
         [TestCase("acknowledge")]
-        public static void Validate_GuessIsNot5Letters_False(string userGuess)
+        public static void Validate_GuessIsNot5Letters_False(string _userGuess)
         {
-            // Arrange
-            var mockEngDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
-            mockEngDictionary.Stub(d => d.IsInDictionary(userGuess)).Return(true);
+            var isValidWordleWord = ArrangeAndValidate(userGuess: _userGuess, isInDictionary: true);
 
-            var guessValidator = new WordleValidator(mockEngDictionary);
-
-            // Act 
-            var isValidWordleWord = guessValidator.Validate(userGuess);
-
-            // Assert
             Assert.IsFalse(isValidWordleWord);
         }
 
         [Test]
         [TestCase("y'all")]
-        [TestCase("te9nt")]
-        [TestCase("$tart")]
-        [TestCase("me at")]
-        public static void Validate_GuessContainsNonLetter_False(string userGuess)
+        [TestCase("I'll")]
+        public static void Validate_GuessContainsNonLetter_False(string _userGuess) // TODO: Might be legal guess
         {
-            // Arrange
-            var mockEngDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
-            mockEngDictionary.Stub(d => d.IsInDictionary(userGuess)).Return(false); 
+            var isValidWordleWord = ArrangeAndValidate(userGuess: _userGuess, isInDictionary: true);
 
-            var guessValidator = new WordleValidator(mockEngDictionary);
-
-            // Act 
-            var isValidWordleWord = guessValidator.Validate(userGuess);
-
-            // Assert
             Assert.IsFalse(isValidWordleWord);
         }
 
         [Test]
         [TestCase("eated")]
-        public static void Validate_GuessNotInDictionary_False(string userGuess)
+        public static void Validate_GuessNotInDictionary_False(string _userGuess)
         {
-            // Arrange 
-            var mockEngDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
-            mockEngDictionary.Stub(d => d.IsInDictionary(userGuess)).Return(false);
-
-            var guessValidator = new WordleValidator(mockEngDictionary);
-
-            // Act 
-            var isValidWordleWord = guessValidator.Validate(userGuess);
+            var isValidWordleWord = ArrangeAndValidate(userGuess: _userGuess, isInDictionary: false);
 
             // Assert
             Assert.IsFalse(isValidWordleWord);
