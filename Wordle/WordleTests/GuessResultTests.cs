@@ -6,14 +6,10 @@ namespace WordleTests
 {
     class GuessResultTests
     {
-        static string answer = "bingo";
+        static readonly string answer = "bingo";
 
         private static GuessResult ArrangeAndAnalyze(string userGuess)
         {
-            
-            var mockWordValidator = MockRepository.GenerateStub<IWordValidator>();
-            mockWordValidator.Stub(v => v.Validate(userGuess)).Return(true);
-
             var analyzer = new GuessAnalyzer(answer);
 
             return analyzer.Analyze(userGuess);
@@ -32,7 +28,6 @@ namespace WordleTests
         {
             var guessResult = ArrangeAndAnalyze(userGuess: "bxngo");
 
-            // Assert
             Assert.IsTrue(guessResult.At(1).Missed());
         }
 

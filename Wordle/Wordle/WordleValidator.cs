@@ -5,18 +5,46 @@ namespace Wordle
 {
     public class WordleValidator : IWordValidator
     {
-        IEnglishDictionary dictionary; // Non-interface?
+        public class ValidatorResult
+        {
+            private readonly bool is5Letters;
+            private readonly bool isAllChars;
+            private readonly bool isInDictionary;
+            public ValidatorResult(bool is5Letters = false, 
+                                   bool isAllChars = false, 
+                                   bool isInDictionary = false)
+            {
+                this.is5Letters = is5Letters;
+                this.isAllChars = isAllChars;
+                this.isInDictionary = isInDictionary;
+            }
+            
+            public bool Is5Letters
+            { get;  }
+
+            public bool IsAllChars
+            { get; }
+
+            public bool IsInDictionary
+            { get; }
+
+        }
+
+        readonly IEnglishDictionary dictionary; // Non-interface?
         
         public WordleValidator(IEnglishDictionary dictionary)
         {
             this.dictionary = dictionary;
         }
 
-        public bool Validate(string guess)
+        public object Validate(string guess) // returns object since did not want
+                                             // IWordValidator to be bound to WordleValidator result. Maybe return interface type?
         {
-            return guess.Length == 5
-                && guess.All(character => Char.IsLetter(character)) 
-                && dictionary.IsInDictionary(guess);
+            var is5Letters = (guess.Length == 5);
+            var isAllChars = guess.All(character => Char.IsLetter(character));
+            var isInDictionary = dictionary.IsInDictionary(guess);
+
+            return new ValidatorResult(is5Letters, isAllChars, isInDictionary);
         }
     }
 }

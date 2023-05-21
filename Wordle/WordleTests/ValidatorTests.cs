@@ -1,13 +1,12 @@
 ﻿using NUnit.Framework;
 using Rhino.Mocks;
-using Wordle; 
+using Wordle;
 
 namespace WordleTests
 {
     class ValidatorTests
     {
-
-        private static bool ArrangeAndValidate(string userGuess, bool isInDictionary)
+        private static WordleValidator.ValidatorResult ArrangeAndValidate(string userGuess, bool isInDictionary)
         {
             // Arrange
             var mockEngDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
@@ -16,18 +15,15 @@ namespace WordleTests
             var guessValidator = new WordleValidator(mockEngDictionary);
 
             // Act
-            return guessValidator.Validate(userGuess);
+            return (WordleValidator.ValidatorResult) guessValidator.Validate(userGuess);
         }
 
-
         [Test]
-        public static void Validate_GuessIsEmpty_False()
+        public static void Validate_GuessIsEmpty_Not5Letters()
         {
-            
-            bool isValidWordleWord = ArrangeAndValidate(userGuess: "", isInDictionary: false);
+            var validateResult = ArrangeAndValidate(userGuess: "", isInDictionary: false);
 
-            // Assert
-            Assert.IsFalse(isValidWordleWord);
+            Assert.IsFalse(validateResult.Is5Letters);
         }
 
         [Test]
@@ -35,31 +31,30 @@ namespace WordleTests
         [TestCase("byte")]
         [TestCase("remark")]
         [TestCase("acknowledge")]
-        public static void Validate_GuessIsNot5Letters_False(string _userGuess)
+        public static void Validate_GuessIsNot5Letters_Not5Letters(string _userGuess)
         {
-            var isValidWordleWord = ArrangeAndValidate(userGuess: _userGuess, isInDictionary: true);
+            var validateResult = ArrangeAndValidate(userGuess: _userGuess, isInDictionary: true);
 
-            Assert.IsFalse(isValidWordleWord);
+            Assert.IsFalse(validateResult.Is5Letters);
         }
 
         [Test]
         [TestCase("y'all")]
         [TestCase("I'll")]
-        public static void Validate_GuessContainsNonLetter_False(string _userGuess) // TODO: Might be legal guess
+        public static void Validate_GuessContainsNonLetter_NotAllChars(string _userGuess) // TODO: Might be legal guess
         {
-            var isValidWordleWord = ArrangeAndValidate(userGuess: _userGuess, isInDictionary: true);
+            var validateResult = ArrangeAndValidate(userGuess: _userGuess, isInDictionary: true);
 
-            Assert.IsFalse(isValidWordleWord);
+            Assert.IsFalse(validateResult.IsAllChars);
         }
 
         [Test]
         [TestCase("eated")]
-        public static void Validate_GuessNotInDictionary_False(string _userGuess)
+        public static void Validate_GuessNotInDictionary_NotInDictionary(string _userGuess)
         {
-            var isValidWordleWord = ArrangeAndValidate(userGuess: _userGuess, isInDictionary: false);
+            var validateResult = ArrangeAndValidate(userGuess: _userGuess, isInDictionary: false);
 
-            // Assert
-            Assert.IsFalse(isValidWordleWord);
+            Assert.IsFalse(validateResult.IsInDictionary);
         }
 
 
