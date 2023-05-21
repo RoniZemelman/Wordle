@@ -38,13 +38,12 @@ namespace Wordle
         }
 
         public object Validate(string guess) // returns object since did not want
-                                             // IWordValidator to be bound to WordleValidator result. Maybe return interface type?
+                                             // IWordValidator to be bound to WordleValidator result.
+                                             // Maybe return interface type?
         {
-            var is5Letters = (guess.Length == 5);
-            var isAllChars = guess.All(character => Char.IsLetter(character));
-            var isInDictionary = dictionary.IsInDictionary(guess);
-
-            return new ValidatorResult(is5Letters, isAllChars, isInDictionary);
+            return new ValidatorResult(guess.Length == 5,
+                                        guess.All(character => Char.IsLetter(character)),
+                                        dictionary.IsInDictionary(guess));
         }
     }
 }

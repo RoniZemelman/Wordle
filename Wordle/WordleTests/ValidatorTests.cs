@@ -1,12 +1,14 @@
 ﻿using NUnit.Framework;
 using Rhino.Mocks;
 using Wordle;
+using static Wordle.WordleValidator;
+
 
 namespace WordleTests
 {
     class ValidatorTests
     {
-        private static WordleValidator.ValidatorResult ArrangeAndValidate(string userGuess, bool isInDictionary)
+        private static ValidatorResult ArrangeAndValidate(string userGuess, bool isInDictionary)
         {
             // Arrange
             var mockEngDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
@@ -15,7 +17,7 @@ namespace WordleTests
             var guessValidator = new WordleValidator(mockEngDictionary);
 
             // Act
-            return (WordleValidator.ValidatorResult) guessValidator.Validate(userGuess);
+            return (ValidatorResult) guessValidator.Validate(userGuess);
         }
 
         [Test]
