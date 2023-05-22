@@ -22,7 +22,7 @@ namespace Wordle
         }
         public void PlayTurn(string userGuess)
         {
-            // TODO 
+            var validatorResult = validator.Validate(userGuess); 
         }
     }
 }
