@@ -11,18 +11,18 @@ public class GuessAnalyzer
         this.answer = answer;
     }
 
-    private void CheckForPartialMatch(char currGuessLetter, out bool result)
+    private void CheckForPartialMatch(char currGuessLetter, out bool foundPartialMatch)
     {
-        result = false;
+        foundPartialMatch = false;
 
         for (int answerIndex = 0; answerIndex < 5; ++answerIndex)
         { 
             if (currGuessLetter == answer[answerIndex] 
                 && letterIsMatched[answerIndex] == false)
             {
+                foundPartialMatch = true;
+
                 letterIsMatched[answerIndex] = true;
-                
-                result = true;
                 
                 break;
             }
