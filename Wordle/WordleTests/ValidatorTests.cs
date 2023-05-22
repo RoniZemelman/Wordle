@@ -17,7 +17,7 @@ namespace WordleTests
             var guessValidator = new WordleValidator(mockEngDictionary);
 
             // Act
-            return (ValidatorResult) guessValidator.Validate(userGuess);
+            return guessValidator.Validate(userGuess);
         }
 
         [Test]

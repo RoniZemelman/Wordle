@@ -8,8 +8,10 @@ namespace Wordle
 {
     public class WordleGame
     {
+        public const int MaxNumOfTurns = 5;
+
         private readonly IWordValidator validator;
-        public WordleGame(string answer, IWordValidator validator)
+        public WordleGame(IWordValidator validator)
         {
             this.validator = validator;
         }
@@ -18,10 +20,9 @@ namespace Wordle
         {
             return 5;
         }
-
-        public ValidatorResult ValidateGuess(string userGuess)
+        public void PlayTurn(string userGuess)
         {
-            return (ValidatorResult) validator.Validate(userGuess);
+            // TODO 
         }
     }
 }

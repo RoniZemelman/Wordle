@@ -41,7 +41,7 @@ namespace Wordle
             this.dictionary = dictionary;
         }
 
-        public object Validate(string guess) // returns object since did not want
+        public ValidatorResult Validate(string guess) // returns object since did not want
                                              // IWordValidator to be bound to WordleValidator result.
                                              // Maybe return interface type?
         {

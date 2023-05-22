@@ -1,11 +1,12 @@
 ﻿
 using System;
+using static Wordle.WordleValidator;
 
-namespace Wordle // Maybe move IWordValidator to own namespace, should work for other contexts besides Wordle
+namespace Wordle 
 {
     public interface IWordValidator
     {
-        object Validate(string guess);
+        ValidatorResult Validate(string guess);
     }
 
 }

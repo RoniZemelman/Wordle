@@ -1,104 +1,56 @@
 ﻿using NUnit.Framework;
 using Rhino.Mocks;
 using Wordle;
+using static Wordle.WordleValidator;
 
 namespace WordleTests
 {
     class WordleGameTests
-    {
+    { 
         [Test]
-        public static void Constructor_DefaultInitialization_Has5TurnsRemaining()
+        public static void Constructor_WordleGameCreated_MaxNumTurnsRemaining()
         {
             // Arrange
-            string answer = "dontCare";
-
             var mockEngDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
             mockEngDictionary.Stub(d => d.IsInDictionary("")).IgnoreArguments().Return(true);
 
             // Act
-            var wordleGame = new WordleGame(answer, new WordleValidator(mockEngDictionary));
+            var wordleGame = new WordleGame(new WordleValidator(mockEngDictionary));
 
             // Assert
-            Assert.AreEqual(5, wordleGame.TurnsRemaining());
+            Assert.AreEqual(WordleGame.MaxNumOfTurns, wordleGame.TurnsRemaining());
         }
 
         [Test]
-        public static void ValidateGuess_UserGuessIsNot5Letters_False()
+        public static void PlayTurn_ValidatorInvalidatesUserGuess_RemainingTurnsUnchanged()
         {
             // Arrange
             string answer = "dontCare";
-            string userGuess = "all";
+            string userGuess = "blablah";
 
-            var mockEngDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
-            mockEngDictionary.Stub(d => d.IsInDictionary(userGuess)).Return(true);
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(d => d.Validate(userGuess))
+                .IgnoreArguments()
+                .Return(new ValidatorResult(false, false, false));
 
-            var wordleGame = new WordleGame(answer, new WordleValidator(mockEngDictionary));
+            var wordleGame = new WordleGame(mockValidator);
+            int turnsRemaining = wordleGame.TurnsRemaining();
 
             //act
-           var validateResult = wordleGame.ValidateGuess(userGuess);
+            wordleGame.PlayTurn(userGuess);
 
             // assert
-            Assert.IsFalse(validateResult.IsValidGuess());
+            Assert.AreEqual(turnsRemaining, wordleGame.TurnsRemaining());
         }
 
         [Test]
-        public static void ValidateGuess_UserGuessIsNotAllChars_False()
+        public static void PlayTurn_TurnInvokedWithBothValidAndInvalidGuesses_ValidatorInvoked()
         {
             // Arrange
-            string answer = "dontCare";
-            string userGuess = "y'all";
-
-            var mockEngDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
-            mockEngDictionary.Stub(d => d.IsInDictionary(userGuess)).Return(true);
-
-            var wordleGame = new WordleGame(answer, new WordleValidator(mockEngDictionary));
-
-            //act
-            var validateResult = wordleGame.ValidateGuess(userGuess);
+            // Act
 
             // assert
-            Assert.IsFalse(validateResult.IsValidGuess());
+            Assert.IsTrue(false);
         }
-
-        [Test]
-        public static void ValidateGuess_UserGuessIsNotInDictionary_False()
-        {
-            // Arrange
-            string answer = "dontCare";
-            string userGuess = "xxxxx";
-
-            var mockEngDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
-            mockEngDictionary.Stub(d => d.IsInDictionary(userGuess)).Return(false);
-
-            var wordleGame = new WordleGame(answer, new WordleValidator(mockEngDictionary));
-
-            //act
-            var validateResult = wordleGame.ValidateGuess(userGuess);
-
-            // assert
-            Assert.IsFalse(validateResult.IsValidGuess());
-        }
-
-        [Test]
-        [TestCase("start")]
-        [TestCase("eaten")]
-        public static void ValidateGuess_UserGuessIsValid_True(string userGuess)
-        {
-            // Arrange
-            string answer = "dontCare";
-           
-
-            var mockEngDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
-            mockEngDictionary.Stub(d => d.IsInDictionary(userGuess)).Return(true);
-
-            var wordleGame = new WordleGame(answer, new WordleValidator(mockEngDictionary));
-
-            //act
-            var validateResult = wordleGame.ValidateGuess(userGuess);
-
-            // assert
-            Assert.IsTrue(validateResult.IsValidGuess());
-        }
-
     }
 }
