@@ -1,15 +1,17 @@
 ﻿
 
 using System;
+using Wordle;
 using static Wordle.WordleValidator;
 
 namespace Wordle
 {
     public class WordleGame
     {
+        private readonly IWordValidator validator;
         public WordleGame(string answer, IWordValidator validator)
         {
-
+            this.validator = validator;
         }
     
         public int TurnsRemaining()
@@ -19,7 +21,7 @@ namespace Wordle
 
         public ValidatorResult ValidateGuess(string userGuess)
         {
-            return new ValidatorResult();
+            return (ValidatorResult) validator.Validate(userGuess);
         }
     }
 }
