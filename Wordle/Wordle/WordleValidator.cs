@@ -20,14 +20,18 @@ namespace Wordle
             }
             
             public bool Is5Letters
-            { get;  }
+            { get => is5Letters;  }
 
             public bool IsAllChars
-            { get; }
+            { get => isAllChars; }
 
             public bool IsInDictionary
-            { get; }
+            { get => isInDictionary; }
 
+            public bool IsValidGuess()
+            {
+                return is5Letters && isAllChars && isInDictionary;
+            }
         }
 
         readonly IEnglishDictionary dictionary; // Non-interface?

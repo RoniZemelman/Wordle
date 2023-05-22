@@ -59,6 +59,17 @@ namespace WordleTests
             Assert.IsFalse(validateResult.IsInDictionary);
         }
 
+        // Added - True Negative/No invalidation found
+        [Test]
+        [TestCase("eaten")]
+        [TestCase("daddy")]
+        [TestCase("piper")]
+        public static void Validate_ValidGuess_True(string _userGuess)
+        {
+            var validateResult = ArrangeAndValidate(userGuess: _userGuess, isInDictionary: true);
+
+            Assert.IsTrue(validateResult.IsValidGuess());
+        }
 
     }
 }
