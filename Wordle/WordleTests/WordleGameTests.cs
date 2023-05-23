@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Rhino.Mocks;
 using Wordle;
-using static Wordle.WordleValidator;
+using static Wordle.GuessValidator;
 
 namespace WordleTests
 {
@@ -15,7 +15,7 @@ namespace WordleTests
             mockEngDictionary.Stub(d => d.IsInDictionary("")).IgnoreArguments().Return(true);
 
             // Act
-            var wordleGame = new WordleGame(new WordleValidator(mockEngDictionary));
+            var wordleGame = new WordleGame(new GuessValidator(mockEngDictionary));
 
             // Assert
             Assert.AreEqual(WordleGame.MaxNumOfTurns, wordleGame.TurnsRemaining());
@@ -25,8 +25,7 @@ namespace WordleTests
         public static void PlayTurn_ValidatorInvalidatesUserGuess_RemainingTurnsUnchanged()
         {
             // Arrange
-            // TODO - pass in answer to WordleGame?
-            string userGuess = "blablah";
+            string userGuess = "blablah"; // TODO - pass in answer to WordleGame?
 
             var mockValidator = MockRepository.GenerateStub<IWordValidator>();
             mockValidator.Stub(d => d.Validate(userGuess))
@@ -60,10 +59,38 @@ namespace WordleTests
             // assert
             mockValidator.AssertWasCalled(v => v.Validate(userGuess));
         }
-
-        public static void PlayTurn_ValidatorValidatesUserGuess_GuessAnalyzerIsCalled()
+        [Test]
+        public static void PlayTurn_ValidatorValidatesUserGuess_ReturnsGuessResultObject()
         {
-            Assert.IsTrue(false);
+            // Arrange 
+            var userGuess = "valid";
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(d => d.Validate(userGuess)).Return(new ValidatorResult(true));
+
+            var wordleGame = new WordleGame(mockValidator);
+
+            // Act
+            var resultOfGuess = wordleGame.PlayTurn(userGuess);
+
+            // Assert
+            Assert.NotNull(resultOfGuess);
+        }
+
+        [Test]
+        public static void PlayTurn_ValidatorInvalidatesUserGuess_ReturnsNull()
+        {
+            // Arrange 
+            var userGuess = "NotAValidGuess";
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(d => d.Validate(userGuess)).Return(new ValidatorResult(false));
+
+            var wordleGame = new WordleGame(mockValidator);
+
+            // Act
+            var resultOfGuess = wordleGame.PlayTurn(userGuess);
+
+            // assert
+            Assert.IsNull(resultOfGuess);
         }
     }
 }

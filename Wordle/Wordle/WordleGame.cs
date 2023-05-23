@@ -2,7 +2,7 @@
 
 using System;
 using Wordle;
-using static Wordle.WordleValidator;
+using static Wordle.GuessValidator;
 
 namespace Wordle
 {
@@ -20,9 +20,11 @@ namespace Wordle
         {
             return 5;
         }
-        public void PlayTurn(string userGuess)
+        public GuessResult PlayTurn(string userGuess)
         {
-            var validatorResult = validator.Validate(userGuess); 
+            var validatorResult = validator.Validate(userGuess);
+
+            return new GuessResult();
         }
     }
 }

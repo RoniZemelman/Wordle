@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Wordle 
 {
-    public class WordleValidator : IWordValidator
+    public class GuessValidator : IWordValidator
     {
         public class ValidatorResult
         {
@@ -36,7 +36,7 @@ namespace Wordle
 
         readonly IEnglishDictionary dictionary; // Non-interface?
         
-        public WordleValidator(IEnglishDictionary dictionary)
+        public GuessValidator(IEnglishDictionary dictionary)
         {
             this.dictionary = dictionary;
         }

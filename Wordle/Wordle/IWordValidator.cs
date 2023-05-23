@@ -1,6 +1,6 @@
 ﻿
 using System;
-using static Wordle.WordleValidator;
+using static Wordle.GuessValidator;
 
 namespace Wordle 
 {

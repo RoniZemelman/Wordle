@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Rhino.Mocks;
 using Wordle;
-using static Wordle.WordleValidator;
+using static Wordle.GuessValidator;
 
 
 namespace WordleTests
@@ -14,7 +14,7 @@ namespace WordleTests
             var mockEngDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
             mockEngDictionary.Stub(d => d.IsInDictionary(userGuess)).Return(isInDictionary);
 
-            var guessValidator = new WordleValidator(mockEngDictionary);
+            var guessValidator = new GuessValidator(mockEngDictionary);
 
             // Act
             return guessValidator.Validate(userGuess);
