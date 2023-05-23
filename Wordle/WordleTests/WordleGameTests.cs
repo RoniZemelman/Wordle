@@ -32,7 +32,7 @@ namespace WordleTests
             var wordleGame = new WordleGame(mockValidator);
 
             // Assert
-            Assert.AreEqual(WordleGame.MaxNumOfTurns, wordleGame.TurnsRemaining());
+            Assert.AreEqual(wordleGame.Status(), WordleGame.state.IsRunning);
         }
 
         [Test]
