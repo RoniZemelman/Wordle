@@ -16,9 +16,12 @@ namespace Wordle
         public const int MaxNumOfTurns = 5;
 
         private readonly IWordValidator validator;
+        private int numTurnsRemaining;
+
         public WordleGame(IWordValidator validator)
         {
             this.validator = validator;
+            this.numTurnsRemaining = MaxNumOfTurns; 
         }
 
         public state Status()
@@ -28,11 +31,16 @@ namespace Wordle
 
         public int TurnsRemaining()
         {
-            return 5;
+            return numTurnsRemaining;
         }
         public GuessResult PlayTurn(string userGuess)
         {
             var validatorResult = validator.Validate(userGuess);
+
+            if (validatorResult.IsValidGuess())
+            {
+                --numTurnsRemaining;
+            }
 
             return new GuessResult();
         }

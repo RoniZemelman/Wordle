@@ -32,14 +32,34 @@ namespace WordleTests
             var wordleGame = new WordleGame(mockValidator);
 
             // Assert
-            Assert.AreEqual(wordleGame.Status(), WordleGame.state.IsRunning);
+            Assert.AreEqual(WordleGame.state.IsRunning, wordleGame.Status());
+        }
+
+        [Test]
+        [TestCase("valid")]
+        [TestCase("notValid")]
+        public static void PlayTurn_PlayTurnInvokedWithUserGuess_ValidatorIsCalled(string userGuess)
+        {
+            // Arrange 
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(d => d.Validate("valid")).Return(new ValidatorResult(true, true, true));
+            mockValidator.Stub(d => d.Validate("notValid")).Return(new ValidatorResult(false, false, false));
+
+            var wordleGame = new WordleGame(mockValidator);
+
+            // Act
+            wordleGame.PlayTurn(userGuess);
+
+            // assert
+            mockValidator.AssertWasCalled(v => v.Validate(userGuess));
         }
 
         [Test]
         public static void PlayTurn_ValidatorInvalidatesUserGuess_RemainingTurnsUnchanged()
         {
             // Arrange
-            string userGuess = "blablah"; // TODO - pass in answer to WordleGame?
+            string userGuess = "blablah"; 
+            // Need to pass in answer to WordleGame?
 
             var mockValidator = MockRepository.GenerateStub<IWordValidator>();
             mockValidator.Stub(d => d.Validate(userGuess))
@@ -57,37 +77,21 @@ namespace WordleTests
         }
 
         [Test]
-        [TestCase("valid")]
-        [TestCase("NotValid")]
-        public static void PlayTurn_PlayTurnInvokedWithUserGuess_ValidatorIsCalled(string userGuess)
-        {
-            // Arrange 
-            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
-            mockValidator.Stub(d => d.Validate(userGuess)).Return(null); 
-
-            var wordleGame = new WordleGame(mockValidator);
-
-            // Act
-            wordleGame.PlayTurn(userGuess);
-
-            // assert
-            mockValidator.AssertWasCalled(v => v.Validate(userGuess));
-        }
-        [Test]
-        public static void PlayTurn_ValidatorValidatesUserGuess_ReturnsGuessResultObject()
+        public static void PlayTurn_ValidatorValidatesUserGuess_RemainingTurnsDecrementedByOne()
         {
             // Arrange 
             var userGuess = "valid";
             var mockValidator = MockRepository.GenerateStub<IWordValidator>();
-            mockValidator.Stub(d => d.Validate(userGuess)).Return(new ValidatorResult(true));
+            mockValidator.Stub(d => d.Validate(userGuess)).Return(new ValidatorResult(true, true, true));
 
             var wordleGame = new WordleGame(mockValidator);
+            int initialTurnsRemaining = wordleGame.TurnsRemaining();
 
             // Act
-            var resultOfGuess = wordleGame.PlayTurn(userGuess);
+            wordleGame.PlayTurn(userGuess);
 
             // Assert
-            Assert.NotNull(resultOfGuess);
+            Assert.AreEqual(initialTurnsRemaining - 1, wordleGame.TurnsRemaining());
         }
 
         // Test PlayTurn returns null when validator invalidates guess
