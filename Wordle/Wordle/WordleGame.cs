@@ -38,12 +38,14 @@ namespace Wordle
         {
             var validatorResult = validator.Validate(userGuess);
 
-            if (validatorResult.IsValidGuess())
+            if (!validatorResult.IsValidGuess())
             {
-                --numTurnsRemaining;
+                return null;
             }
-
-            return new GuessResult(); 
+            
+            --numTurnsRemaining;
+            return new GuessResult();
+             
         }
     }
 }
