@@ -27,10 +27,9 @@ namespace Wordle
         }
 
         private GuessItem[] guessItems;
-
         public GuessResult()
         {
-            this.guessItems = new GuessItem[5];
+            this.guessItems = new GuessItem[WordleGame.NumLettersInWord];
         }
 
         public void setItemAt(int index, char letter, bool isExactMatch, bool isPartialMatch)
