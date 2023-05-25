@@ -153,12 +153,55 @@ namespace WordleTests
             var validatorResult = new ValidatorResult();
 
             // Act
-            var playTurnResult = wordleGame.PlayTurn(userGuess, out validatorResult);
+            wordleGame.PlayTurn(userGuess, out validatorResult);
 
             // Assert
             Assert.IsTrue(validatorResult.IsValidGuess());
         }
 
-        // Test PlayTurn that validatorResult when validator validates
+        [Test]
+        public static void PlayTurn_ValidatorInvalidatesGuess_ValidatorOutParamIsNotValid()
+        {
+            // Arrange
+            var userGuess = "Invalid";
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(d => d.Validate(userGuess)).Return(new ValidatorResult(false, false, false));
+
+            var wordleGame = new WordleGame(mockValidator);
+
+            var validatorResult = new ValidatorResult();
+
+            // Act
+            wordleGame.PlayTurn(userGuess, out validatorResult);
+
+            // Assert
+            Assert.IsFalse(validatorResult.IsValidGuess());
+        }
+
+        [Test] // Maybe Change - Granularity test for validator object
+        public static void PlayTurn_ValidatorInvalidsFor1Reason_ValidatorOutputHasOnlyOneFalseField()
+        {
+            // Arrange
+            var guessNot5Letters = "TooLong";
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(d => d.Validate(guessNot5Letters))
+                .Return(new ValidatorResult(is5Letters:false,
+                                            isAllChars: true, isInDictionary:true));
+
+            var wordleGame = new WordleGame(mockValidator);
+
+            var validatorResult = new ValidatorResult();
+
+            // Act
+            wordleGame.PlayTurn(guessNot5Letters, out validatorResult);
+
+            // Assert
+            Assert.IsFalse(validatorResult.Is5Letters); // Remove?
+            Assert.IsTrue(validatorResult.IsAllChars && validatorResult.IsInDictionary);
+        }
+        
+        // Test - StatusWins when UserGuess Has Exact Match
+        // Test - Status Lost when UserGuess 5 times without exact match
+
     }
 }

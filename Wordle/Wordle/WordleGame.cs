@@ -34,19 +34,16 @@ namespace Wordle
         {
             return numTurnsRemaining;
         }
-        public GuessResult PlayTurn(string userGuess, out ValidatorResult valResult)
+        public GuessResult PlayTurn(string userGuess, out ValidatorResult validatorResult)
         {
-            var validatorResult = validator.Validate(userGuess);
+            validatorResult = validator.Validate(userGuess);
 
             if (!validatorResult.IsValidGuess())
             {
-                valResult = null;
                 return null;
             }
             
             --numTurnsRemaining;
-
-            valResult = null;
 
             return new GuessResult();
         }
