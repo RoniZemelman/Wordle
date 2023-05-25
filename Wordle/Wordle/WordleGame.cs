@@ -8,12 +8,13 @@ namespace Wordle
 {
     public class WordleGame
     {
-        public enum state
+        public enum State  // convention for naming enums?
         {
             IsRunning
         }
 
         public const int MaxNumOfTurns = 5;
+        public const int NumLettersInWord = 5;  // Does this belong here?  Part of the WordleGame Logic...
 
         private readonly IWordValidator validator;
         private int numTurnsRemaining;
@@ -24,9 +25,9 @@ namespace Wordle
             this.numTurnsRemaining = MaxNumOfTurns; 
         }
 
-        public state Status()
+        public State Status()
         {
-            return state.IsRunning;
+            return State.IsRunning;
         }
 
         public int TurnsRemaining()
@@ -42,7 +43,7 @@ namespace Wordle
                 --numTurnsRemaining;
             }
 
-            return new GuessResult();
+            return new GuessResult(); 
         }
     }
 }
