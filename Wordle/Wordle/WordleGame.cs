@@ -1,8 +1,4 @@
-﻿
-
-using System;
-using Wordle;
-using static Wordle.GuessValidator;
+﻿using static Wordle.GuessValidator;
 
 namespace Wordle
 {
@@ -15,14 +11,17 @@ namespace Wordle
         }
 
         public const int MaxNumOfTurns = 5;
-        public const int NumLettersInWord = 5;  // Does this belong here?  Part of the WordleGame Logic...
+        public const int NumLettersInWord = 5;  // Part of the WordleGame Logic?
 
+        private GuessAnalyzer guessAnalyzer; //string answer;
         private readonly IWordValidator validator;
         private int numTurnsRemaining;
         private State status;
+        
 
         public WordleGame(string answer, IWordValidator validator)
         {
+            this.guessAnalyzer = new GuessAnalyzer(answer); // Accept as param?
             this.validator = validator;
             this.numTurnsRemaining = MaxNumOfTurns;
             this.status = State.IsRunning;
@@ -46,14 +45,15 @@ namespace Wordle
                 return null;
             }
 
-            if (new GuessAnalyzer("bingo").Analyze(userGuess).GetNumExactMatches() == 5)
+            // TODO add "GuessResult.IsCorrect() abstraction"
+            if (guessAnalyzer.Analyze(userGuess).GetNumExactMatches() == 5)
             {
                 status = State.Won;
             }
 
             --numTurnsRemaining;
 
-            return new GuessResult(); // Neccessary to return guessResult to client? 
+            return new GuessResult(); 
         }
     }
 }

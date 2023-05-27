@@ -207,7 +207,7 @@ namespace WordleTests
         {
             // Arrange
             var incorrectGuess = "guess";
-            var correctGuess = string.Copy(answer); 
+            var correctGuess = string.Copy(answer); // see if neccessary
 
             var mockValidator = MockRepository.GenerateStub<IWordValidator>();
             mockValidator.Stub(d => d.Validate("")).IgnoreArguments().Return(new ValidatorResult(true, true, true));
@@ -220,7 +220,8 @@ namespace WordleTests
             wordleGame.PlayTurn(correctGuess, out valResultdontCare);
 
             // Assert
-            Assert.AreEqual(WordleGame.MaxNumOfTurns - 2, wordleGame.TurnsRemaining()); // Sanity check
+            Assert.AreEqual(WordleGame.MaxNumOfTurns - 2,
+                            wordleGame.TurnsRemaining()); // Sanity check
             Assert.AreEqual(WordleGame.State.Won, wordleGame.Status());
         }
 
