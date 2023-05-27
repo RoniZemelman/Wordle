@@ -255,7 +255,8 @@ namespace WordleTests
             var correctGuess = "bingo"; 
 
             var mockValidator = MockRepository.GenerateStub<IWordValidator>();
-            mockValidator.Stub(d => d.Validate("")).IgnoreArguments().Return(new ValidatorResult(true, true, true));
+            mockValidator.Stub(d => d.Validate("")).IgnoreArguments()
+                .Return(new ValidatorResult(true, true, true));
 
             var wordleGame = new WordleGame(answer, mockValidator);
             var valResultdontCare = new ValidatorResult();
@@ -290,5 +291,33 @@ namespace WordleTests
             // Assert
             Assert.AreEqual(WordleGame.State.Lost, wordleGame.Status());
         }
+
+        [Test]
+        public static void PlayTurn_CorrectGuessOnLastTurn_StatusWon()
+        {
+            // Arrange
+            var answer = "bingo";
+            var incorrectGuess = "wrong";
+            var correctGuess = "bingo";
+
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(d => d.Validate("")).IgnoreArguments()
+                .Return(new ValidatorResult(true, true, true));
+
+            var wordleGame = new WordleGame(answer, mockValidator);
+            var valResultdontCare = new ValidatorResult();
+
+            // Act 
+            for (int turnNum = 0; turnNum < WordleGame.MaxNumOfTurns - 1; ++turnNum)
+            {
+                wordleGame.PlayTurn(incorrectGuess, out valResultdontCare);
+            }
+
+            wordleGame.PlayTurn(correctGuess, out valResultdontCare);
+
+            // Assert
+            Assert.AreEqual(WordleGame.State.Won, wordleGame.Status());
+        }
+
     }
 }

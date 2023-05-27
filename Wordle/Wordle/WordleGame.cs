@@ -18,7 +18,6 @@ namespace Wordle
         private readonly IWordValidator validator;
         private int numTurnsRemaining;
         private State status;
-        
 
         public WordleGame(string answer, IWordValidator validator)
         {
@@ -37,27 +36,33 @@ namespace Wordle
         {
             return numTurnsRemaining;
         }
-        public GuessResult PlayTurn(string userGuess, out ValidatorResult validatorResult)
-        {
-            validatorResult = validator.Validate(userGuess);
 
-            if (!validatorResult.IsValidGuess())
+        private void UpdateGameState(GuessResult guessResult)
+        {
+            if (--numTurnsRemaining == 0) // decrement outside conditional?
+            {
+                status = State.Lost;
+            }
+
+            if (guessResult.IsCorrect())
+            {
+                status = State.Won;
+            }            
+        }
+
+        public GuessResult PlayTurn(string userGuess, out ValidatorResult validatorOutResult)
+        {
+            validatorOutResult = validator.Validate(userGuess);
+
+            if (!validatorOutResult.IsValidGuess())
             {
                 return null;
             }
 
-            --numTurnsRemaining; 
-
             var currGuessResult = guessAnalyzer.Analyze(userGuess);
-            if (currGuessResult.IsCorrect())
-            {
-                status = State.Won;
-            }
 
-            if (numTurnsRemaining == 0)
-            {
-                status = State.Lost;
-            }
+            UpdateGameState(currGuessResult);
+            
             return currGuessResult; 
         }
     }
