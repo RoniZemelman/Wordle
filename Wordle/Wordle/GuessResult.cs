@@ -23,7 +23,7 @@ namespace Wordle
 
             public bool IsPartialMatch() { return isPartialMatch; }
 
-            public bool Missed() { return !isExactMatch && !isPartialMatch; }
+            public bool CompleteMiss() { return !isExactMatch && !isPartialMatch; }
         }
 
         private GuessItem[] guessItems;

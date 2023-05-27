@@ -28,7 +28,7 @@ namespace WordleTests
         {
             var guessResult = ArrangeAndAnalyze(userGuess: "bxngo");
 
-            Assert.IsTrue(guessResult.At(1).Missed());
+            Assert.IsTrue(guessResult.At(1).CompleteMiss());
         }
 
         [Test]
