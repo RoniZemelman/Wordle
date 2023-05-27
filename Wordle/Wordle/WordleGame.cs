@@ -7,7 +7,8 @@ namespace Wordle
         public enum State  // convention for naming enums?
         {
             IsRunning,
-            Won
+            Won,
+            Lost
         }
 
         public const int MaxNumOfTurns = 5;
@@ -45,14 +46,18 @@ namespace Wordle
                 return null;
             }
 
+            --numTurnsRemaining; 
+
             var currGuessResult = guessAnalyzer.Analyze(userGuess);
             if (currGuessResult.IsCorrect())
             {
                 status = State.Won;
             }
 
-            --numTurnsRemaining;
-
+            if (numTurnsRemaining == 0)
+            {
+                status = State.Lost;
+            }
             return currGuessResult; 
         }
     }
