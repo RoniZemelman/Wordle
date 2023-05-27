@@ -30,8 +30,10 @@ namespace Wordle
         public GuessResult()
         {
             this.guessItems = new GuessItem[WordleGame.NumLettersInWord];
-        }
 
+            // guessItems array lazily constructed when needed...Pros/Cons?
+        }
+        
         public void setItemAt(int index, char letter, bool isExactMatch, bool isPartialMatch)
         {
             guessItems[index] = new GuessItem(letter, isExactMatch, isPartialMatch);  // TODO: Make sure this is not double

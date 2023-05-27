@@ -45,14 +45,15 @@ namespace Wordle
                 return null;
             }
 
-            if (guessAnalyzer.Analyze(userGuess).IsCorrect())
+            var currGuessResult = guessAnalyzer.Analyze(userGuess);
+            if (currGuessResult.IsCorrect())
             {
                 status = State.Won;
             }
 
             --numTurnsRemaining;
 
-            return new GuessResult(); 
+            return currGuessResult; 
         }
     }
 }

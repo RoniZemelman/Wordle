@@ -246,5 +246,25 @@ namespace WordleTests
             Assert.AreEqual(WordleGame.State.IsRunning, wordleGame.Status());
         }
 
+        [Test]
+        public static void PlayTurn_CorrectGuess_ReturnedGuessResultObjectIsCorrect()
+        {
+            // Arrange
+            var answer = "bingo";
+            var correctGuess = "bingo"; 
+
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(d => d.Validate("")).IgnoreArguments().Return(new ValidatorResult(true, true, true));
+
+            var wordleGame = new WordleGame(answer, mockValidator);
+            var valResultdontCare = new ValidatorResult();
+
+            // Act 
+            var guessResult = wordleGame.PlayTurn(correctGuess, out valResultdontCare);
+
+            // Assert
+            Assert.IsTrue(guessResult.IsCorrect());
+        }
+
     }
 }
