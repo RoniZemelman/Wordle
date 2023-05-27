@@ -201,7 +201,7 @@ namespace WordleTests
         }
         
         [Test]
-        public static void PlayTurn_CorrectGuessBeforeLastTry_StatusWin()
+        public static void PlayTurn_CorrectGuess_StatusWin()
         {
             // Arrange
             var incorrectGuess = "guess";
@@ -218,9 +218,31 @@ namespace WordleTests
             wordleGame.PlayTurn(correctGuess, out valResultdontCare);
 
             // Assert
-            Assert.IsTrue(false);
-            //Assert.AreEqual(WordleGame.State.Won, wordleGame.Status());
+            Assert.AreEqual(WordleGame.MaxNumOfTurns - 2, wordleGame.TurnsRemaining()); // Sanity check
+            Assert.AreEqual(WordleGame.State.Won, wordleGame.Status());
         }
-        
+
+        [Test]
+        public static void PlayTurn_IncorrectGuessBeforeLastTurn_StatusRunning()
+        {
+            // Arrange
+            var incorrectGuess = "guess";
+            var answer = "bingo";
+
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(d => d.Validate("")).IgnoreArguments().Return(new ValidatorResult(true, true, true));
+
+            var wordleGame = new WordleGame(mockValidator);
+            var valResultdontCare = new ValidatorResult();
+
+            // Act 
+            wordleGame.PlayTurn(incorrectGuess, out valResultdontCare);
+            wordleGame.PlayTurn(incorrectGuess, out valResultdontCare);
+
+            // Assert
+            Assert.AreEqual(WordleGame.MaxNumOfTurns - 2, wordleGame.TurnsRemaining()); // Sanity check
+            Assert.AreEqual(WordleGame.State.IsRunning, wordleGame.Status());
+        }
+
     }
 }
