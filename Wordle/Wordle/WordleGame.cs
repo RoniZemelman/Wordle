@@ -14,7 +14,7 @@ namespace Wordle
         public const int MaxNumOfTurns = 5;
         public const int NumLettersInWord = 5;  // Part of the WordleGame Logic?
 
-        private GuessAnalyzer guessAnalyzer; //string answer;
+        private GuessAnalyzer guessAnalyzer; 
         private readonly IWordValidator validator;
         private int numTurnsRemaining;
         private State status;
@@ -39,7 +39,9 @@ namespace Wordle
 
         private void UpdateGameState(GuessResult guessResult)
         {
-            if (--numTurnsRemaining == 0) // decrement outside conditional?
+            --numTurnsRemaining;
+
+            if (numTurnsRemaining == 0) 
             {
                 status = State.Lost;
             }
