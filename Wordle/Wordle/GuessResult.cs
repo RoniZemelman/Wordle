@@ -38,6 +38,11 @@ namespace Wordle
                                                                                      // instantiation of GuessItem (see ctor)
         }
 
+        public bool IsCorrect()
+        {
+            return GetNumExactMatches() == WordleGame.NumLettersInWord;
+        }
+
         public int GetNumExactMatches()
         {
             return guessItems.Count(g => g.IsExactMatch() == true);

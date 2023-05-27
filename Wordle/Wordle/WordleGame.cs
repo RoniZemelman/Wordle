@@ -45,8 +45,7 @@ namespace Wordle
                 return null;
             }
 
-            // TODO add "GuessResult.IsCorrect() abstraction"
-            if (guessAnalyzer.Analyze(userGuess).GetNumExactMatches() == 5)
+            if (guessAnalyzer.Analyze(userGuess).IsCorrect())
             {
                 status = State.Won;
             }

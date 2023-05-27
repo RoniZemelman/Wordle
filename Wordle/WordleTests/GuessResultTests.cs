@@ -16,7 +16,7 @@ namespace WordleTests
         }
 
         [Test]
-        public void GuessResult_GuessHasExactMatch_CorrectLocationIsExactMatch()
+        public void IsExactMatch_GuessHasExactMatch_CorrectLocationIsExactMatch()
         {
             var guessResult = ArrangeAndAnalyze(userGuess: "bxxxi");
 
@@ -24,7 +24,7 @@ namespace WordleTests
         }
 
         [Test]
-        public void GuessResult_GuessHasAtLeast1Miss_CorrectLocationIsMissed()
+        public void Missed_GuessHasAtLeast1Miss_CorrectLocationIsMissed()
         {
             var guessResult = ArrangeAndAnalyze(userGuess: "bxngo");
 
@@ -32,15 +32,15 @@ namespace WordleTests
         }
 
         [Test]
-        public void GuessResult_GuessHasAtLeast1PartialMatch_CorrectLocationIsPartialMatch()
+        public void IsPartialMatch_GuessHasAtLeast1PartialMatch_CorrectLocationIsPartialMatch()
         {
             var guessResult = ArrangeAndAnalyze(userGuess: "xxxxi");
 
             Assert.IsTrue(guessResult.At(4).IsPartialMatch());
         }
 
-        [Test]  
-        public void GuessResult_GuessHasAnExactMatch_LocationOfExactMatchIsNotPartialMatch()
+        [Test] // Not sure this test is logically neccessary
+        public void IsExactMatchIsPartialMatch_GuessHasAnExactMatch_LocationOfExactMatchIsNotPartialMatch()
         {
             
             var guessResult = ArrangeAndAnalyze(userGuess: "bxxxx");
@@ -51,7 +51,7 @@ namespace WordleTests
 
 
         [Test] // Not sure this test is logically neccessary
-        public void GuessResult_GuessHasAPartialMatch_LocationOfPartialMatchIsNotExactMatch()
+        public void IsPartialMatchIsExactMatch_GuessHasAPartialMatch_LocationOfPartialMatchIsNotExactMatch()
         {
             
             var guessResult = ArrangeAndAnalyze(userGuess: "xgxxi");
@@ -60,5 +60,16 @@ namespace WordleTests
                             && guessResult.At(1).IsExactMatch() == false);
         }
 
+        [Test]
+        public void IsCorrect_GuessHasAllExactMatches_IsCorrectWhenAllLettersMatch()
+        {
+            string userGuess = string.Copy(answer);
+            var analyzer = new GuessAnalyzer(answer);
+
+            var guessResult = analyzer.Analyze(userGuess);
+
+            Assert.AreEqual(WordleGame.NumLettersInWord, guessResult.GetNumExactMatches());
+            Assert.IsTrue(guessResult.IsCorrect());
+        }
     }
 }
