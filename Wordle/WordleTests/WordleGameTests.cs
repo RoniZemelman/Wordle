@@ -179,7 +179,7 @@ namespace WordleTests
         }
 
         [Test] // Maybe Change - Granularity test for validator object
-        public static void PlayTurn_ValidatorInvalidsFor1Reason_ValidatorOutputHasOnlyOneFalseField()
+        public static void PlayTurn_ValidatorInvalidatesFor1Reason_ValidatorOutputHasOnly1FalseField()
         {
             // Arrange
             var guessNot5Letters = "TooLong";
@@ -200,8 +200,27 @@ namespace WordleTests
             Assert.IsTrue(validatorResult.IsAllChars && validatorResult.IsInDictionary);
         }
         
-        // Test - StatusWins when UserGuess Has Exact Match
-        // Test - Status Lost when UserGuess 5 times without exact match
+        [Test]
+        public static void PlayTurn_CorrectGuessBeforeLastTry_StatusWin()
+        {
+            // Arrange
+            var incorrectGuess = "guess";
+            var correctGuess = "bingo";
 
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(d => d.Validate("")).IgnoreArguments().Return(new ValidatorResult(true, true, true));
+
+            var wordleGame = new WordleGame(mockValidator);
+            var valResultdontCare = new ValidatorResult();
+            
+            // Act 
+            wordleGame.PlayTurn(incorrectGuess, out valResultdontCare);
+            wordleGame.PlayTurn(correctGuess, out valResultdontCare);
+
+            // Assert
+            Assert.IsTrue(false);
+            //Assert.AreEqual(WordleGame.State.Won, wordleGame.Status());
+        }
+        
     }
 }

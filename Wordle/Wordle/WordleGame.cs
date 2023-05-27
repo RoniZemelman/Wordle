@@ -10,7 +10,7 @@ namespace Wordle
     {
         public enum State  // convention for naming enums?
         {
-            IsRunning
+            IsRunning,
         }
 
         public const int MaxNumOfTurns = 5;
@@ -18,16 +18,18 @@ namespace Wordle
 
         private readonly IWordValidator validator;
         private int numTurnsRemaining;
+        private State status;
 
         public WordleGame(IWordValidator validator)
         {
             this.validator = validator;
-            this.numTurnsRemaining = MaxNumOfTurns; 
+            this.numTurnsRemaining = MaxNumOfTurns;
+            this.status = State.IsRunning;
         }
 
         public State Status()
         {
-            return State.IsRunning;
+            return status;
         }
 
         public int TurnsRemaining()
@@ -43,6 +45,11 @@ namespace Wordle
                 return null;
             }
             
+            if (new GuessAnalyzer("bingo").Analyze(userGuess).GetNumExactMatches() == 5)
+            {
+                //
+            }    
+
             --numTurnsRemaining;
 
             return new GuessResult();
