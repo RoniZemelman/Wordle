@@ -21,7 +21,7 @@ namespace Wordle
         private int numTurnsRemaining;
         private State status;
 
-        public WordleGame(IWordValidator validator)
+        public WordleGame(string answer, IWordValidator validator)
         {
             this.validator = validator;
             this.numTurnsRemaining = MaxNumOfTurns;
