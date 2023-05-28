@@ -69,7 +69,7 @@ namespace WordleTests
             var guessResult = analyzer.Analyze(userGuess);
 
             Assert.AreEqual(WordleGame.NumLettersInWord, guessResult.GetNumExactMatches());
-            Assert.IsTrue(guessResult.IsCorrect());
+            Assert.IsTrue(guessResult.IsCorrectGuess());
         }
     }
 }

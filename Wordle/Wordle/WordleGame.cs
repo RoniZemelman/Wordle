@@ -46,7 +46,7 @@ namespace Wordle
                 status = State.Lost;
             }
 
-            if (guessResult.IsCorrect())
+            if (guessResult.IsCorrectGuess())
             {
                 status = State.Won;
             }            

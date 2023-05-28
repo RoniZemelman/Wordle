@@ -40,7 +40,7 @@ namespace Wordle
                                                                                      // instantiation of GuessItem (see ctor)
         }
 
-        public bool IsCorrect()
+        public bool IsCorrectGuess()
         {
             return GetNumExactMatches() == WordleGame.NumLettersInWord;
         }
