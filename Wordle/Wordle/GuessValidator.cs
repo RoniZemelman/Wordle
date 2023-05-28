@@ -5,7 +5,7 @@ namespace Wordle
 {
     public class GuessValidator : IWordValidator
     {
-        public class ValidatorResult
+        public class ValidatorResult 
         {
             private readonly bool is5Letters;
             private readonly bool isAllChars;

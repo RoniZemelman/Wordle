@@ -197,7 +197,7 @@ namespace WordleTests
             wordleGame.PlayTurn(guessNot5Letters, out validatorResult);
 
             // Assert
-            Assert.IsFalse(validatorResult.Is5Letters); // Remove?
+            Assert.IsFalse(validatorResult.Is5Letters); // Make ValidatorResult class implement IEnumerable -> use Count(..)?
             Assert.IsTrue(validatorResult.IsAllChars && validatorResult.IsInDictionary);
         }
         
@@ -225,7 +225,7 @@ namespace WordleTests
         [TestCase(1)]
         [TestCase(3)]
         [TestCase(WordleGame.MaxNumOfTurns - 1)]
-        public static void PlayTurn_PlayedUpToMaxMinus1TurnsWithIncorredGuess_StatusIsRunning(int numOfTurns)
+        public static void PlayTurn_PlayedUpToMaxMinus1TurnsWithIncorrectGuess_StatusIsRunning(int numOfTurns)
         {
             // Arrange
             var incorrectGuess = "guess";
@@ -293,7 +293,7 @@ namespace WordleTests
             // Arrange
             var answer = "bingo";
             var incorrectGuess = "wrong";
-            var correctGuess = "bingo";
+            var correctGuessForFinalTurn = "bingo";
 
             var mockValidator = CreateAndConfigureMockValidator(true);
 
@@ -306,7 +306,7 @@ namespace WordleTests
                 wordleGame.PlayTurn(incorrectGuess, out valResultdontCare);
             }
 
-            wordleGame.PlayTurn(correctGuess, out valResultdontCare);
+            wordleGame.PlayTurn(correctGuessForFinalTurn, out valResultdontCare);
 
             // Assert
             Assert.AreEqual(WordleGame.State.Won, wordleGame.Status());
