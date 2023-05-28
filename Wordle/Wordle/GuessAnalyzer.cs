@@ -51,7 +51,7 @@ public class GuessAnalyzer
                 CheckForPartialMatch(guessLetter, out _isPartialMatch);
             }
 
-            guessResult.setItemAt(i++, guessLetter,
+            guessResult.SetItemAt(i++, guessLetter,
                                 isExactMatch: _isExactMatch, isPartialMatch: _isPartialMatch);
         }
 

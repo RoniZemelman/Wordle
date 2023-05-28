@@ -23,7 +23,7 @@ namespace WordleTests
             var mockValidator = CreateAndConfigureMockValidator(false);
             
             // Act
-            var wordleGame = new WordleGame("dontCareAboutAnswer", mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             // Assert
             Assert.AreEqual(WordleGame.MaxNumOfTurns, wordleGame.TurnsRemaining());
@@ -36,7 +36,7 @@ namespace WordleTests
             var mockValidator = CreateAndConfigureMockValidator(false);
 
             // Act
-            var wordleGame = new WordleGame("dontCareAboutAnswer", mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             // Assert
             Assert.AreEqual(WordleGame.State.IsRunning, wordleGame.Status());
@@ -54,7 +54,7 @@ namespace WordleTests
 
             var dontCare = new ValidatorResult();
 
-            var wordleGame = new WordleGame("dontCareAboutAnswer", mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
             
             // Act
             wordleGame.PlayTurn(userGuess, out dontCare);
@@ -74,7 +74,7 @@ namespace WordleTests
 
             var mockValidator = CreateAndConfigureMockValidator(false);
 
-            var wordleGame = new WordleGame("dontCareAboutAnswer", mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             int initialTurnsRemaining = wordleGame.TurnsRemaining();
 
@@ -94,7 +94,7 @@ namespace WordleTests
             var userGuess = "valid";
             var mockValidator = CreateAndConfigureMockValidator(true);
 
-            var wordleGame = new WordleGame("dontCareAboutAnswer", mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
             
             var dontCare = new ValidatorResult();
 
@@ -116,7 +116,7 @@ namespace WordleTests
 
             var dontCare = new ValidatorResult();
 
-            var wordleGame = new WordleGame("dontCareAboutAnswer", mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             // Act
             var playTurnResult =  wordleGame.PlayTurn(userGuess, out dontCare);
@@ -134,7 +134,7 @@ namespace WordleTests
 
             var dontCare = new ValidatorResult();
 
-            var wordleGame = new WordleGame("dontCareAboutAnswer", mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             // Act
             var playTurnResult = wordleGame.PlayTurn(userGuess, out dontCare);
@@ -150,7 +150,7 @@ namespace WordleTests
             var validUserGuess = "valid";
             var mockValidator = CreateAndConfigureMockValidator(true);
 
-            var wordleGame = new WordleGame("dontCareAboutAnswer", mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             var validatorResult = new ValidatorResult();
 
@@ -168,7 +168,7 @@ namespace WordleTests
             var userGuess = "InvalidGuess";
             var mockValidator = CreateAndConfigureMockValidator(false);
 
-            var wordleGame = new WordleGame("dontCareAboutAnswer", mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             var validatorResult = new ValidatorResult();
 
@@ -189,7 +189,7 @@ namespace WordleTests
                 .Return(new ValidatorResult(is5Letters:false,
                                             isAllChars: true, isInDictionary:true));
 
-            var wordleGame = new WordleGame("dontCareAboutAnswer", mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             var validatorResult = new ValidatorResult();
 
@@ -211,7 +211,7 @@ namespace WordleTests
 
             var mockValidator = CreateAndConfigureMockValidator(true);
 
-            var wordleGame = new WordleGame(answer, mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator);
             var valResultdontCare = new ValidatorResult();
             
             // Act 
@@ -233,7 +233,7 @@ namespace WordleTests
 
             var mockValidator = CreateAndConfigureMockValidator(true);
 
-            var wordleGame = new WordleGame(answer, mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator);
             var valResultdontCare = new ValidatorResult();
 
             // Act 
@@ -255,7 +255,7 @@ namespace WordleTests
 
             var mockValidator = CreateAndConfigureMockValidator(true);
 
-            var wordleGame = new WordleGame(answer, mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator);
             var valResultdontCare = new ValidatorResult();
 
             // Act 
@@ -277,7 +277,7 @@ namespace WordleTests
 
             var mockValidator = CreateAndConfigureMockValidator(true);
 
-            var wordleGame = new WordleGame(answer, mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator);
             var valResultdontCare = new ValidatorResult();
 
             // Act 
@@ -297,7 +297,7 @@ namespace WordleTests
 
             var mockValidator = CreateAndConfigureMockValidator(true);
 
-            var wordleGame = new WordleGame(answer, mockValidator);
+            var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator);
             var valResultdontCare = new ValidatorResult();
 
             // Act 

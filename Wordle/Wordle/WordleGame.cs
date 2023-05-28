@@ -4,6 +4,9 @@ namespace Wordle
 {
     public class WordleGame
     {
+        public const int MaxNumOfTurns = 5;
+        public const int NumLettersInWord = 5;  // Part of the WordleGame Logic?
+
         public enum State  // convention for naming enums?
         {
             IsRunning,
@@ -11,17 +14,14 @@ namespace Wordle
             Lost
         }
 
-        public const int MaxNumOfTurns = 5;
-        public const int NumLettersInWord = 5;  // Part of the WordleGame Logic?
-
         private GuessAnalyzer guessAnalyzer; 
         private readonly IWordValidator validator;
         private int numTurnsRemaining;
         private State status;
 
-        public WordleGame(string answer, IWordValidator validator)
+        public WordleGame(GuessAnalyzer guessAnalyzer, IWordValidator validator)
         {
-            this.guessAnalyzer = new GuessAnalyzer(answer); // Accept as param?
+            this.guessAnalyzer = guessAnalyzer; 
             this.validator = validator;
             this.numTurnsRemaining = MaxNumOfTurns;
             this.status = State.IsRunning;
