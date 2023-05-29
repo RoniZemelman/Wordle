@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Wordle;
 
-public class GuessAnalyzer
+public class GuessAnalyzer : IGuessAnalyzer
 {
     private readonly string answer;
     private bool[] letterIsMatched;

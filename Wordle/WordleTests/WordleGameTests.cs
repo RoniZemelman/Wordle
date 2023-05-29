@@ -16,6 +16,21 @@ namespace WordleTests
             return mockValidator;
         }
 
+        private static IGuessAnalyzer CreateMockGuessAnalyzer()
+        {
+            var mockGuessAnalzer = MockRepository.GenerateStub<IGuessAnalyzer>();
+
+            GuessResult mockGuessResultDontCare = new GuessResult();
+            for (int i = 0; i < WordleGame.NumLettersInWord; ++i)
+            {
+                mockGuessResultDontCare.SetItemAt(i, '*', false, false);
+            }
+
+            mockGuessAnalzer.Stub(g => g.Analyze("")).IgnoreArguments().Return(mockGuessResultDontCare);
+
+            return mockGuessAnalzer;
+        }
+
         [Test]
         public static void Constructor_WordleGameCreated_MaxNumTurnsRemaining()
         {
@@ -63,8 +78,46 @@ namespace WordleTests
             mockValidator.AssertWasCalled(v => v.Validate(userGuess));
         }
 
-        // TODO - inject GuessAnalyzer as param, then test that its called after validator
-        // And that it is not called when validator invalidates
+        [Test]
+        public static void PlayTurn_ValidatorInvalidatesUserGuess_GuessAnalyzerIsNotCalled()
+        {
+            // Arrange 
+            var userGuess = "valid";
+            var mockInvalidatingValidator = CreateAndConfigureMockValidator(false);
+
+            var mockGuessAnalzer = CreateMockGuessAnalyzer();
+
+            var wordleGame = new WordleGame(mockGuessAnalzer, mockInvalidatingValidator);
+
+            var dontCare = new ValidatorResult();
+
+            // Act
+            wordleGame.PlayTurn(userGuess, out dontCare);
+
+            // Assert
+            mockGuessAnalzer.AssertWasNotCalled(v => v.Analyze(userGuess));
+        }
+
+        [Test]
+        public static void PlayTurn_ValidatorValidatesUserGuess_GuessAnalyzerIsCalled()
+        {
+            // Arrange 
+            var userGuess = "valid";
+            var mockValidatingValidator = CreateAndConfigureMockValidator(true);
+
+            var mockGuessAnalzer = CreateMockGuessAnalyzer();
+
+            var wordleGame = new WordleGame(mockGuessAnalzer, mockValidatingValidator);
+
+            var dontCare = new ValidatorResult();
+
+            // Act
+            wordleGame.PlayTurn(userGuess, out dontCare);
+
+            // Assert
+            mockGuessAnalzer.AssertWasCalled(v => v.Analyze(userGuess));
+        }
+
 
         [Test]
         public static void PlayTurn_ValidatorInvalidatesUserGuess_RemainingTurnsUnchanged()

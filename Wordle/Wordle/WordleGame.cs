@@ -14,12 +14,12 @@ namespace Wordle
             Lost
         }
 
-        private GuessAnalyzer guessAnalyzer; 
+        private IGuessAnalyzer guessAnalyzer; 
         private readonly IWordValidator validator;
         private int numTurnsRemaining;
         private State status;
 
-        public WordleGame(GuessAnalyzer guessAnalyzer, IWordValidator validator)
+        public WordleGame(IGuessAnalyzer guessAnalyzer, IWordValidator validator)
         {
             this.guessAnalyzer = guessAnalyzer; 
             this.validator = validator;
