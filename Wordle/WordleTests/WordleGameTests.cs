@@ -2,6 +2,7 @@
 using Rhino.Mocks;
 using Wordle;
 using static Wordle.GuessValidator;
+using static Wordle.GuessResult;
 
 namespace WordleTests
 {
@@ -19,11 +20,13 @@ namespace WordleTests
         private static IGuessAnalyzer CreateMockGuessAnalyzer()
         {
             var mockGuessAnalzer = MockRepository.GenerateStub<IGuessAnalyzer>();
-
+         
             GuessResult mockGuessResultDontCare = new GuessResult();
+            const char dontCare = '*';
+
             for (int i = 0; i < WordleGame.NumLettersInWord; ++i)
             {
-                mockGuessResultDontCare.SetItemAt(i, '*', false, false);
+                mockGuessResultDontCare.SetItemAt(i, new GuessItem(dontCare));
             }
 
             mockGuessAnalzer.Stub(g => g.Analyze("")).IgnoreArguments().Return(mockGuessResultDontCare);
@@ -60,7 +63,7 @@ namespace WordleTests
         [Test]
         [TestCase("valid")]
         [TestCase("notValid")]
-        public static void PlayTurn_PlayTurnInvoked_ValidatorIsCalled(string userGuess)
+        public static void PlayTurn_PlayTurnInvoked_ValidatorIsAlwaysCalled(string userGuess)
         {
             // Arrange 
             var mockValidator = MockRepository.GenerateStub<IWordValidator>();
@@ -331,10 +334,10 @@ namespace WordleTests
             var mockValidator = CreateAndConfigureMockValidator(true);
 
             var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator);
-            var valResultdontCare = new ValidatorResult();
+            var dontCare = new ValidatorResult();
 
             // Act 
-            var guessResult = wordleGame.PlayTurn(correctGuess, out valResultdontCare);
+            var guessResult = wordleGame.PlayTurn(correctGuess, out dontCare);
 
             // Assert
             Assert.IsTrue(guessResult.IsCorrectGuess());
@@ -351,15 +354,15 @@ namespace WordleTests
             var mockValidator = CreateAndConfigureMockValidator(true);
 
             var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator);
-            var valResultdontCare = new ValidatorResult();
+            var dontCare = new ValidatorResult();
 
             // Act 
             for (int turnNum = 0; turnNum < WordleGame.MaxNumOfTurns - 1; ++turnNum)
             {
-                wordleGame.PlayTurn(incorrectGuess, out valResultdontCare);
+                wordleGame.PlayTurn(incorrectGuess, out dontCare);
             }
 
-            wordleGame.PlayTurn(correctGuessForFinalTurn, out valResultdontCare);
+            wordleGame.PlayTurn(correctGuessForFinalTurn, out dontCare);
 
             // Assert
             Assert.AreEqual(WordleGame.State.Won, wordleGame.Status());

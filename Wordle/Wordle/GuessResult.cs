@@ -34,11 +34,10 @@ namespace Wordle
             // guessItems array lazily constructed when needed...Pros/Cons?
         }
         
-        public void SetItemAt(int index, char letter, bool isExactMatch, bool isPartialMatch)
+        public void SetItemAt(int index, GuessItem guessItem)
         {
-            guessItems[index] = new GuessItem(letter, isExactMatch, isPartialMatch);  // TODO: Make sure this is not double
-                                                                                     // instantiation of GuessItem (see ctor)
-        }
+            guessItems[index] = guessItem;
+        }                                                                               
 
         public bool IsCorrectGuess()
         {

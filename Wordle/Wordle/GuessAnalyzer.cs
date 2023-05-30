@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using Wordle;
+﻿using Wordle;
+using static Wordle.GuessResult;
 
 public class GuessAnalyzer : IGuessAnalyzer
 {
@@ -15,7 +15,9 @@ public class GuessAnalyzer : IGuessAnalyzer
     {
         foundPartialMatch = false;
 
-        for (int answerIndex = 0; answerIndex < 5; ++answerIndex)
+        for (int answerIndex = 0; 
+            answerIndex < WordleGame.NumLettersInWord; 
+            ++answerIndex)
         { 
             if (currGuessLetter == answer[answerIndex] 
                 && letterIsMatched[answerIndex] == false)
@@ -32,7 +34,7 @@ public class GuessAnalyzer : IGuessAnalyzer
     public GuessResult Analyze(string userGuess)
     {
         GuessResult guessResult = new GuessResult();
-        letterIsMatched = new bool[5];
+        letterIsMatched = new bool[WordleGame.NumLettersInWord];
 
         int i = 0;
         foreach (char guessLetter in userGuess)
@@ -51,8 +53,7 @@ public class GuessAnalyzer : IGuessAnalyzer
                 CheckForPartialMatch(guessLetter, out _isPartialMatch);
             }
 
-            guessResult.SetItemAt(i++, guessLetter,
-                                isExactMatch: _isExactMatch, isPartialMatch: _isPartialMatch);
+            guessResult.SetItemAt(i++, new GuessItem(guessLetter, _isExactMatch, _isPartialMatch));
         }
 
         return guessResult;
