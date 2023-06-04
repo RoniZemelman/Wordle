@@ -21,15 +21,17 @@ namespace WordleTests
         {
             var mockGuessAnalzer = MockRepository.GenerateStub<IGuessAnalyzer>();
          
-            GuessResult mockGuessResultDontCare = new GuessResult();
+            GuessResult incorrectGuessResult = new GuessResult();
             const char dontCare = '*';
 
             for (int i = 0; i < WordleGame.NumLettersInWord; ++i)
             {
-                mockGuessResultDontCare.SetItemAt(i, new GuessItem(dontCare));
+                incorrectGuessResult.SetItemAt(i, new GuessItem(dontCare, 
+                                                                isExactMatch: false, 
+                                                                isPartialMatch: false));
             }
-
-            mockGuessAnalzer.Stub(g => g.Analyze("")).IgnoreArguments().Return(mockGuessResultDontCare);
+            
+            mockGuessAnalzer.Stub(g => g.Analyze("")).IgnoreArguments().Return(incorrectGuessResult);
 
             return mockGuessAnalzer;
         }
