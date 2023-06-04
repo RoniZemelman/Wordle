@@ -17,7 +17,7 @@ namespace WordleTests
             return mockValidator;
         }
 
-        public static IGuessAnalyzer CreateMockGuessAnalyzer()
+        public static IGuessAnalyzer CreateMockGuessAnalyzerReturnsIncorrect()
         {
             var mockGuessAnalzer = MockRepository.GenerateStub<IGuessAnalyzer>();
          
@@ -111,7 +111,7 @@ namespace WordleTests
             var userGuessNotValidated = "NotValid";
             var mockInvalidatingValidator = CreateAndConfigureMockValidator(false);
 
-            var mockGuessAnalzer = CreateMockGuessAnalyzer();
+            var mockGuessAnalzer = CreateMockGuessAnalyzerReturnsIncorrect();
 
             var wordleGame = new WordleGame(mockGuessAnalzer, mockInvalidatingValidator);
 
@@ -131,7 +131,7 @@ namespace WordleTests
             var userGuess = "valid";
             var mockValidatingValidator = CreateAndConfigureMockValidator(true);
 
-            var mockGuessAnalzer = CreateMockGuessAnalyzer();
+            var mockGuessAnalzer = CreateMockGuessAnalyzerReturnsIncorrect();
 
             var wordleGame = new WordleGame(mockGuessAnalzer, mockValidatingValidator);
 

@@ -29,5 +29,10 @@ namespace Wordle
         {
             return wordleGame.Status() == WordleGame.State.Won;
         }
+
+        public bool UserLost()
+        {
+            return wordleGame.Status() == WordleGame.State.Lost;
+        }
     }
 }
