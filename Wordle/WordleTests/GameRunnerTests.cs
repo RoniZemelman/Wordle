@@ -2,6 +2,7 @@
 using Rhino.Mocks;
 using Wordle;
 using static Wordle.GuessValidator;
+using static WordleTests.WordleGameTests;
 
 namespace WordleTests
 {
@@ -21,29 +22,51 @@ namespace WordleTests
             var gameRunner = new GameRunner(wordleGame);
 
             // Assert
-            Assert.IsTrue(gameRunner.UserIsAlive());
+            Assert.IsTrue(gameRunner.UserIsAlive());  
         }
 
-        public static void AcceptUserGuess_CorrectUserGuessEntered_IsWon()
+        [Test]
+        public static void AcceptUserGuess_UserEnteredCorrectGuess_UserWon()
         {
-            //// Arrange 
-            //var mockValidator = MockRepository.GenerateStub<IWordValidator>();
-            //var mockValidator = MockRepository.GenerateStub<IWordValidator>();
-            //mockValidator.Stub(v => v.Validate("")).IgnoreArguments()
-            //    .Return(new ValidatorResult(true, true, true)); 
+            // Arrange 
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(v => v.Validate("")).IgnoreArguments()
+                .Return(new ValidatorResult(true, true, true));
+
+            var answer = "bingo";
+            var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator);
+            var gameRunner = new GameRunner(wordleGame);
+
+            var enteredUserGuess = answer;
+
+            // Act
+            gameRunner.EnterUserGuess(enteredUserGuess);
             
-            //var wordleGame = new WordleGame(new GuessAnalyzer("bingo"), mockValidator);
-            //var gameRunner = new GameRunner(wordleGame);
-
-            //var enteredUserGuessDontCare = "dontCare";
-
-            //// Act
-            //gameRunner.AcceptUserGuess(enteredUserGuessDontCare);
-
-            //Assert.IsTrue(gameRunner.IsRunning());
+            Assert.IsTrue(gameRunner.UserWon());
         }
 
-       
+        [Test]
+        public static void AcceptUserGuess_UserEnteredIncorrectGuess_UserIsAlive()
+        {
+            // Arrange 
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(v => v.Validate("")).IgnoreArguments()
+                .Return(new ValidatorResult(true, true, true));
+
+            var mockGuessAnalyzer = CreateMockGuessAnalyzer(); // static method in WordleGameTests, TODO: refactor
+
+            var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidator);
+            var gameRunner = new GameRunner(wordleGame);
+
+            var enteredUserGuess = "incorrect";
+
+            // Act
+            gameRunner.EnterUserGuess(enteredUserGuess);
+
+            Assert.IsTrue(gameRunner.UserIsAlive());
+            Assert.IsFalse(gameRunner.UserWon());
+        }
+
 
     }
 }

@@ -8,14 +8,26 @@ namespace Wordle
 {
     public class GameRunner
     {
-        public GameRunner(WordleGame game)
+        private WordleGame wordleGame;
+        public GameRunner(WordleGame wordleGame)
         {
+            this.wordleGame = wordleGame;
+        }
 
+        public void EnterUserGuess(string userGuess)
+        {
+            var validatorResult = new GuessValidator.ValidatorResult();
+            wordleGame.PlayTurn(userGuess, out validatorResult);
         }
     
         public bool UserIsAlive()
         {
-            return true;
+            return wordleGame.Status() == WordleGame.State.IsAlive;
+        }
+
+        public bool UserWon()
+        {
+            return wordleGame.Status() == WordleGame.State.Won;
         }
     }
 }

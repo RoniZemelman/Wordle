@@ -17,7 +17,7 @@ namespace WordleTests
             return mockValidator;
         }
 
-        private static IGuessAnalyzer CreateMockGuessAnalyzer()
+        public static IGuessAnalyzer CreateMockGuessAnalyzer()
         {
             var mockGuessAnalzer = MockRepository.GenerateStub<IGuessAnalyzer>();
          
