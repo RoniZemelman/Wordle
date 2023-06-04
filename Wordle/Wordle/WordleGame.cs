@@ -9,7 +9,7 @@ namespace Wordle
 
         public enum State  // convention for naming enums?
         {
-            IsRunning,
+            IsAlive,
             Won,
             Lost
         }
@@ -24,7 +24,7 @@ namespace Wordle
             this.guessAnalyzer = guessAnalyzer; 
             this.validator = validator;
             this.numTurnsRemaining = MaxNumOfTurns;
-            this.status = State.IsRunning;
+            this.status = State.IsAlive;
         }
 
         public State Status()
