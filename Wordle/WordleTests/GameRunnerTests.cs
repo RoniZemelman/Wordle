@@ -2,31 +2,12 @@
 using Rhino.Mocks;
 using Wordle;
 using static Wordle.GuessValidator;
-using static WordleTests.WordleGameTests;
-using static Wordle.GuessResult;
+using static WordleTests.Utils;
 
 namespace WordleTests
 {
     class GameRunnerTests
     {
-        public static IGuessAnalyzer CreateMockGuessAnalyzerReturnsCorrect()
-        {
-            var mockGuessAnalzer = MockRepository.GenerateStub<IGuessAnalyzer>();
-
-            GuessResult winningGuessResult = new GuessResult();
-
-            for (int i = 0; i < WordleGame.NumLettersInWord; ++i)
-            {
-                winningGuessResult.SetItemAt(i, new GuessItem('*', isExactMatch: true, 
-                                                                        isPartialMatch: false ));
-            }
-
-            mockGuessAnalzer.Stub(g => g.Analyze("")).IgnoreArguments().Return(winningGuessResult);
-
-            return mockGuessAnalzer;
-        }
-
-
         [Test]
         public static void Constructor_GameRunnerConstructed_UserIsAlive()
         {
@@ -61,7 +42,7 @@ namespace WordleTests
             var correctUserGuess = "doesntMatterWillBeAcceptedasCorrectAnswer";
 
             // Act
-            gameRunner.EnterUserGuess(correctUserGuess);
+            gameRunner.AcceptUserGuess(correctUserGuess);
             
             Assert.IsTrue(gameRunner.UserWon());
         }
@@ -82,7 +63,7 @@ namespace WordleTests
             var enteredUserGuess = "incorrect";
 
             // Act
-            gameRunner.EnterUserGuess(enteredUserGuess);
+            gameRunner.AcceptUserGuess(enteredUserGuess);
 
             Assert.IsTrue(gameRunner.UserIsAlive());
             Assert.IsFalse(gameRunner.UserWon());
@@ -106,7 +87,7 @@ namespace WordleTests
             // Act
             for (int turn = 0; turn < WordleGame.MaxNumOfTurns; ++turn)
             {
-                gameRunner.EnterUserGuess(incorrectUserGuess);
+                gameRunner.AcceptUserGuess(incorrectUserGuess);
             }
 
             Assert.IsTrue(gameRunner.UserLost());

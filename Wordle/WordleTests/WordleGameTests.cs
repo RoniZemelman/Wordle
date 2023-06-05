@@ -2,40 +2,13 @@
 using Rhino.Mocks;
 using Wordle;
 using static Wordle.GuessValidator;
-using static Wordle.GuessResult;
+using static WordleTests.Utils;
+
 
 namespace WordleTests
 {
     class WordleGameTests
-    { 
-        private static IWordValidator CreateAndConfigureMockValidator(bool validatorValue)
-        {
-            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
-            mockValidator.Stub(v => v.Validate("")).IgnoreArguments()
-                .Return(new ValidatorResult(validatorValue, validatorValue, validatorValue));
-
-            return mockValidator;
-        }
-
-        public static IGuessAnalyzer CreateMockGuessAnalyzerReturnsIncorrect()
-        {
-            var mockGuessAnalzer = MockRepository.GenerateStub<IGuessAnalyzer>();
-         
-            GuessResult incorrectGuessResult = new GuessResult();
-            const char dontCare = '*';
-
-            for (int i = 0; i < WordleGame.NumLettersInWord; ++i)
-            {
-                incorrectGuessResult.SetItemAt(i, new GuessItem(dontCare, 
-                                                                isExactMatch: false, 
-                                                                isPartialMatch: false));
-            }
-            
-            mockGuessAnalzer.Stub(g => g.Analyze("")).IgnoreArguments().Return(incorrectGuessResult);
-
-            return mockGuessAnalzer;
-        }
-
+    {         
         [Test]
         public static void Constructor_WordleGameCreated_MaxNumTurnsRemaining()
         {

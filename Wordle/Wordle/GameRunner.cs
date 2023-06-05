@@ -14,7 +14,7 @@ namespace Wordle
             this.wordleGame = wordleGame;
         }
 
-        public void EnterUserGuess(string userGuess)
+        public void AcceptUserGuess(string userGuess)
         {
             var validatorResult = new GuessValidator.ValidatorResult();
             wordleGame.PlayTurn(userGuess, out validatorResult);
