@@ -16,40 +16,32 @@ namespace WordleTests
             return mockValidator;
         }
 
-        public static IGuessAnalyzer CreateMockGuessAnalyzerReturnsCorrect()
+        private static IGuessAnalyzer CreateMockAnalyzer(bool _isExactMatch)
         {
             var mockGuessAnalzer = MockRepository.GenerateStub<IGuessAnalyzer>();
 
-            GuessResult winningGuessResult = new GuessResult();
-
-            for (int i = 0; i < WordleGame.NumLettersInWord; ++i)
-            {
-                winningGuessResult.SetItemAt(i, new GuessItem('*', isExactMatch: true,
-                                                                        isPartialMatch: false));
-            }
-
-            mockGuessAnalzer.Stub(g => g.Analyze("")).IgnoreArguments().Return(winningGuessResult);
-
-            return mockGuessAnalzer;
-        }
-
-        public static IGuessAnalyzer CreateMockGuessAnalyzerReturnsIncorrect()
-        {
-            var mockGuessAnalzer = MockRepository.GenerateStub<IGuessAnalyzer>();
-
-            GuessResult incorrectGuessResult = new GuessResult();
+            GuessResult guessResult = new GuessResult();
             const char dontCare = '*';
 
             for (int i = 0; i < WordleGame.NumLettersInWord; ++i)
             {
-                incorrectGuessResult.SetItemAt(i, new GuessItem(dontCare,
-                                                                isExactMatch: false,
-                                                                isPartialMatch: false));
+                guessResult.SetItemAt(i, new GuessItem(dontCare, isExactMatch: _isExactMatch,
+                                                                        isPartialMatch: false));
             }
 
-            mockGuessAnalzer.Stub(g => g.Analyze("")).IgnoreArguments().Return(incorrectGuessResult);
+            mockGuessAnalzer.Stub(g => g.Analyze("")).IgnoreArguments().Return(guessResult);
 
             return mockGuessAnalzer;
+        }
+
+        public static IGuessAnalyzer CreateMockGuessAnalyzerReturnsCorrect()
+        {
+            return CreateMockAnalyzer(true);
+        }
+
+        public static IGuessAnalyzer CreateMockGuessAnalyzerReturnsIncorrect()
+        {
+            return CreateMockAnalyzer(false);
         }
 
     }
