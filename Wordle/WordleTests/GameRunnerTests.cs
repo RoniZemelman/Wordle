@@ -39,14 +39,15 @@ namespace WordleTests
             var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidator);
             var gameRunner = new GameRunner(wordleGame);
 
-            var correctUserGuess = "doesntMatterWillBeAcceptedasCorrectAnswer";
+            var correctUserGuess = "willBeAcceptedasCorrectAnswer";
 
             // Act
             gameRunner.AcceptUserGuess(correctUserGuess);
-            
+
+            // Assert
             Assert.IsTrue(gameRunner.UserWon());
         }
-
+       
         [Test]
         public static void AcceptUserGuess_UserEnteredIncorrectGuess_UserIsAlive()
         {
@@ -65,6 +66,7 @@ namespace WordleTests
             // Act
             gameRunner.AcceptUserGuess(enteredUserGuess);
 
+            // Assert
             Assert.IsTrue(gameRunner.UserIsAlive());
             Assert.IsFalse(gameRunner.UserWon());
         }
@@ -82,7 +84,7 @@ namespace WordleTests
             var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidator);
             var gameRunner = new GameRunner(wordleGame);
 
-            var incorrectUserGuess = "IncorrectGuessDontCare";
+            var incorrectUserGuess = "anIncorrectGuess";
 
             // Act
             for (int turn = 0; turn < WordleGame.MaxNumOfTurns; ++turn)
@@ -90,14 +92,40 @@ namespace WordleTests
                 gameRunner.AcceptUserGuess(incorrectUserGuess);
             }
 
+            // Assert
             Assert.IsTrue(gameRunner.UserLost());
+        }
+        [Test] // TODO 
+        public static void AcceptUserGuess_UserAttemptsGuessWhenNotAlive_EXPECTED_BEHAVIOR_TO_BE_DETERMINED()
+        {
+            // Arrange 
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(v => v.Validate("")).IgnoreArguments()
+                .Return(new ValidatorResult(true, true, true));
+
+            var mockGuessAnalyzer = CreateMockGuessAnalyzerReturnsIncorrect();
+
+            var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidator);
+            var gameRunner = new GameRunner(wordleGame);
+
+            var incorrectUserGuess = "anIncorrectGuess";
+
+            // Act
+            for (int turn = 0; turn < WordleGame.MaxNumOfTurns + 1; ++turn)
+            {
+                gameRunner.AcceptUserGuess(incorrectUserGuess);
+            }
+
+            // Assert
+            Assert.IsFalse(true);  // Options: exception thrown by GameRunner,
+                                   // return null or false in AcceptUserGuess, maybe WordleGame responsibility ... 
         }
 
         // TODO  -
-        // 1) user starts with 5 turns, make sure they're updating?
-        // Already tested functionality though in WordleGame...
+        // 1) Expect GameRunner.UserTurnsRemaining()? Already tested functionality though in WordleGame...
         // 2) User attempts to enterGuess when not Alive (won/lost) -> expected behavior
         // could expect exception throughn, simply rejected (no update to state, handled with conditional logic
         // in EnterGuess?
+        // 3) Expect Guess Result and validator result in GameRunner (have them as fields? currGuessResult, currValidatorResult)
     }
 }
