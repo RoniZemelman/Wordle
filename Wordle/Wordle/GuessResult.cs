@@ -32,13 +32,17 @@ namespace Wordle
         {
             ResultOfValidating = null;
             _guessLetterResults = new GuessLetterResult[WordleGame.NumLettersInWord];
-
         }
         
         public void SetItemAt(int index, GuessLetterResult guessLetterResult)
         {
             _guessLetterResults[index] = guessLetterResult;
-        }                                                                               
+        }
+
+        public bool IsValid()
+        {
+            return ResultOfValidating.IsValidGuess();
+        }
 
         public bool IsCorrectGuess()
         {
