@@ -1,5 +1,4 @@
-﻿using static Wordle.GuessValidator;
-
+﻿
 namespace Wordle
 {
     public class WordleGame
@@ -52,8 +51,10 @@ namespace Wordle
             }            
         }
 
-        public GuessResult PlayTurn(string userGuess)
+        public GuessResult PlayTurn(string userGuess, out GuessResult guessResult)
         {
+            guessResult = null; // TODO
+
             var validatorOutResult = _validator.Validate(userGuess);
 
             if (!validatorOutResult.IsValidGuess())
