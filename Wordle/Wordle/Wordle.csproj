@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Wordle.DriverProgram</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -49,8 +52,11 @@
     <Compile Include="GuessAnalyzer.cs" />
     <Compile Include="DriverProgram.cs" />
     <Compile Include="IWordValidator.cs" />
+    <Compile Include="IGuessAnalyzer.cs" />
+    <Compile Include="IEnglishDictionary.cs" />
+    <Compile Include="GuessValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WordleValidator.cs" />
+    <Compile Include="WordleGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
