@@ -51,10 +51,8 @@ namespace Wordle
             }            
         }
 
-        public GuessResult PlayTurn(string userGuess, out GuessResult guessResult)
+        public GuessResult PlayTurn(string userGuess)
         {
-            guessResult = null; // TODO
-
             var validatorOutResult = _validator.Validate(userGuess);
 
             if (!validatorOutResult.IsValidGuess())

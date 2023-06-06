@@ -63,7 +63,7 @@ namespace WordleTests
         [Test]
         public void IsCorrect_GuessHasAllExactMatches_IsCorrectWhenAllLettersMatch()
         {
-            string userGuess = string.Copy(answer);
+            string userGuess = answer;
             var analyzer = new GuessAnalyzer(answer);
 
             var guessResult = analyzer.Analyze(userGuess);

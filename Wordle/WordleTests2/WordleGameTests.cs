@@ -48,8 +48,7 @@ namespace WordleTests
             int initialTurnsRemaining = wordleGame.TurnsRemaining();
 
             // Act
-            GuessResult guessResult = new GuessResult();
-            wordleGame.PlayTurn(userGuess, out guessResult);
+            wordleGame.PlayTurn(userGuess);
 
             // assert
             Assert.AreEqual(initialTurnsRemaining, wordleGame.TurnsRemaining());
@@ -68,8 +67,8 @@ namespace WordleTests
             var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
             
             // Act
-            GuessResult guessResult;
-            wordleGame.PlayTurn("", out guessResult);
+            
+            wordleGame.PlayTurn("");
 
             // Assert
             mockValidator.AssertWasCalled(v => v.Validate(""));
@@ -85,8 +84,8 @@ namespace WordleTests
             var wordleGame = new WordleGame(mockGuessAnalzer, mockInvalidatingValidator);
 
             // Act
-            GuessResult guessResult;
-            wordleGame.PlayTurn(invalidUserGuess, out guessResult);
+            
+            wordleGame.PlayTurn(invalidUserGuess);
 
             // Assert
             mockGuessAnalzer.AssertWasNotCalled(v => v.Analyze(invalidUserGuess));
@@ -104,8 +103,8 @@ namespace WordleTests
             var wordleGame = new WordleGame(mockGuessAnalzer, mockValidatingValidator);
 
             // Act
-            GuessResult guessResult;
-            wordleGame.PlayTurn(userGuess, out guessResult);
+            
+            wordleGame.PlayTurn(userGuess);
 
             // Assert
             mockGuessAnalzer.AssertWasCalled(v => v.Analyze(userGuess));
@@ -124,8 +123,8 @@ namespace WordleTests
             int initialTurnsRemaining = wordleGame.TurnsRemaining();
 
             // Act
-            GuessResult guessResult;
-            wordleGame.PlayTurn(userGuess, out guessResult);
+            
+            wordleGame.PlayTurn(userGuess);
 
             // Assert
             Assert.AreEqual(initialTurnsRemaining - 1, wordleGame.TurnsRemaining());
@@ -141,8 +140,8 @@ namespace WordleTests
             var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             // Act
-            GuessResult guessResult;
-            var playTurnResult =  wordleGame.PlayTurn(userGuess, out guessResult);
+            
+            var playTurnResult =  wordleGame.PlayTurn(userGuess);
 
             // Assert
             Assert.IsInstanceOf(typeof(GuessResult), playTurnResult);
@@ -158,8 +157,8 @@ namespace WordleTests
             var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             // Act
-            GuessResult guessResult;
-            var playTurnResult = wordleGame.PlayTurn(userGuess, out guessResult);
+            
+            var playTurnResult = wordleGame.PlayTurn(userGuess);
 
             // Assert
             Assert.IsNull(playTurnResult);
@@ -177,8 +176,8 @@ namespace WordleTests
          
 
             // Act
-            GuessResult guessResult;
-            wordleGame.PlayTurn(validUserGuess, out guessResult);
+            
+            wordleGame.PlayTurn(validUserGuess);
 
 
             // Assert
@@ -196,8 +195,8 @@ namespace WordleTests
             var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             // Act
-            GuessResult guessResult;
-            wordleGame.PlayTurn(userGuess, out guessResult);
+            
+            wordleGame.PlayTurn(userGuess);
 
             // Assert
             //  TODO Assert GuessResult is a ValidGuess
@@ -217,8 +216,8 @@ namespace WordleTests
             var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             // Act
-            GuessResult guessResult;
-            wordleGame.PlayTurn(guessNot5Letters, out guessResult);
+            
+            wordleGame.PlayTurn(guessNot5Letters);
 
             // Assert
             // TODO Assert validatorResult.ErrorCount is 1
@@ -239,8 +238,8 @@ namespace WordleTests
             var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator);
             
             // Act 
-            GuessResult guessResult;
-            wordleGame.PlayTurn(correctGuess, out guessResult);
+            
+            wordleGame.PlayTurn(correctGuess);
 
             // Assert
             Assert.AreEqual(WordleGame.State.Won, wordleGame.Status());
@@ -263,8 +262,8 @@ namespace WordleTests
             // Act 
             for (int currTurn = 0; currTurn < numOfTurns; ++currTurn)
             {
-                GuessResult guessResult;
-                wordleGame.PlayTurn(incorrectGuess, out guessResult);
+                
+                wordleGame.PlayTurn(incorrectGuess);
             }
 
             // Assert
@@ -283,8 +282,7 @@ namespace WordleTests
             var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator);
 
             // Act 
-            GuessResult guessResult1;
-            var guessResult = wordleGame.PlayTurn(correctGuess, out guessResult1);
+            var guessResult = wordleGame.PlayTurn(correctGuess);
 
             // Assert
             Assert.IsTrue(guessResult.IsCorrectGuess());
@@ -304,8 +302,8 @@ namespace WordleTests
             // Act 
             for (int turnNum = 0; turnNum < WordleGame.MaxNumOfTurns; ++turnNum)
             {
-                GuessResult guessResult;
-                wordleGame.PlayTurn(incorrectGuess, out guessResult);
+                
+                wordleGame.PlayTurn(incorrectGuess);
             }
 
             // Assert
@@ -327,12 +325,11 @@ namespace WordleTests
             // Act 
             for (int turnNum = 0; turnNum < WordleGame.MaxNumOfTurns - 1; ++turnNum)
             {
-                GuessResult guessResult;
-                wordleGame.PlayTurn(incorrectGuess, out guessResult);
+                
+                wordleGame.PlayTurn(incorrectGuess);
             }
 
-            GuessResult guessResult1;
-            wordleGame.PlayTurn(correctGuessForFinalTurn, out guessResult1);
+            wordleGame.PlayTurn(correctGuessForFinalTurn);
 
             // Assert
             Assert.AreEqual(WordleGame.State.Won, wordleGame.Status());
