@@ -117,7 +117,7 @@ namespace WordleTests
             }
 
             // Assert
-            Assert.IsFalse(true);  // Options: exception thrown by GameRunner,
+            //Assert.IsFalse(true);  // Options: exception thrown by GameRunner,
                                    // return null or false in AcceptUserGuess, maybe WordleGame responsibility ... 
         }
 

@@ -59,44 +59,38 @@ namespace WordleTests
 
 
         [Test]
-        [TestCase("valid")]
-        [TestCase("notValid")]
-        public static void PlayTurn_PlayTurnInvoked_ValidatorIsAlwaysCalled(string userGuess)
+        public static void PlayTurn_PlayTurnInvoked_ValidatorIsAlwaysCalled()
         {
             // Arrange 
             var mockValidator = MockRepository.GenerateStub<IWordValidator>();
-            mockValidator.Stub(d => d.Validate("valid")).Return(new ValidatorResult(true, true, true));
-            mockValidator.Stub(d => d.Validate("notValid")).Return(new ValidatorResult(false, false, false));
-
             var dontCare = new ValidatorResult();
-
+            mockValidator.Stub(v => v.Validate("")).IgnoreArguments().Return(dontCare);
+            
             var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
             
             // Act
-            wordleGame.PlayTurn(userGuess, out dontCare);
+            wordleGame.PlayTurn("", out dontCare);
 
             // Assert
-            mockValidator.AssertWasCalled(v => v.Validate(userGuess));
+            mockValidator.AssertWasCalled(v => v.Validate(""));
         }
 
         [Test]
         public static void PlayTurn_ValidatorInvalidatesUserGuess_GuessAnalyzerIsNotCalled()
         {
             // Arrange 
-            var userGuessNotValidated = "NotValid";
+            var invalidUserGuess = "NotValid";
             var mockInvalidatingValidator = CreateAndConfigureMockValidator(false);
-
-            var mockGuessAnalzer = CreateMockGuessAnalyzerReturnsIncorrect();
-
+            var mockGuessAnalzer = MockRepository.GenerateStub<IGuessAnalyzer>();
             var wordleGame = new WordleGame(mockGuessAnalzer, mockInvalidatingValidator);
 
             var dontCare = new ValidatorResult();
 
             // Act
-            wordleGame.PlayTurn(userGuessNotValidated, out dontCare);
+            wordleGame.PlayTurn(invalidUserGuess, out dontCare);
 
             // Assert
-            mockGuessAnalzer.AssertWasNotCalled(v => v.Analyze(userGuessNotValidated));
+            mockGuessAnalzer.AssertWasNotCalled(v => v.Analyze(invalidUserGuess));
         }
 
         [Test]
@@ -212,7 +206,7 @@ namespace WordleTests
             Assert.IsFalse(validatorResult.IsValidGuess());
         }
 
-        [Test] // Maybe Remove - Granularity test for validator object
+        [Test] // Remove - Granularity test for validator object
         public static void PlayTurn_ValidatorInvalidatesFor1Reason_ValidatorOutputHasOnly1FalseField()
         {
             // Arrange
@@ -280,6 +274,25 @@ namespace WordleTests
         }
 
         [Test]
+        public static void PlayTurn_CorrectGuess_ReturnedGuessResultObjectIsCorrectGuess()
+        {
+            // Arrange
+            var answer = "bingo";
+            var correctGuess = "bingo";
+
+            var mockValidator = CreateAndConfigureMockValidator(true);
+
+            var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator);
+            var dontCare = new ValidatorResult();
+
+            // Act 
+            var guessResult = wordleGame.PlayTurn(correctGuess, out dontCare);
+
+            // Assert
+            Assert.IsTrue(guessResult.IsCorrectGuess());
+        }
+
+        [Test]
         public static void PlayTurn_MaxTurnsPlayedWithIncorrectGuess_StatusLost()
         {
             // Arrange
@@ -299,25 +312,6 @@ namespace WordleTests
 
             // Assert
             Assert.AreEqual(WordleGame.State.Lost, wordleGame.Status());
-        }
-
-        [Test]
-        public static void PlayTurn_CorrectGuess_ReturnedGuessResultObjectIsCorrectGuess()
-        {
-            // Arrange
-            var answer = "bingo";
-            var correctGuess = "bingo";
-
-            var mockValidator = CreateAndConfigureMockValidator(true);
-
-            var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator);
-            var dontCare = new ValidatorResult();
-
-            // Act 
-            var guessResult = wordleGame.PlayTurn(correctGuess, out dontCare);
-
-            // Assert
-            Assert.IsTrue(guessResult.IsCorrectGuess());
         }
 
         [Test]

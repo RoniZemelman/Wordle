@@ -3,12 +3,12 @@ using static Wordle.GuessResult;
 
 public class GuessAnalyzer : IGuessAnalyzer
 {
-    private readonly string answer;
-    private bool[] letterIsMatched;
+    private readonly string _answer;
+    private bool[] _letterIsMatched;
 
     public GuessAnalyzer(string answer)
     {
-        this.answer = answer;
+        _answer = answer;
     }
 
     private void CheckForPartialMatch(char currGuessLetter, out bool foundPartialMatch)
@@ -19,12 +19,12 @@ public class GuessAnalyzer : IGuessAnalyzer
             answerIndex < WordleGame.NumLettersInWord; 
             ++answerIndex)
         { 
-            if (currGuessLetter == answer[answerIndex] 
-                && letterIsMatched[answerIndex] == false)
+            if (currGuessLetter == _answer[answerIndex] 
+                && _letterIsMatched[answerIndex] == false)
             {
                 foundPartialMatch = true;
 
-                letterIsMatched[answerIndex] = true;
+                _letterIsMatched[answerIndex] = true;
                 
                 break;
             }
@@ -34,7 +34,7 @@ public class GuessAnalyzer : IGuessAnalyzer
     public GuessResult Analyze(string userGuess)
     {
         GuessResult guessResult = new GuessResult();
-        letterIsMatched = new bool[WordleGame.NumLettersInWord];
+        _letterIsMatched = new bool[WordleGame.NumLettersInWord];
 
         int i = 0;
         foreach (char guessLetter in userGuess)
@@ -42,11 +42,11 @@ public class GuessAnalyzer : IGuessAnalyzer
             bool _isExactMatch = false;
             bool _isPartialMatch = false;
 
-            if (guessLetter == answer[i])
+            if (guessLetter == _answer[i])
             {
                 _isExactMatch = true;
 
-                letterIsMatched[i] = true;    
+                _letterIsMatched[i] = true;    
             }
             else 
             {

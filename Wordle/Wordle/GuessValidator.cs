@@ -7,47 +7,45 @@ namespace Wordle
     {
         public class ValidatorResult 
         {
-            private readonly bool is5Letters;
-            private readonly bool isAllChars;
-            private readonly bool isInDictionary;
+            private readonly bool _is5Letters;
+            private readonly bool _isAllChars;
+            private readonly bool _isInDictionary;
             public ValidatorResult(bool is5Letters = false, 
                                    bool isAllChars = false, 
                                    bool isInDictionary = false)
             {
-                this.is5Letters = is5Letters;
-                this.isAllChars = isAllChars;
-                this.isInDictionary = isInDictionary;
+                _is5Letters = is5Letters;
+                _isAllChars = isAllChars;
+                _isInDictionary = isInDictionary;
             }
             
             public bool Is5Letters
-            { get => is5Letters;  }
+            { get => _is5Letters;  }
 
             public bool IsAllChars
-            { get => isAllChars; }
+            { get => _isAllChars; }
 
             public bool IsInDictionary
-            { get => isInDictionary; }
+            { get => _isInDictionary; }
 
             public bool IsValidGuess()
             {
-                return is5Letters && isAllChars && isInDictionary;
+                return _is5Letters && _isAllChars && _isInDictionary;
             }
         }
 
-        readonly IEnglishDictionary dictionary; // Non-interface?
+        readonly IEnglishDictionary _dictionary; 
         
         public GuessValidator(IEnglishDictionary dictionary)
         {
-            this.dictionary = dictionary;
+            _dictionary = dictionary;
         }
 
-        public ValidatorResult Validate(string guess) // returns object since did not want
-                                             // IWordValidator to be bound to WordleValidator result.
-                                             // Maybe return interface type?
+        public ValidatorResult Validate(string guess) 
         {
             return new ValidatorResult(guess.Length == 5,
                                         guess.All(character => Char.IsLetter(character)),
-                                        dictionary.IsInDictionary(guess));
+                                        _dictionary.IsInDictionary(guess));
         }
     }
 }

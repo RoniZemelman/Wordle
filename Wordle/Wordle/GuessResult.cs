@@ -8,35 +8,35 @@ namespace Wordle
     {
         public class GuessItem
         {
-            public char letter;
-            public bool isExactMatch;
-            public bool isPartialMatch;
+            public char _letter;
+            public bool _isExactMatch;
+            public bool _isPartialMatch;
 
             public GuessItem(char letter, bool isExactMatch = false, bool isPartialMatch = false)
             {
-                this.letter = letter;
-                this.isExactMatch = isExactMatch;
-                this.isPartialMatch = isPartialMatch;
+                _letter = letter;
+                _isExactMatch = isExactMatch;
+                _isPartialMatch = isPartialMatch;
             }
 
-            public bool IsExactMatch() { return isExactMatch; }
+            public bool IsExactMatch() { return _isExactMatch; }
 
-            public bool IsPartialMatch() { return isPartialMatch; }
+            public bool IsPartialMatch() { return _isPartialMatch; }
 
-            public bool CompleteMiss() { return !isExactMatch && !isPartialMatch; }
+            public bool CompleteMiss() { return !_isExactMatch && !_isPartialMatch; }
         }
 
-        private GuessItem[] guessItems;
+        private GuessItem[] _guessItems;
         public GuessResult()
         {
-            this.guessItems = new GuessItem[WordleGame.NumLettersInWord];
+            _guessItems = new GuessItem[WordleGame.NumLettersInWord];
 
             // guessItems array lazily constructed when needed...Pros/Cons?
         }
         
         public void SetItemAt(int index, GuessItem guessItem)
         {
-            guessItems[index] = guessItem;
+            _guessItems[index] = guessItem;
         }                                                                               
 
         public bool IsCorrectGuess()
@@ -46,17 +46,17 @@ namespace Wordle
 
         public int GetNumExactMatches()
         {
-            return guessItems.Count(g => g.IsExactMatch() == true);
+            return _guessItems.Count(g => g.IsExactMatch() == true);
         }
 
         public int GetNumPartialMatches()
         {
-            return guessItems.Count(g => g.IsPartialMatch() == true);  
+            return _guessItems.Count(g => g.IsPartialMatch() == true);  
         }
 
         public GuessItem At(int index)
         {
-            return guessItems[index];
+            return _guessItems[index];
         }
     }
 

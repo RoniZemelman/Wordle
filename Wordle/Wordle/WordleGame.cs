@@ -5,7 +5,7 @@ namespace Wordle
     public class WordleGame
     {
         public const int MaxNumOfTurns = 5;
-        public const int NumLettersInWord = 5;  // Part of the WordleGame Logic?
+        public const int NumLettersInWord = 5;  
 
         public enum State  // convention for naming enums?
         {
@@ -14,54 +14,54 @@ namespace Wordle
             Lost
         }
 
-        private IGuessAnalyzer guessAnalyzer; 
-        private readonly IWordValidator validator;
-        private int numTurnsRemaining;
-        private State status;
+        private IGuessAnalyzer _guessAnalyzer; 
+        private readonly IWordValidator _validator;
+        private int _numTurnsRemaining;
+        private State _status;
 
         public WordleGame(IGuessAnalyzer guessAnalyzer, IWordValidator validator)
         {
-            this.guessAnalyzer = guessAnalyzer; 
-            this.validator = validator;
-            this.numTurnsRemaining = MaxNumOfTurns;
-            this.status = State.IsAlive;
+            _guessAnalyzer = guessAnalyzer; 
+            _validator = validator;
+            _numTurnsRemaining = MaxNumOfTurns;
+            _status = State.IsAlive;
         }
 
         public State Status()
         {
-            return status;
+            return _status;
         }
 
         public int TurnsRemaining()
         {
-            return numTurnsRemaining;
+            return _numTurnsRemaining;
         }
 
         private void UpdateGameState(GuessResult guessResult)
         {
-            --numTurnsRemaining;
+            --_numTurnsRemaining;
 
-            if (numTurnsRemaining == 0) 
+            if (_numTurnsRemaining == 0) 
             {
-                status = State.Lost;
+                _status = State.Lost;
             }
 
             if (guessResult.IsCorrectGuess())
             {
-                status = State.Won;
+                _status = State.Won;
             }            
         }
 
         public GuessResult PlayTurn(string userGuess, out ValidatorResult validatorOutResult)
         {
-            validatorOutResult = validator.Validate(userGuess);
+            validatorOutResult = _validator.Validate(userGuess);
 
             if (!validatorOutResult.IsValidGuess())
             {
                 return null;
             }
 
-            var currGuessResult = guessAnalyzer.Analyze(userGuess);
+            var currGuessResult = _guessAnalyzer.Analyze(userGuess);
 
             UpdateGameState(currGuessResult);
             
