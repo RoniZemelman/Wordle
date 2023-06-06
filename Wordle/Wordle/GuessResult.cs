@@ -1,6 +1,6 @@
 ﻿
 using System.Linq;
-
+using static Wordle.GuessValidator;
 
 namespace Wordle
 {
@@ -26,12 +26,13 @@ namespace Wordle
             public bool CompleteMiss() { return !_isExactMatch && !_isPartialMatch; }
         }
 
+        public ValidatorResult ResultOfValidating;
         private readonly GuessLetterResult[] _guessLetterResults;
         public GuessResult()
         {
+            ResultOfValidating = null;
             _guessLetterResults = new GuessLetterResult[WordleGame.NumLettersInWord];
 
-            // guessItems array lazily constructed when needed...Pros/Cons?
         }
         
         public void SetItemAt(int index, GuessLetterResult guessLetterResult)
