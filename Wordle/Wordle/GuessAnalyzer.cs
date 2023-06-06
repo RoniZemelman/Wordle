@@ -53,7 +53,7 @@ public class GuessAnalyzer : IGuessAnalyzer
                 CheckForPartialMatch(guessLetter, out _isPartialMatch);
             }
 
-            guessResult.SetItemAt(i++, new GuessItem(guessLetter, _isExactMatch, _isPartialMatch));
+            guessResult.SetItemAt(i++, new GuessLetterResult(guessLetter, _isExactMatch, _isPartialMatch));
         }
 
         return guessResult;

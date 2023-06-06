@@ -25,7 +25,7 @@ namespace WordleTests
 
             for (int i = 0; i < WordleGame.NumLettersInWord; ++i)
             {
-                guessResult.SetItemAt(i, new GuessItem(dontCare, isExactMatch: _isExactMatch,
+                guessResult.SetItemAt(i, new GuessLetterResult(dontCare, isExactMatch: _isExactMatch,
                                                                         isPartialMatch: false));
             }
 
