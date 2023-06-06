@@ -14,7 +14,7 @@ namespace Wordle
             Lost
         }
 
-        private IGuessAnalyzer _guessAnalyzer; 
+        private readonly IGuessAnalyzer _guessAnalyzer; 
         private readonly IWordValidator _validator;
         private int _numTurnsRemaining;
         private State _status;
@@ -52,9 +52,9 @@ namespace Wordle
             }            
         }
 
-        public GuessResult PlayTurn(string userGuess, out ValidatorResult validatorOutResult)
+        public GuessResult PlayTurn(string userGuess)
         {
-            validatorOutResult = _validator.Validate(userGuess);
+            var validatorOutResult = _validator.Validate(userGuess);
 
             if (!validatorOutResult.IsValidGuess())
             {
