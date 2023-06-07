@@ -260,31 +260,5 @@ namespace WordleTests
             Assert.AreEqual(WordleGame.State.Lost, wordleGame.Status());
         }
 
-        [Test]
-        // TODO Remove since tested StatusWon. Maybe added value to being last turn?
-        public static void PlayTurn_CorrectGuessOnLastTurn_StatusWon()
-        {
-            // Arrange
-            var answer = "bingo";
-            var incorrectGuess = "wrong";
-            var correctGuessForFinalTurn = answer;
-
-            var mockValidator = CreateAndConfigureMockValidator(true);
-
-            var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator); 
-            
-            // Act 
-            for (int turnNum = 0; turnNum < WordleGame.MaxNumOfTurns - 1; ++turnNum)
-            {
-                
-                wordleGame.PlayTurn(incorrectGuess);
-            }
-
-            wordleGame.PlayTurn(correctGuessForFinalTurn);
-
-            // Assert
-            Assert.AreEqual(WordleGame.State.Won, wordleGame.Status());
-        }
-
     }
 }
