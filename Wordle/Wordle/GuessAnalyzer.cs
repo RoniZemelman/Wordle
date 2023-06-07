@@ -33,7 +33,11 @@ public class GuessAnalyzer : IGuessAnalyzer
 
     public GuessResult Analyze(string userGuess)
     {
-        GuessResult guessResult = new GuessResult();
+        GuessResult guessResult = new GuessResult
+        {
+            ValidationResult = new GuessValidator.ValidatorResult(true, true, true)
+        };
+
         _letterIsMatched = new bool[WordleGame.NumLettersInWord];
 
         int i = 0;

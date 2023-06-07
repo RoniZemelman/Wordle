@@ -55,7 +55,7 @@ namespace Wordle
         {
             var guessResult = new GuessResult
             {
-                ResultOfValidating = _validator.Validate(userGuess)
+                ValidationResult = _validator.Validate(userGuess)
             };
 
             if (!guessResult.IsValid())
@@ -63,9 +63,7 @@ namespace Wordle
                 return guessResult;
             }
 
-            guessResult = _guessAnalyzer.Analyze(userGuess);
-            guessResult.ResultOfValidating = new GuessValidator.ValidatorResult(true, true, true);
-            // TODO remove above line when Analyze returns array instead of GuessResult
+            guessResult = _guessAnalyzer.Analyze(userGuess); 
             
             UpdateGameState(guessResult);
 

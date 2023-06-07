@@ -26,11 +26,11 @@ namespace Wordle
             public bool CompleteMiss() { return !_isExactMatch && !_isPartialMatch; }
         }
 
-        public ValidatorResult ResultOfValidating;
+        public ValidatorResult ValidationResult;
         private readonly GuessLetterResult[] _guessLetterResults;
         public GuessResult()
         {
-            ResultOfValidating = null;
+            ValidationResult = null;
             _guessLetterResults = new GuessLetterResult[WordleGame.NumLettersInWord];
         }
         
@@ -41,7 +41,7 @@ namespace Wordle
 
         public bool IsValid()
         {
-            return ResultOfValidating.IsValidGuess();
+            return ValidationResult.IsValidGuess();
         }
 
         public bool IsCorrectGuess()
