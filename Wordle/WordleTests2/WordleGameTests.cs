@@ -157,7 +157,6 @@ namespace WordleTests
             var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             // Act
-            
             var playTurnResult = wordleGame.PlayTurn(userGuess);
 
             // Assert
@@ -165,7 +164,7 @@ namespace WordleTests
         }
 
         [Test]
-        public static void PlayTurn_ValidatorValidatesGuess_ValidatorOutParamIsValid()
+        public static void PlayTurn_ValidatorValidatesGuess_GuessResultIsValid()
         {
             // Arrange
             var validUserGuess = "valid";
@@ -173,34 +172,11 @@ namespace WordleTests
 
             var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
-         
-
             // Act
-            
-            wordleGame.PlayTurn(validUserGuess);
-
+            var playTurnGuessResult = wordleGame.PlayTurn(validUserGuess);
 
             // Assert
-            // TODO Assert GuessResult is a ValidGuess
-            // Assert.IsTrue(validatorResult.IsValidGuess());
-        }
-
-        [Test]
-        public static void PlayTurn_ValidatorInvalidatesGuess_ValidatorOutParamIsNotValid()
-        {
-            // Arrange
-            var userGuess = "InvalidGuess";
-            var mockValidator = CreateAndConfigureMockValidator(false);
-
-            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
-
-            // Act
-            
-            wordleGame.PlayTurn(userGuess);
-
-            // Assert
-            //  TODO Assert GuessResult is a ValidGuess
-            //Assert.IsFalse(validatorResult.IsValidGuess());
+            Assert.IsTrue(playTurnGuessResult.IsValid());
         }
 
         [Test] // Remove - Granularity test for validator object

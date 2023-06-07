@@ -67,6 +67,10 @@ namespace Wordle
             guessResult = _guessAnalyzer.Analyze(userGuess);
 
             UpdateGameState(guessResult);
+
+            // TODO remove next after guessAnalyzer returns array instead of
+            // GuessResult object
+            guessResult.ResultOfValidating = new GuessValidator.ValidatorResult(true, true, true);
             
             return guessResult; 
         }
