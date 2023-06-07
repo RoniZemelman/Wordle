@@ -53,18 +53,22 @@ namespace Wordle
 
         public GuessResult PlayTurn(string userGuess)
         {
-            var validatorOutResult = _validator.Validate(userGuess);
+            var guessResult = new GuessResult();
 
-            if (!validatorOutResult.IsValidGuess())
+            guessResult.ResultOfValidating = _validator.Validate(userGuess);
+            //var validatorOutResult = _validator.Validate(userGuess);
+
+            //if (!validatorOutResult.IsValidGuess())
+            if (!guessResult.ResultOfValidating.IsValidGuess())
             {
-                return null;
+                return guessResult;
             }
 
-            var currGuessResult = _guessAnalyzer.Analyze(userGuess);
+            guessResult = _guessAnalyzer.Analyze(userGuess);
 
-            UpdateGameState(currGuessResult);
+            UpdateGameState(guessResult);
             
-            return currGuessResult; 
+            return guessResult; 
         }
     }
 }

@@ -148,7 +148,7 @@ namespace WordleTests
         }
 
         [Test]
-        public static void PlayTurn_ValidatorInvalidatesUserGuess_NullReturned()
+        public static void PlayTurn_ValidatorInvalidatesUserGuess_GuessResultIsNotValid()
         {
             // Arrange
             var userGuess = "InvalidGuess";
@@ -161,7 +161,7 @@ namespace WordleTests
             var playTurnResult = wordleGame.PlayTurn(userGuess);
 
             // Assert
-            Assert.IsNull(playTurnResult);
+            Assert.IsFalse(playTurnResult.IsValid());
         }
 
         [Test]
