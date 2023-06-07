@@ -161,26 +161,27 @@ namespace WordleTests
             Assert.IsTrue(playTurnGuessResult.IsValid());
         }
 
-        [Test] // Remove - Granularity test for validator object
+        [Test] // Granularity test for validator object
         public static void PlayTurn_ValidatorInvalidatesFor1Reason_ValidatorOutputHasOnly1FalseField()
         {
             // Arrange
             var guessNot5Letters = "TooLong";
-            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
-            mockValidator.Stub(d => d.Validate(guessNot5Letters))
-                .Return(new ValidatorResult(is5Letters:false,
-                                            isAllChars: true, isInDictionary:true));
-            
-            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
+            var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
+
+            var mockEnglishDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
+            mockEnglishDictionary
+                .Stub(d => d.IsInDictionary(guessNot5Letters))
+                .Return(true);
+
+            var wordleGame = new WordleGame(mockGuessAnalyzer,
+                                        new GuessValidator(mockEnglishDictionary));
 
             // Act
             var guessResult = wordleGame.PlayTurn(guessNot5Letters);
 
             // Assert
-            // TODO Assert validatorResult.ErrorCount is 1
-            Assert.IsFalse(guessResult.ValidationResult.Is5Letters);
-            Assert.IsTrue(guessResult.ValidationResult.IsAllChars && guessResult.ValidationResult.IsInDictionary);
-        }
+            Assert.AreEqual(1, guessResult.ValidationResult.ErrorCount());
+         }
         
         [Test]
         

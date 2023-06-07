@@ -33,6 +33,12 @@ namespace Wordle
                 return _is5Letters && _isAllChars && _isInDictionary;
             }
 
+            public int ErrorCount()
+            {
+                return Convert.ToInt32(!_is5Letters)
+                        + Convert.ToInt32(!_isAllChars)
+                        + Convert.ToInt32(!_isInDictionary);
+            }
         }
 
         private readonly IEnglishDictionary _dictionary; 
