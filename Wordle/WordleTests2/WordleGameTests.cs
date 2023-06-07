@@ -14,10 +14,11 @@ namespace WordleTests
         {
             // Arrange            
             var mockValidator = CreateAndConfigureMockValidator(false);
+            var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
             
             // Act
-            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
-
+            var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidator);
+            
             // Assert
             Assert.AreEqual(WordleGame.MaxNumOfTurns, wordleGame.TurnsRemaining());
         }
@@ -27,9 +28,10 @@ namespace WordleTests
         {
             // Arrange
             var mockValidator = CreateAndConfigureMockValidator(false);
+            var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
 
             // Act
-            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
+            var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidator);
 
             // Assert
             Assert.AreEqual(WordleGame.State.IsAlive, wordleGame.Status());
@@ -40,11 +42,10 @@ namespace WordleTests
         {
             // Arrange
             string userGuess = "InvalidGuess";
-
             var mockValidator = CreateAndConfigureMockValidator(false);
-
-            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
-
+            var mockGuessAnalyzer = CreateMockGuessAnalyzerReturnsIncorrect();
+            
+            var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidator);
             int initialTurnsRemaining = wordleGame.TurnsRemaining();
 
             // Act
@@ -55,35 +56,39 @@ namespace WordleTests
         }
 
         [Test]
-        public static void PlayTurn_PlayTurnInvoked_ValidatorIsAlwaysCalled()
+        [TestCase("valid")]
+        [TestCase("Invalid")]
+        public static void PlayTurn_PlayTurnInvoked_ValidatorIsAlwaysCalled(string userGuess)
         {
             // Arrange 
             var mockValidator = MockRepository.GenerateStub<IWordValidator>();
-            mockValidator.Stub(v => v.Validate("")).IgnoreArguments().Return(new ValidatorResult());
+            mockValidator.Stub(v => v.Validate(userGuess)).IgnoreArguments().Return(new ValidatorResult());
             
-            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
+            var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
+
+            var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidator);
             
             // Act
-            wordleGame.PlayTurn("");
+            wordleGame.PlayTurn(userGuess);
 
             // Assert
-            mockValidator.AssertWasCalled(v => v.Validate(""));
+            mockValidator.AssertWasCalled(v => v.Validate(userGuess));
         }
 
         [Test]
         public static void PlayTurn_ValidatorInvalidatesUserGuess_GuessAnalyzerIsNotCalled()
         {
             // Arrange 
-            var invalidUserGuess = "NotValid";
+            var invalidatedUserGuess = "NotValid";
             var mockInvalidatingValidator = CreateAndConfigureMockValidator(false);
-            var guessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
-            var wordleGame = new WordleGame(guessAnalyzer, mockInvalidatingValidator);
+            var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
+            var wordleGame = new WordleGame(mockGuessAnalyzer, mockInvalidatingValidator);
 
             // Act
-            wordleGame.PlayTurn(invalidUserGuess);
+            wordleGame.PlayTurn(invalidatedUserGuess);
 
             // Assert
-            guessAnalyzer.AssertWasNotCalled(v => v.Analyze(invalidUserGuess));
+            mockGuessAnalyzer.AssertWasNotCalled(v => v.Analyze(invalidatedUserGuess));
         }
 
         [Test]
@@ -165,11 +170,10 @@ namespace WordleTests
             mockValidator.Stub(d => d.Validate(guessNot5Letters))
                 .Return(new ValidatorResult(is5Letters:false,
                                             isAllChars: true, isInDictionary:true));
-
+            
             var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
 
             // Act
-            
             var guessResult = wordleGame.PlayTurn(guessNot5Letters);
 
             // Assert
@@ -204,9 +208,6 @@ namespace WordleTests
         public static void PlayTurn_PlayedUpToMaxMinus1TurnsWithIncorrectGuess_StatusIsAlive(int numOfTurns)
         {
             // Arrange
-            var incorrectGuess = "guess";
-            var answer = "bingo";
-
             var mockValidator = CreateAndConfigureMockValidator(true);
             var mockGuessAnalyzer = CreateMockGuessAnalyzerReturnsIncorrect();
             var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidator);
@@ -214,8 +215,7 @@ namespace WordleTests
             // Act 
             for (int currTurn = 0; currTurn < numOfTurns; ++currTurn)
             {
-                
-                wordleGame.PlayTurn(incorrectGuess);
+                wordleGame.PlayTurn("incorrectGuess");
             }
 
             // Assert
@@ -267,12 +267,12 @@ namespace WordleTests
             // Arrange
             var answer = "bingo";
             var incorrectGuess = "wrong";
-            var correctGuessForFinalTurn = "bingo";
+            var correctGuessForFinalTurn = answer;
 
             var mockValidator = CreateAndConfigureMockValidator(true);
 
             var wordleGame = new WordleGame(new GuessAnalyzer(answer), mockValidator); 
-
+            
             // Act 
             for (int turnNum = 0; turnNum < WordleGame.MaxNumOfTurns - 1; ++turnNum)
             {
