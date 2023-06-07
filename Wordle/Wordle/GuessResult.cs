@@ -27,16 +27,16 @@ namespace Wordle
         }
 
         public ValidatorResult ValidationResult;
-        private readonly GuessLetterResult[] _guessLetterResults;
+        private readonly GuessLetterResult[] _guessAnalysisResults;
         public GuessResult()
         {
             ValidationResult = null;
-            _guessLetterResults = new GuessLetterResult[WordleGame.NumLettersInWord];
+            _guessAnalysisResults = new GuessLetterResult[WordleGame.NumLettersInWord];
         }
         
         public void SetItemAt(int index, GuessLetterResult guessLetterResult)
         {
-            _guessLetterResults[index] = guessLetterResult;
+            _guessAnalysisResults[index] = guessLetterResult;
         }
 
         public bool IsValid()
@@ -51,17 +51,17 @@ namespace Wordle
 
         public int GetNumExactMatches()
         {
-            return _guessLetterResults.Count(g => g.IsExactMatch() == true);
+            return _guessAnalysisResults.Count(g => g.IsExactMatch() == true);
         }
 
         public int GetNumPartialMatches()
         {
-            return _guessLetterResults.Count(g => g.IsPartialMatch() == true);  
+            return _guessAnalysisResults.Count(g => g.IsPartialMatch() == true);  
         }
 
         public GuessLetterResult At(int index)
         {
-            return _guessLetterResults[index];
+            return _guessAnalysisResults[index];
         }
     }
 
