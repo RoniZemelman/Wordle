@@ -54,8 +54,6 @@ namespace WordleTests
             Assert.AreEqual(initialTurnsRemaining, wordleGame.TurnsRemaining());
         }
 
-
-
         [Test]
         public static void PlayTurn_PlayTurnInvoked_ValidatorIsAlwaysCalled()
         {
@@ -128,14 +126,14 @@ namespace WordleTests
         public static void PlayTurn_ValidatorInvalidatesUserGuess_GuessResultIsNotValid()
         {
             // Arrange
-            var userGuess = "InvalidGuess";
+            var invalidUserGuess = "InvalidGuess";
             var mockValidator = CreateAndConfigureMockValidator(false);
             var mockGuessAnalyzer = CreateMockGuessAnalyzerReturnsIncorrect();
 
             var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidator);
 
             // Act
-            var playTurnResult = wordleGame.PlayTurn(userGuess);
+            var playTurnResult = wordleGame.PlayTurn(invalidUserGuess);
 
             // Assert
             Assert.IsFalse(playTurnResult.IsValid());
@@ -172,11 +170,12 @@ namespace WordleTests
 
             // Act
             
-            wordleGame.PlayTurn(guessNot5Letters);
+            var guessResult = wordleGame.PlayTurn(guessNot5Letters);
 
             // Assert
             // TODO Assert validatorResult.ErrorCount is 1
-            
+            Assert.IsFalse(guessResult.ValidationResult.Is5Letters);
+            Assert.IsTrue(guessResult.ValidationResult.IsAllChars && guessResult.ValidationResult.IsInDictionary);
         }
         
         [Test]
@@ -244,9 +243,7 @@ namespace WordleTests
         public static void PlayTurn_MaxTurnsPlayedWithIncorrectGuess_StatusLost()
         {
             // Arrange
-            var answer = "bingo";
-            var incorrectGuess = "wrong";
-
+            var incorrectGuess = "incorrectGuess";
             var mockValidator = CreateAndConfigureMockValidator(true);
             var mockGuessAnalyzer = CreateMockGuessAnalyzerReturnsIncorrect();
 
@@ -264,7 +261,7 @@ namespace WordleTests
         }
 
         [Test]
-        // TODO mockAnalyzer that returns true for correctAnswer
+        // TODO Remove since tested StatusWon. Maybe added value to being last turn?
         public static void PlayTurn_CorrectGuessOnLastTurn_StatusWon()
         {
             // Arrange

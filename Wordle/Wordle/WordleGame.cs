@@ -38,7 +38,7 @@ namespace Wordle
 
         private void UpdateGameState(GuessResult guessResult)
         {
-            --_numTurnsRemaining;
+            _numTurnsRemaining -= 1;
 
             if (_numTurnsRemaining == 0) 
             {
@@ -53,7 +53,6 @@ namespace Wordle
 
         public GuessResult PlayTurn(string userGuess)
         {
-            
             var validationResult = _validator.Validate(userGuess);
 
             if (!validationResult.IsValidGuess())
