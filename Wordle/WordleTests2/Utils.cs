@@ -20,7 +20,10 @@ namespace WordleTests
         {
             var mockGuessAnalzer = MockRepository.GenerateStub<IGuessAnalyzer>();
 
-            GuessResult guessResult = new GuessResult();
+            GuessResult guessResult = new GuessResult
+            {
+                ValidationResult = new ValidatorResult(true, true, true)
+            };
             const char dontCare = '*';
 
             for (int i = 0; i < WordleGame.NumLettersInWord; ++i)

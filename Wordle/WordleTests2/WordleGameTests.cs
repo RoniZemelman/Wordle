@@ -130,8 +130,9 @@ namespace WordleTests
             // Arrange
             var userGuess = "InvalidGuess";
             var mockValidator = CreateAndConfigureMockValidator(false);
+            var mockGuessAnalyzer = CreateMockGuessAnalyzerReturnsIncorrect();
 
-            var wordleGame = new WordleGame(new GuessAnalyzer("dontCare"), mockValidator);
+            var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidator);
 
             // Act
             var playTurnResult = wordleGame.PlayTurn(userGuess);
