@@ -82,7 +82,12 @@ namespace Wordle
             if (wordleGame.Status() == WordleGame.State.Won)
             {
                 Console.WriteLine("Congrats! You won!");
+                return;
             }
+
+            Console.WriteLine("Sorry! You lost.");
+
+
         }
     }
 }
