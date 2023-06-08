@@ -1,6 +1,6 @@
 # Ignore everything
 *
-*/*/obj/
+/Wordle/Wordle/obj/
 
 # Allow directories
 !*/

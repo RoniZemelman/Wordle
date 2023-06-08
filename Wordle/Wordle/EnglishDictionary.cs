@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace Wordle
@@ -20,16 +19,12 @@ namespace Wordle
 
         private void ConstructMapOfWords()
         {
-
             _mapOfWords = new Dictionary<string, bool>();
-            
-            string word = _streamReader.ReadLine();
+            string word;
 
-            while (word != null)
+            while ((word = _streamReader.ReadLine()) != null)
             { 
                 _mapOfWords.Add(word, true);
-
-                word = _streamReader.ReadLine();
             }
         }
 
