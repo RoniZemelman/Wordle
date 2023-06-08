@@ -36,8 +36,8 @@ namespace Wordle
             public int ErrorCount()
             {
                 return Convert.ToInt32(!_is5Letters)
-                        + Convert.ToInt32(!_isAllChars)
-                        + Convert.ToInt32(!_isInDictionary);
+                       + Convert.ToInt32(!_isAllChars)
+                       + Convert.ToInt32(!_isInDictionary);
             }
         }
 
