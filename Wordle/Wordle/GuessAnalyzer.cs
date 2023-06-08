@@ -43,21 +43,21 @@ public class GuessAnalyzer : IGuessAnalyzer
         int i = 0;
         foreach (char guessLetter in userGuess)
         {
-            bool _isExactMatch = false;
-            bool _isPartialMatch = false;
+            bool isExactMatch = false;
+            bool isPartialMatch = false;
 
             if (guessLetter == _answer[i])
             {
-                _isExactMatch = true;
+                isExactMatch = true;
 
                 _letterIsMatched[i] = true;    
             }
             else 
             {
-                CheckForPartialMatch(guessLetter, out _isPartialMatch);
+                CheckForPartialMatch(guessLetter, out isPartialMatch);
             }
 
-            guessResult.SetItemAt(i++, new GuessLetterResult(guessLetter, _isExactMatch, _isPartialMatch));
+            guessResult.SetItemAt(i++, new GuessLetterResult(guessLetter, isExactMatch, isPartialMatch));
         }
 
         return guessResult;

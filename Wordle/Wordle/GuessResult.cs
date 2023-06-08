@@ -8,13 +8,13 @@ namespace Wordle
     {
         public class GuessLetterResult
         {
-            private readonly char _letter; // TODO remove? 
+            public char Letter { get; }
             private readonly bool _isExactMatch;
             private readonly bool _isPartialMatch;
 
             public GuessLetterResult(char letter, bool isExactMatch = false, bool isPartialMatch = false)
             {
-                _letter = letter;
+                Letter = letter;
                 _isExactMatch = isExactMatch;
                 _isPartialMatch = isPartialMatch;
             }
