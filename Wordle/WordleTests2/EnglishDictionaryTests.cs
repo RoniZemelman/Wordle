@@ -5,14 +5,16 @@ namespace WordleTests
 {
     class EnglishDictionaryTests
     {
+        private static string dictionaryFilePath =
+            "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt.txt";
+
         [Test] 
         public static void Constructor_DictionaryInitialized_NotNull()
         {
             // Arrange
-            var filePathDontCare = "";
 
             // Act
-            var engDictionary = new EnglishDictionary(filePathDontCare);
+            var engDictionary = new EnglishDictionary(dictionaryFilePath);
 
             // Assert
             Assert.IsNotNull(engDictionary);
@@ -22,9 +24,8 @@ namespace WordleTests
         public static void IsInDictionary_MadeUpWord_False()
         {
             // Arrange
-            var filePathDontCare = "";
             var word = "blahblah";
-            var engDictionary = new EnglishDictionary(filePathDontCare);
+            var engDictionary = new EnglishDictionary(dictionaryFilePath);
 
             // Act
             var isInDictionary = engDictionary.IsInDictionary(word);
@@ -37,9 +38,8 @@ namespace WordleTests
         public static void IsInDictionary_RealWordFromDictionaryFile_True()
         {
             // Arrange
-            var filePathDontCare = "";
             var word = "happy";
-            var engDictionary = new EnglishDictionary(filePathDontCare);
+            var engDictionary = new EnglishDictionary(dictionaryFilePath);
 
             // Act
             var isInDictionary = engDictionary.IsInDictionary(word);
