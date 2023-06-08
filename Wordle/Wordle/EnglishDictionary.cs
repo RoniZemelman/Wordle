@@ -2,7 +2,7 @@
 {
     public class EnglishDictionary : IEnglishDictionary
     {
-        public EnglishDictionary()
+        public EnglishDictionary(string filePath)
         {
 
         }

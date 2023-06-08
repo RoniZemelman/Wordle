@@ -53,6 +53,7 @@
     <Compile Include="DriverProgram.cs" />
     <Compile Include="IWordValidator.cs" />
     <Compile Include="IGuessAnalyzer.cs" />
+	<Compile Include="EnglishDictionary.cs" />
     <Compile Include="IEnglishDictionary.cs" />
     <Compile Include="GuessValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
