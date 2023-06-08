@@ -6,7 +6,7 @@ namespace Wordle
 {
     public class EnglishDictionary : IEnglishDictionary
     {
-        private StreamReader _streamReader;
+        private readonly StreamReader _streamReader;
         private Dictionary<string, bool> _mapOfWords;
 
         public EnglishDictionary(string filePath)
@@ -35,7 +35,7 @@ namespace Wordle
 
         public bool IsInDictionary(string word)
         {
-            return false;
+            return _mapOfWords.ContainsKey(word);
         }
     }
 
