@@ -1,2 +1,12 @@
+# Ignore everything
 *
+*/*/obj/
+
+# Allow directories
+!*/
+
+# Allow C# files
 !*.cs
+
+# Allow .csproj files
+!*.csproj
