@@ -2,7 +2,7 @@
 using Rhino.Mocks;
 using Wordle;
 using static Wordle.GuessValidator;
-using static WordleTests.Utils;
+using static WordleTests.WordleGameTestsUtils;
 
 
 namespace WordleTests
