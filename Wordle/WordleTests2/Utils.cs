@@ -37,12 +37,12 @@ namespace WordleTests
             return mockGuessAnalzer;
         }
 
-        public static IGuessAnalyzer CreateMockGuessAnalyzerReturnsCorrect()
+        public static IGuessAnalyzer CreateMockGuessAnalyzerThatAlwaysReturnsCorrect()
         {
             return CreateMockAnalyzer(true);
         }
 
-        public static IGuessAnalyzer CreateMockGuessAnalyzerReturnsIncorrect()
+        public static IGuessAnalyzer CreateMockGuessAnalyzerThatAlwaysReturnsIncorrect()
         {
             return CreateMockAnalyzer(false);
         }
