@@ -3,7 +3,7 @@ namespace Wordle
 {
     public class WordleGame
     {
-        public const int MaxNumOfTurns = 5;
+        public const int MaxNumOfTurns = 6;
         public const int NumLettersInWord = 5;  
 
         public enum State  // convention for naming enums?

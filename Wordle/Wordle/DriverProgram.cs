@@ -58,7 +58,7 @@ namespace Wordle
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to WordleGame!");
+            Console.WriteLine("Welcome to WordleGame!  Please enter a 5 letter word.");
 
             var wordleGame = CreateGame();
 
