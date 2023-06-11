@@ -8,7 +8,7 @@ namespace Wordle
 
         public enum State  
         {
-            IsAlive,
+            IsRunning,
             Won,
             Lost
         }
@@ -23,7 +23,7 @@ namespace Wordle
             _guessAnalyzer = guessAnalyzer; 
             _validator = validator;
             _numTurnsRemaining = MaxNumOfTurns;
-            _status = State.IsAlive;
+            _status = State.IsRunning;
         }
 
         public State Status()

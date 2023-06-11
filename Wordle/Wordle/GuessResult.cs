@@ -49,14 +49,15 @@ namespace Wordle
             return GetNumExactMatches() == WordleGame.NumLettersInWord;
         }
 
+        // Refactor GetNums to function that to they pass lambda 
         public int GetNumExactMatches()
         {
-            return _guessAnalysisResults.Count(g => g.IsExactMatch() == true);
+            return _guessAnalysisResults.Count(g => g.IsExactMatch());
         }
 
         public int GetNumPartialMatches()
         {
-            return _guessAnalysisResults.Count(g => g.IsPartialMatch() == true);  
+            return _guessAnalysisResults.Count(g => g.IsPartialMatch());  
         }
 
         public GuessLetterResult At(int index)

@@ -34,7 +34,7 @@ namespace WordleTests
             var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidator);
 
             // Assert
-            Assert.AreEqual(WordleGame.State.IsAlive, wordleGame.Status());
+            Assert.AreEqual(WordleGame.State.IsRunning, wordleGame.Status());
         }
 
         [Test]
@@ -217,7 +217,7 @@ namespace WordleTests
             }
 
             // Assert
-            Assert.AreEqual(WordleGame.State.IsAlive, wordleGame.Status());
+            Assert.AreEqual(WordleGame.State.IsRunning, wordleGame.Status());
         }
 
         [Test]

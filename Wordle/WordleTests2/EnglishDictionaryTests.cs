@@ -5,18 +5,18 @@ namespace WordleTests
 {
     class EnglishDictionaryTests
     {
-        private const string _testingDictionaryFilePath = "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt.txt";
-
-        // TODO global setup of 1 EnglishDictionary (limit IO ops)
-
+        private const string TestingDictionaryFilePath = "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt.txt";
+        // TODO - create memory stream to pass into the EnglishDictionary
+        // Readup on memory streams that read from main memory
+        // TODO - set up - read files once
 
         [Test]
         [TestCase("blahblah")]
         [TestCase("shtuyot")]
-        public static void IsInDictionary_MadeUpWord_False(string word)
+        public static void IsInDictionary_WordNotInDictionary_False(string word)
         {
             // Arrange
-            var engDictionary = new EnglishDictionary(_testingDictionaryFilePath);
+            var engDictionary = new EnglishDictionary(TestingDictionaryFilePath);
 
             // Act
             var isInDictionary = engDictionary.IsInDictionary(word);
@@ -33,7 +33,7 @@ namespace WordleTests
         public static void IsInDictionary_RealWordFromDictionaryFile_True(string word)
         {
             // Arrange
-            var engDictionary = new EnglishDictionary(_testingDictionaryFilePath);
+            var engDictionary = new EnglishDictionary(TestingDictionaryFilePath);
 
             // Act
             var isInDictionary = engDictionary.IsInDictionary(word);

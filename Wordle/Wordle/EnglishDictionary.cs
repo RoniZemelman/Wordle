@@ -6,7 +6,7 @@ namespace Wordle
     public class EnglishDictionary : IEnglishDictionary
     {
         private readonly StreamReader _streamReader;
-        private Dictionary<string, bool> _mapOfWords;
+        private Dictionary<string, bool> _mapOfWords; // TODO Use HashSet
 
         public EnglishDictionary(string filePath)
         {
