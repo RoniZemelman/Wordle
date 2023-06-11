@@ -7,8 +7,9 @@ namespace WordleTests
     {
         private static GuessResult ArrangeAndAnalyze(string userGuess, string answer)
         {
+            // Arrange 
             var analyzer = new GuessAnalyzer(answer);
-
+            // Act
             return analyzer.Analyze(userGuess);
         }
 

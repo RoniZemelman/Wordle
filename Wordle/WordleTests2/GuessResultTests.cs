@@ -6,11 +6,11 @@ namespace WordleTests
 {
     class GuessResultTests
     {
-        static readonly string answer = "bingo";
+        private static readonly string Answer = "bingo";
 
         private static GuessResult ArrangeAndAnalyze(string userGuess)
         {
-            var analyzer = new GuessAnalyzer(answer);
+            var analyzer = new GuessAnalyzer(Answer);
 
             return analyzer.Analyze(userGuess);
         }
@@ -18,22 +18,36 @@ namespace WordleTests
         [Test]
         public void IsExactMatch_GuessHasExactMatch_CorrectLocationIsExactMatch()
         {
-            var guessResult = ArrangeAndAnalyze(userGuess: "bxxxi");
+            // Arrange
+            var analyzer = new GuessAnalyzer(Answer);
 
+            // Act
+            var guessResult = analyzer.Analyze("bxxxi");
+
+            // Assert
             Assert.IsTrue(guessResult.At(0).IsExactMatch());
         }
 
         [Test]
         public void Missed_GuessHasAtLeast1Miss_CorrectLocationIsMissed()
         {
-            var guessResult = ArrangeAndAnalyze(userGuess: "bxngo");
+            // Arrange
+            var analyzer = new GuessAnalyzer(Answer);
 
+            // Act
+            var guessResult = analyzer.Analyze("bxngo");
+
+            // Assert
             Assert.IsTrue(guessResult.At(1).CompleteMiss());
         }
 
         [Test]
         public void IsPartialMatch_GuessHasAtLeast1PartialMatch_CorrectLocationIsPartialMatch()
         {
+            // Arrange
+            var analyzer = new GuessAnalyzer(Answer);
+
+            // Act
             var guessResult = ArrangeAndAnalyze(userGuess: "xxxxi");
 
             Assert.IsTrue(guessResult.At(4).IsPartialMatch());
@@ -42,9 +56,14 @@ namespace WordleTests
         [Test] // Not sure this test is logically neccessary
         public void IsExactMatchIsPartialMatch_GuessHasAnExactMatch_LocationOfExactMatchIsNotPartialMatch()
         {
-            
+
+            // Arrange
+            var analyzer = new GuessAnalyzer(Answer);
+
+            // Act
             var guessResult = ArrangeAndAnalyze(userGuess: "bxxxx");
 
+            // Assert
             Assert.IsTrue(guessResult.At(0).IsExactMatch() == true
                             && guessResult.At(0).IsPartialMatch() == false);
         }
@@ -53,7 +72,10 @@ namespace WordleTests
         [Test] // Not sure this test is logically neccessary
         public void IsPartialMatchIsExactMatch_GuessHasAPartialMatch_LocationOfPartialMatchIsNotExactMatch()
         {
-            
+            // Arrange
+            var analyzer = new GuessAnalyzer(Answer);
+
+            // Act
             var guessResult = ArrangeAndAnalyze(userGuess: "xgxxi");
 
             Assert.IsTrue(guessResult.At(1).IsPartialMatch() == true
@@ -63,10 +85,13 @@ namespace WordleTests
         [Test]
         public void IsCorrect_GuessHasAllExactMatches_IsCorrectWhenAllLettersMatch()
         {
-            string userGuess = answer;
-            var analyzer = new GuessAnalyzer(answer);
+            // Arrange
+            string userGuess = Answer;
+            var analyzer = new GuessAnalyzer(Answer);
 
+            // Act
             var guessResult = analyzer.Analyze(userGuess);
+
 
             Assert.AreEqual(WordleGame.NumLettersInWord, guessResult.GetNumExactMatches());
             Assert.IsTrue(guessResult.IsCorrectGuess());
