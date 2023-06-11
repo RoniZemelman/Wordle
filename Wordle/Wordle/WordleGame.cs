@@ -6,7 +6,7 @@ namespace Wordle
         public const int MaxNumOfTurns = 6;
         public const int NumLettersInWord = 5;  
 
-        public enum State  // convention for naming enums?
+        public enum State  
         {
             IsAlive,
             Won,
