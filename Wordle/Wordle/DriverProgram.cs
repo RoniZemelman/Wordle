@@ -62,10 +62,15 @@ namespace Wordle
 
             var wordleGame = CreateGame();
 
+            RunGame(wordleGame);
+        }
+
+        private static void RunGame(WordleGame wordleGame)
+        {
             while (wordleGame.Status() == WordleGame.State.IsAlive)
             {
-                Console.Write("\nTurns remaining: "+ wordleGame.TurnsRemaining()
-                                                   + "\nPlease enter a guess: ");
+                Console.Write("\nTurns remaining: " + wordleGame.TurnsRemaining()
+                                                    + "\nPlease enter a guess: ");
                 var guess = Console.ReadLine();
 
                 var guessResult = wordleGame.PlayTurn(guess);
@@ -86,8 +91,6 @@ namespace Wordle
             }
 
             Console.WriteLine("Sorry! You lost.");
-
-
         }
     }
 }
