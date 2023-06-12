@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.IO;
 
 namespace Wordle
 {
@@ -9,7 +10,8 @@ namespace Wordle
         {
             var guessAnalyzer = new GuessAnalyzer("start");
 
-            var engDictionary = new EnglishDictionary("C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt.txt");
+            byte[] fileContents = File.ReadAllBytes("C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt.txt");
+            var engDictionary = new EnglishDictionary(new MemoryStream(fileContents));
             var guessValidator = new GuessValidator(engDictionary);
 
             return new WordleGame(guessAnalyzer, guessValidator);
