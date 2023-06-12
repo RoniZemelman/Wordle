@@ -61,6 +61,11 @@ namespace Wordle
         {
             return GetNumExactMatches() == WordleGame.NumLettersInWord;
         }
+
+        public int Length()
+        {
+            return _guessAnalysisResults.Length;
+        }
     }
 
     public class GuessLetterResult

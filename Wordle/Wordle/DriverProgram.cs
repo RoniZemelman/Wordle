@@ -33,7 +33,7 @@ namespace Wordle
         }
         private static void DisplayGuessResultAnalysis(GuessResult guessResult)
         {
-            for (int i = 0; i < WordleGame.NumLettersInWord; ++i) // GuessResult.Length()
+            for (int i = 0; i < guessResult.Length(); ++i) 
             {
                 var guessLetter = guessResult.At(i);
 
