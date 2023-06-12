@@ -74,7 +74,7 @@ namespace WordleTests
         }
 
         [Test]
-        public static void PlayTurn_ValidatorInvalidatesUserGuess_GuessAnalyzerIsNotCalled()
+        public static void PlayTurn_ValidatorInvalidatesUserGuess_GuessResultIsNull()
         {
             // Arrange 
             var invalidatedUserGuess = "NotValid";
@@ -83,14 +83,14 @@ namespace WordleTests
             var wordleGame = new WordleGame(mockGuessAnalyzer, mockInvalidatingValidator);
 
             // Act
-            wordleGame.PlayTurn(invalidatedUserGuess);
+            var guessResult = wordleGame.PlayTurn(invalidatedUserGuess);
 
             // Assert
-            mockGuessAnalyzer.AssertWasNotCalled(v => v.Analyze(invalidatedUserGuess));
+            Assert.IsTrue(guessResult.IsNull());
         }
 
         [Test]
-        public static void PlayTurn_ValidatorValidatesUserGuess_GuessAnalyzerIsCalled()
+        public static void PlayTurn_ValidatorValidatesUserGuess_GuessResultIsNotNull()
         {
             // Arrange 
             var userGuess = "valid";
@@ -99,10 +99,10 @@ namespace WordleTests
             var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidatingValidator);
 
             // Act
-            wordleGame.PlayTurn(userGuess);
+            var guessResult = wordleGame.PlayTurn(userGuess);
 
             // Assert
-            mockGuessAnalyzer.AssertWasCalled(v => v.Analyze(userGuess));
+            Assert.IsFalse(guessResult.IsNull());
         }
 
 

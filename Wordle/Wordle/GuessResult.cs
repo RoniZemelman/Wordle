@@ -43,6 +43,12 @@ namespace Wordle
         {
             return ValidationResult.IsValidGuess();
         }
+        public bool IsNull()
+        {
+            var numOfNulls = _guessAnalysisResults.Count(g => g == null);
+            
+            return numOfNulls == WordleGame.NumLettersInWord;
+        }
 
         public bool IsCorrectGuess()
         {
@@ -64,6 +70,7 @@ namespace Wordle
         {
             return _guessAnalysisResults[index];
         }
+
     }
 
     
