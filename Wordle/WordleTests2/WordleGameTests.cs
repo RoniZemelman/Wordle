@@ -17,7 +17,7 @@ namespace WordleTests
             var mockValidator = CreateAndConfigureMockValidator(false);
 
             // Act
-            var wordleGame = new WordleGame("TodoRemove", mockValidator);
+            var wordleGame = new WordleGame("answerToBeGenerated", mockValidator);
             
             // Assert
             Assert.AreEqual(WordleGame.MaxNumOfTurns, wordleGame.TurnsRemaining());
@@ -30,7 +30,7 @@ namespace WordleTests
             var mockValidator = CreateAndConfigureMockValidator(false);
 
             // Act
-            var wordleGame = new WordleGame("TodoRemove", mockValidator);
+            var wordleGame = new WordleGame("answerToBeGenerated", mockValidator);
 
             // Assert
             Assert.AreEqual(WordleGame.State.IsRunning, wordleGame.Status());
@@ -43,7 +43,7 @@ namespace WordleTests
             string userGuess = "InvalidGuess";
             var mockValidator = CreateAndConfigureMockValidator(false);
             
-            var wordleGame = new WordleGame("TodoRemove", mockValidator);
+            var wordleGame = new WordleGame("answerToBeGenerated", mockValidator);
             int initialTurnsRemaining = wordleGame.TurnsRemaining();
 
             // Act
@@ -61,7 +61,7 @@ namespace WordleTests
             // Arrange 
             var mockValidator = MockRepository.GenerateStub<IWordValidator>();
             mockValidator.Stub(v => v.Validate(userGuess)).IgnoreArguments().Return(new ValidatorResult());
-            var wordleGame = new WordleGame("TodoRemove", mockValidator);
+            var wordleGame = new WordleGame("answerToBeGenerated", mockValidator);
             
             // Act
             wordleGame.PlayTurn(userGuess);
@@ -76,7 +76,7 @@ namespace WordleTests
             // Arrange 
             var invalidatedUserGuess = "NotValid";
             var mockInvalidatingValidator = CreateAndConfigureMockValidator(false);
-            var wordleGame = new WordleGame("TodoRemove", mockInvalidatingValidator);
+            var wordleGame = new WordleGame("answerToBeGenerated", mockInvalidatingValidator);
 
             // Act
             var guessResult = wordleGame.PlayTurn(invalidatedUserGuess);
@@ -91,7 +91,7 @@ namespace WordleTests
             // Arrange 
             var userGuess = "valid";
             var mockValidatingValidator = CreateAndConfigureMockValidator(true);
-            var wordleGame = new WordleGame("TodoRemove", mockValidatingValidator);
+            var wordleGame = new WordleGame("answerToBeGenerated", mockValidatingValidator);
 
             // Act
             var guessResult = wordleGame.PlayTurn(userGuess);
@@ -107,7 +107,7 @@ namespace WordleTests
             // Arrange 
             var userGuess = "valid";
             var mockValidator = CreateAndConfigureMockValidator(true);
-            var wordleGame = new WordleGame("TodoRemove", mockValidator);
+            var wordleGame = new WordleGame("answerToBeGenerated", mockValidator);
             
             int initialTurnsRemaining = wordleGame.TurnsRemaining();
 
@@ -125,7 +125,7 @@ namespace WordleTests
             // Arrange
             var invalidUserGuess = "InvalidGuess";
             var mockValidator = CreateAndConfigureMockValidator(false);
-            var wordleGame = new WordleGame("TodoRemove", mockValidator);
+            var wordleGame = new WordleGame("answerToBeGenerated", mockValidator);
 
             // Act
             var playTurnResult = wordleGame.PlayTurn(invalidUserGuess);
@@ -140,7 +140,7 @@ namespace WordleTests
             // Arrange
             var validUserGuess = "valid";
             var mockValidator = CreateAndConfigureMockValidator(true);
-            var wordleGame = new WordleGame("TodoRemove", mockValidator);
+            var wordleGame = new WordleGame("answerToBeGenerated", mockValidator);
 
             // Act
             var playTurnGuessResult = wordleGame.PlayTurn(validUserGuess);
@@ -159,7 +159,7 @@ namespace WordleTests
                 .Stub(d => d.IsInDictionary(guessNot5Letters))
                 .Return(true);
 
-            var wordleGame = new WordleGame("TodoRemove",
+            var wordleGame = new WordleGame("answerToBeGenerated",
                                         new GuessValidator(mockEnglishDictionary));
 
             // Act
@@ -174,7 +174,7 @@ namespace WordleTests
         public static void PlayTurn_CorrectGuess_StatusWon()
         {
             // Arrange
-            var answer = "bingo"; // TODO remove 
+            var answer = "bingo"; 
             var correctGuess = answer; 
             var mockValidator = CreateAndConfigureMockValidator(true);
             var wordleGame = new WordleGame(answer, mockValidator);
@@ -194,7 +194,7 @@ namespace WordleTests
         {
             // Arrange
             var mockValidator = CreateAndConfigureMockValidator(true);
-            var wordleGame = new WordleGame("TodoRemove", mockValidator);
+            var wordleGame = new WordleGame("answerToBeGenerated", mockValidator);
 
             // Act 
             for (int currentTurn = 0; currentTurn < numOfTurns; ++currentTurn)
@@ -229,7 +229,7 @@ namespace WordleTests
             var incorrectGuess = "false";
             var mockValidator = CreateAndConfigureMockValidator(true);
 
-            var wordleGame = new WordleGame("TodoRemove", mockValidator);
+            var wordleGame = new WordleGame("answerToBeGenerated", mockValidator);
  
             // Act 
             for (int turnNum = 0; turnNum < WordleGame.MaxNumOfTurns; ++turnNum)
@@ -248,7 +248,7 @@ namespace WordleTests
             var invalidGuess = "guessWillBeInvalidated";
             var mockValidator = CreateAndConfigureMockValidator(false);
 
-            var wordleGame = new WordleGame("TodoRemove", mockValidator);
+            var wordleGame = new WordleGame("answerToBeGenerated", mockValidator);
 
             // Act 
             var guessResult = wordleGame.PlayTurn(invalidGuess);
