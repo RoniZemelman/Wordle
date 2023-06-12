@@ -6,18 +6,21 @@ namespace Wordle
 {
     class DriverProgram
     {
+        private static readonly string DictionaryFilePath =
+            "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt.txt";
+
         private static WordleGame CreateGame()
         {
             var guessAnalyzer = new GuessAnalyzer("start");
 
-            byte[] fileContents = File.ReadAllBytes("C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt.txt");
+            byte[] fileContents = File.ReadAllBytes(DictionaryFilePath);
             var engDictionary = new EnglishDictionary(new MemoryStream(fileContents));
             var guessValidator = new GuessValidator(engDictionary);
 
             return new WordleGame(guessAnalyzer, guessValidator);
         }
 
-        private static void DisplayValidationResult(string guess, GuessResult guessResult)
+        private static void DisplayValidationErrors(string guess, GuessResult guessResult)
         {
             if (!guessResult.ValidationResult.Is5Letters)
                 Console.WriteLine($"'{guess}' is not 5 letters");
@@ -70,7 +73,7 @@ namespace Wordle
                 if (!guessResult.IsValid())
                 {
                     var em = guessResult.At(1);
-                    DisplayValidationResult(guess, guessResult);
+                    DisplayValidationErrors(guess, guessResult);
                     continue;
                 }
 
