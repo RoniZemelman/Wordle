@@ -1,4 +1,6 @@
 ﻿
+using System;
+using System.ComponentModel;
 using System.Linq;
 using static Wordle.GuessValidator;
 
@@ -55,15 +57,19 @@ namespace Wordle
             return GetNumExactMatches() == WordleGame.NumLettersInWord;
         }
 
-        // Refactor GetNums to function that to they pass lambda 
+        private int CountMatches(Func<GuessLetterResult, bool> matchCondition)
+        {
+            return _guessAnalysisResults.Count(matchCondition);
+        }
+
         public int GetNumExactMatches()
         {
-            return _guessAnalysisResults.Count(g => g.IsExactMatch());
+            return CountMatches(g => g.IsExactMatch());
         }
 
         public int GetNumPartialMatches()
         {
-            return _guessAnalysisResults.Count(g => g.IsPartialMatch());  
+            return CountMatches(g => g.IsPartialMatch());
         }
 
         public GuessLetterResult At(int index)

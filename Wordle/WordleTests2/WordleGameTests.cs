@@ -256,5 +256,11 @@ namespace WordleTests
             Assert.AreEqual(WordleGame.State.Lost, wordleGame.Status());
         }
 
+        [Test]
+        public static void PlayTurn_UserTriesToAccessInvalidatedGuessResult_ExceptionThrown()
+        {
+            Assert.IsTrue(false);
+        }
+
     }
 }
