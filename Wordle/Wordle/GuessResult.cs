@@ -8,26 +8,6 @@ namespace Wordle
 {
     public class GuessResult  
     {
-        public class GuessLetterResult
-        {
-            public char Letter { get; }
-            private readonly bool _isExactMatch;
-            private readonly bool _isPartialMatch;
-
-            public GuessLetterResult(char letter, bool isExactMatch = false, bool isPartialMatch = false)
-            {
-                Letter = letter;
-                _isExactMatch = isExactMatch;
-                _isPartialMatch = isPartialMatch;
-            }
-
-            public bool IsExactMatch() { return _isExactMatch; }
-
-            public bool IsPartialMatch() { return _isPartialMatch; }
-
-            public bool CompleteMiss() { return !_isExactMatch && !_isPartialMatch; }
-        }
-
         public ValidatorResult ValidationResult;
         private readonly GuessLetterResult[] _guessAnalysisResults;
         public GuessResult()
@@ -39,22 +19,6 @@ namespace Wordle
         public void SetItemAt(int index, GuessLetterResult guessLetterResult)
         {
             _guessAnalysisResults[index] = guessLetterResult;
-        }
-
-        public bool IsValid()
-        {
-            return ValidationResult.IsValidGuess();
-        }
-        public bool IsNull()
-        {
-            var numOfNulls = _guessAnalysisResults.Count(g => g == null);
-            
-            return numOfNulls == WordleGame.NumLettersInWord;
-        }
-
-        public bool IsCorrectGuess()
-        {
-            return GetNumExactMatches() == WordleGame.NumLettersInWord;
         }
 
         private int CountMatches(Func<GuessLetterResult, bool> matchCondition)
@@ -83,7 +47,39 @@ namespace Wordle
             return _guessAnalysisResults[index];
         }
 
+        public bool IsValid()
+        {
+            return ValidationResult.IsValidGuess();
+        }
+        public bool IsNull()
+        {
+            var numOfNulls = _guessAnalysisResults.Count(g => g == null);
+
+            return numOfNulls == WordleGame.NumLettersInWord;
+        }
+        public bool IsCorrectGuess()
+        {
+            return GetNumExactMatches() == WordleGame.NumLettersInWord;
+        }
     }
 
-    
+    public class GuessLetterResult
+    {
+        public char Letter { get; }
+        private readonly bool _isExactMatch;
+        private readonly bool _isPartialMatch;
+
+        public GuessLetterResult(char letter, bool isExactMatch = false, bool isPartialMatch = false)
+        {
+            Letter = letter;
+            _isExactMatch = isExactMatch;
+            _isPartialMatch = isPartialMatch;
+        }
+
+        public bool IsExactMatch() { return _isExactMatch; }
+
+        public bool IsPartialMatch() { return _isPartialMatch; }
+
+        public bool CompleteMiss() { return !_isExactMatch && !_isPartialMatch; }
+    }
 }

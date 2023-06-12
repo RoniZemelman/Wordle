@@ -18,7 +18,7 @@ namespace WordleTests
 
         private static IGuessAnalyzer CreateMockAnalyzer(bool _isExactMatch)
         {
-            var mockGuessAnalzer = MockRepository.GenerateStub<IGuessAnalyzer>();
+            var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
 
             GuessResult guessResult = new GuessResult
             {
@@ -32,9 +32,9 @@ namespace WordleTests
                                                                         isPartialMatch: false));
             }
 
-            mockGuessAnalzer.Stub(g => g.Analyze("")).IgnoreArguments().Return(guessResult);
+            mockGuessAnalyzer.Stub(g => g.Analyze("")).IgnoreArguments().Return(guessResult);
 
-            return mockGuessAnalzer;
+            return mockGuessAnalyzer;
         }
 
         public static IGuessAnalyzer CreateMockGuessAnalyzerThatAlwaysReturnsCorrect()
