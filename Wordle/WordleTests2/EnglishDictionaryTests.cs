@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Security.Cryptography;
+using Castle.Core.Resource;
 using NUnit.Framework;
 using Wordle;
 
@@ -8,16 +9,21 @@ namespace WordleTests
     class EnglishDictionaryTests
     {
         private const string TestingDictionaryFilePath = "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt.txt";
-        // TODO - set up fixture - read files once
+        private static byte[] _fileContents;
+
+        [OneTimeSetUp]
+        public static void ReadFileContentsIntoMainMemory()
+        {
+            _fileContents = File.ReadAllBytes(TestingDictionaryFilePath);
+        }
 
         [Test]
         [TestCase("blahblah")]
         [TestCase("shtuyot")]
         public static void IsInDictionary_WordNotInDictionary_False(string word)
         {
-            // Arrange
-            byte[] fileContents = File.ReadAllBytes(TestingDictionaryFilePath);
-            var engDictionary = new EnglishDictionary(new MemoryStream(fileContents));
+            //// Arrange
+            var engDictionary = new EnglishDictionary(new MemoryStream(_fileContents));
 
             // Act
             var isInDictionary = engDictionary.IsInDictionary(word);
@@ -34,8 +40,7 @@ namespace WordleTests
         public static void IsInDictionary_RealWordFromDictionaryFile_True(string word)
         {
             // Arrange
-            byte[] fileContents = File.ReadAllBytes(TestingDictionaryFilePath);
-            var engDictionary = new EnglishDictionary(new MemoryStream(fileContents));
+            var engDictionary = new EnglishDictionary(new MemoryStream(_fileContents));
 
             // Act
             var isInDictionary = engDictionary.IsInDictionary(word);
