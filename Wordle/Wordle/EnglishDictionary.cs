@@ -29,7 +29,8 @@ namespace Wordle
             }
         }
 
-        public string[] GetDictionaryWords()
+        // TODO performance considerations of ToArray?
+        public IEnumerable<string> GetDictionaryWords()
         {
             return _setOfWords.ToArray();
         }

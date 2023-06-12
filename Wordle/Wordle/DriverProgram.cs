@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Wordle
 {
@@ -9,13 +10,28 @@ namespace Wordle
         private static readonly string DictionaryFilePath =
             "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt";
 
+        private static string _currAnswer; // TODO not thread safe
+
+        // TODO move to separate class
+        private static string GenerateAnswer(EnglishDictionary englishDictionary, GuessValidator guessValidator)
+        {
+            var wordsArray = englishDictionary.GetDictionaryWords();
+            var answersArray = wordsArray.Where(word => guessValidator.Validate(word).IsValidGuess()).ToArray();
+            var numOfPossibleAnswers = answersArray.Length;
+            var random = new Random();
+
+            return answersArray[random.Next(numOfPossibleAnswers)];
+        }
+
         private static WordleGame CreateGame()
         {
             byte[] fileContents = File.ReadAllBytes(DictionaryFilePath);
             var engDictionary = new EnglishDictionary(new MemoryStream(fileContents));
-            var guessValidator = new GuessValidator(engDictionary);
+            var validator = new GuessValidator(engDictionary);
+            
+            _currAnswer = GenerateAnswer(engDictionary, validator);
 
-            return new WordleGame("start", guessValidator);
+            return new WordleGame(_currAnswer, validator);
         }
 
         private static void DisplayValidationErrors(string guess, GuessResult guessResult)
@@ -88,7 +104,7 @@ namespace Wordle
                 return;
             }
 
-            Console.WriteLine("Sorry! You lost.");
+            Console.WriteLine($"Sorry! You lost. Correct Answer: {_currAnswer}");
         }
 
         public static void Main(string[] args)

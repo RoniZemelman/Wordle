@@ -149,11 +149,12 @@ namespace WordleTests
             Assert.IsTrue(playTurnGuessResult.IsValid());
         }
 
-        [Test] // Granularity test for validator object
+        [Test] // TODO - improve this granularity test for validator object.
+               // Move to ValidatorTests?
         public static void PlayTurn_ValidatorInvalidatesFor1Reason_ValidatorOutputHasOnly1FalseField()
         {
             // Arrange
-            var guessNot5Letters = "TooLong";
+            var guessNot5Letters = "efficient";
             var mockEnglishDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
             mockEnglishDictionary
                 .Stub(d => d.IsInDictionary(guessNot5Letters))
@@ -167,8 +168,8 @@ namespace WordleTests
 
             // Assert
             Assert.AreEqual(1, guessResult.ValidationResult.ErrorCount());
-         }
-        
+        }
+
         [Test]
         
         public static void PlayTurn_CorrectGuess_StatusWon()
