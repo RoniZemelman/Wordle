@@ -18,9 +18,9 @@ namespace Wordle
         private int _numTurnsRemaining;
         private State _status;
 
-        public WordleGame(string answer, IGuessAnalyzer guessAnalyzer, IWordValidator validator)
+        public WordleGame(string answer, IWordValidator validator)
         {
-            _guessAnalyzer = guessAnalyzer; 
+            _guessAnalyzer = new GuessAnalyzer(answer); 
             _validator = validator;
             _numTurnsRemaining = MaxNumOfTurns;
             _status = State.IsRunning;

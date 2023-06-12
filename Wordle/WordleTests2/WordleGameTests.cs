@@ -18,7 +18,7 @@ namespace WordleTests
             var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
             
             // Act
-            var wordleGame = new WordleGame("TodoRemove", mockGuessAnalyzer, mockValidator);
+            var wordleGame = new WordleGame("TodoRemove", mockValidator);
             
             // Assert
             Assert.AreEqual(WordleGame.MaxNumOfTurns, wordleGame.TurnsRemaining());
@@ -32,7 +32,7 @@ namespace WordleTests
             var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
 
             // Act
-            var wordleGame = new WordleGame("TodoRemove", mockGuessAnalyzer, mockValidator);
+            var wordleGame = new WordleGame("TodoRemove", mockValidator);
 
             // Assert
             Assert.AreEqual(WordleGame.State.IsRunning, wordleGame.Status());
@@ -46,7 +46,7 @@ namespace WordleTests
             var mockValidator = CreateAndConfigureMockValidator(false);
             var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsIncorrect();
             
-            var wordleGame = new WordleGame("TodoRemove", mockGuessAnalyzer, mockValidator);
+            var wordleGame = new WordleGame("TodoRemove", mockValidator);
             int initialTurnsRemaining = wordleGame.TurnsRemaining();
 
             // Act
@@ -65,7 +65,7 @@ namespace WordleTests
             var mockValidator = MockRepository.GenerateStub<IWordValidator>();
             mockValidator.Stub(v => v.Validate(userGuess)).IgnoreArguments().Return(new ValidatorResult());
             var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
-            var wordleGame = new WordleGame("TodoRemove", mockGuessAnalyzer, mockValidator);
+            var wordleGame = new WordleGame("TodoRemove", mockValidator);
             
             // Act
             wordleGame.PlayTurn(userGuess);
@@ -81,7 +81,7 @@ namespace WordleTests
             var invalidatedUserGuess = "NotValid";
             var mockInvalidatingValidator = CreateAndConfigureMockValidator(false);
             var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
-            var wordleGame = new WordleGame("TodoRemove", mockGuessAnalyzer, mockInvalidatingValidator);
+            var wordleGame = new WordleGame("TodoRemove", mockInvalidatingValidator);
 
             // Act
             var guessResult = wordleGame.PlayTurn(invalidatedUserGuess);
@@ -97,7 +97,7 @@ namespace WordleTests
             var userGuess = "valid";
             var mockValidatingValidator = CreateAndConfigureMockValidator(true);
             var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsIncorrect();
-            var wordleGame = new WordleGame("TodoRemove", mockGuessAnalyzer, mockValidatingValidator);
+            var wordleGame = new WordleGame("TodoRemove", mockValidatingValidator);
 
             // Act
             var guessResult = wordleGame.PlayTurn(userGuess);
@@ -114,7 +114,7 @@ namespace WordleTests
             var userGuess = "valid";
             var mockValidator = CreateAndConfigureMockValidator(true);
             var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsIncorrect();
-            var wordleGame = new WordleGame("TodoRemove", mockGuessAnalyzer, mockValidator);
+            var wordleGame = new WordleGame("TodoRemove", mockValidator);
             
             int initialTurnsRemaining = wordleGame.TurnsRemaining();
 
@@ -133,7 +133,7 @@ namespace WordleTests
             var invalidUserGuess = "InvalidGuess";
             var mockValidator = CreateAndConfigureMockValidator(false);
             var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
-            var wordleGame = new WordleGame("TodoRemove", mockGuessAnalyzer, mockValidator);
+            var wordleGame = new WordleGame("TodoRemove", mockValidator);
 
             // Act
             var playTurnResult = wordleGame.PlayTurn(invalidUserGuess);
@@ -150,7 +150,7 @@ namespace WordleTests
             var mockValidator = CreateAndConfigureMockValidator(true);
             var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsCorrect();
 
-            var wordleGame = new WordleGame("TodoRemove", mockGuessAnalyzer, mockValidator);
+            var wordleGame = new WordleGame("TodoRemove", mockValidator);
 
             // Act
             var playTurnGuessResult = wordleGame.PlayTurn(validUserGuess);
@@ -171,7 +171,7 @@ namespace WordleTests
                 .Stub(d => d.IsInDictionary(guessNot5Letters))
                 .Return(true);
 
-            var wordleGame = new WordleGame("TodoRemove", mockGuessAnalyzer,
+            var wordleGame = new WordleGame("TodoRemove",
                                         new GuessValidator(mockEnglishDictionary));
 
             // Act
@@ -191,7 +191,7 @@ namespace WordleTests
             var mockValidator = CreateAndConfigureMockValidator(true);
             var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsCorrect();
             
-            var wordleGame = new WordleGame(answer, mockGuessAnalyzer, mockValidator);
+            var wordleGame = new WordleGame(answer, mockValidator);
             
             // Act 
             wordleGame.PlayTurn(correctGuess);
@@ -209,12 +209,12 @@ namespace WordleTests
             // Arrange
             var mockValidator = CreateAndConfigureMockValidator(true);
             var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsIncorrect();
-            var wordleGame = new WordleGame("TodoRemove", mockGuessAnalyzer, mockValidator);
+            var wordleGame = new WordleGame("TodoRemove", mockValidator);
 
             // Act 
             for (int currentTurn = 0; currentTurn < numOfTurns; ++currentTurn)
             {
-                wordleGame.PlayTurn("incorrectGuess");
+                wordleGame.PlayTurn("false");
             }
 
             // Assert
@@ -228,7 +228,7 @@ namespace WordleTests
             var answer = "bingo";
             var correctGuess = answer;
             var mockValidator = CreateAndConfigureMockValidator(true);
-            var wordleGame = new WordleGame(answer, new GuessAnalyzer(answer), mockValidator);
+            var wordleGame = new WordleGame(answer, mockValidator);
 
             // Act 
             var guessResult = wordleGame.PlayTurn(correctGuess);
@@ -241,11 +241,11 @@ namespace WordleTests
         public static void PlayTurn_MaxTurnsPlayedWithIncorrectGuess_StatusLost()
         {
             // Arrange
-            var incorrectGuess = "incorrectGuess";
+            var incorrectGuess = "false";
             var mockValidator = CreateAndConfigureMockValidator(true);
             var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsIncorrect();
 
-            var wordleGame = new WordleGame("TodoRemove", mockGuessAnalyzer, mockValidator);
+            var wordleGame = new WordleGame("TodoRemove", mockValidator);
  
             // Act 
             for (int turnNum = 0; turnNum < WordleGame.MaxNumOfTurns; ++turnNum)
@@ -265,7 +265,7 @@ namespace WordleTests
             var mockValidator = CreateAndConfigureMockValidator(false);
             var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsCorrect();
 
-            var wordleGame = new WordleGame("TodoRemove", mockGuessAnalyzer, mockValidator);
+            var wordleGame = new WordleGame("TodoRemove", mockValidator);
 
             // Act 
             var guessResult = wordleGame.PlayTurn(invalidGuess);
