@@ -18,7 +18,7 @@ namespace Wordle
         private int _numTurnsRemaining;
         private State _status;
 
-        public WordleGame(IGuessAnalyzer guessAnalyzer, IWordValidator validator)
+        public WordleGame(string answer, IGuessAnalyzer guessAnalyzer, IWordValidator validator)
         {
             _guessAnalyzer = guessAnalyzer; 
             _validator = validator;

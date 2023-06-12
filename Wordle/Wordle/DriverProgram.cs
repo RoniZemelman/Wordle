@@ -17,7 +17,7 @@ namespace Wordle
             var engDictionary = new EnglishDictionary(new MemoryStream(fileContents));
             var guessValidator = new GuessValidator(engDictionary);
 
-            return new WordleGame(guessAnalyzer, guessValidator);
+            return new WordleGame("start", guessAnalyzer, guessValidator);
         }
 
         private static void DisplayValidationErrors(string guess, GuessResult guessResult)
