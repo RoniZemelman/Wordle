@@ -6,7 +6,8 @@ namespace Wordle
     public class EnglishDictionary : IEnglishDictionary
     {
         private readonly StreamReader _streamReader;
-        private Dictionary<string, bool> _mapOfWords; // TODO Use HashSet
+        //private Dictionary<string, bool> _mapOfWords; // TODO Use HashSet
+        private HashSet<string> _mapOfWords;
 
         public EnglishDictionary(string filePath)
         {
@@ -19,18 +20,18 @@ namespace Wordle
 
         private void ConstructMapOfWords()
         {
-            _mapOfWords = new Dictionary<string, bool>();
+            _mapOfWords = new HashSet<string>();
             string word;
 
             while ((word = _streamReader.ReadLine()) != null)
             { 
-                _mapOfWords.Add(word, true);
+                _mapOfWords.Add(word);
             }
         }
 
         public bool IsInDictionary(string word)
         {
-            return _mapOfWords.ContainsKey(word);
+            return _mapOfWords.Contains(word);
         }
     }
 
