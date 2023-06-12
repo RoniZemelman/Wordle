@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Wordle
 {
     public class EnglishDictionary : IEnglishDictionary
     {
         private readonly StreamReader _streamReader;
-        private HashSet<string> _mapOfWords;
+        private HashSet<string> _setOfWords;
 
         public EnglishDictionary(MemoryStream memoryStream)
         {
@@ -19,18 +20,23 @@ namespace Wordle
 
         private void ConstructMapOfWords()
         {
-            _mapOfWords = new HashSet<string>();
+            _setOfWords = new HashSet<string>();
             string word;
 
             while ((word = _streamReader.ReadLine()) != null)
             { 
-                _mapOfWords.Add(word);
+                _setOfWords.Add(word);
             }
+        }
+
+        public string[] GetDictionaryWords()
+        {
+            return _setOfWords.ToArray();
         }
 
         public bool IsInDictionary(string word)
         {
-            return _mapOfWords.Contains(word);
+            return _setOfWords.Contains(word);
         }
     }
 
