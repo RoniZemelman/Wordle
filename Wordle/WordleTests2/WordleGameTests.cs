@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using Rhino.Mocks;
 using Wordle;
 using static Wordle.GuessValidator;
@@ -257,9 +258,22 @@ namespace WordleTests
         }
 
         [Test]
-        public static void PlayTurn_UserTriesToAccessInvalidatedGuessResult_ExceptionThrown()
+        public static void PlayTurn_UserAccessesInvalidatedGuessResult_InvalidOperationExceptionThrown()
         {
-            Assert.IsTrue(false);
+            // Arrange
+            var invalidGuess = "guessWillBeInvalidated";
+            var mockValidator = CreateAndConfigureMockValidator(false);
+            var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsCorrect();
+
+            var wordleGame = new WordleGame(mockGuessAnalyzer, mockValidator);
+
+            // Act 
+            var guessResult = wordleGame.PlayTurn(invalidGuess);
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => guessResult.GetNumExactMatches());
+            Assert.Throws<InvalidOperationException>(() => guessResult.GetNumPartialMatches());
+            Assert.Throws<InvalidOperationException>(() => guessResult.At(0));
         }
 
     }

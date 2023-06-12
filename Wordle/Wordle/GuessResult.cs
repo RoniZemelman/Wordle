@@ -59,6 +59,9 @@ namespace Wordle
 
         private int CountMatches(Func<GuessLetterResult, bool> matchCondition)
         {
+            if (!IsValid())
+                throw new InvalidOperationException("GuessResult is in Invalid state");
+
             return _guessAnalysisResults.Count(matchCondition);
         }
 
@@ -74,6 +77,9 @@ namespace Wordle
 
         public GuessLetterResult At(int index)
         {
+            if (!IsValid())
+                throw new InvalidOperationException("GuessResult is in Invalid state");
+
             return _guessAnalysisResults[index];
         }
 
