@@ -8,7 +8,7 @@ namespace WordleTests
 {
     class EnglishDictionaryTests
     {
-        private const string TestingDictionaryFilePath = "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt.txt";
+        private const string TestingDictionaryFilePath = "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt";
         private static byte[] _fileContents;
 
         [OneTimeSetUp]

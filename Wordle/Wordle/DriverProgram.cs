@@ -7,7 +7,7 @@ namespace Wordle
     class DriverProgram
     {
         private static readonly string DictionaryFilePath =
-            "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt.txt";
+            "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt";
 
         private static WordleGame CreateGame()
         {
@@ -72,7 +72,6 @@ namespace Wordle
 
                 if (!guessResult.IsValid())
                 {
-                    var em = guessResult.At(1);
                     DisplayValidationErrors(guess, guessResult);
                     continue;
                 }
