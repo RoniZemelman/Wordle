@@ -11,8 +11,6 @@ namespace Wordle
 
         private static WordleGame CreateGame()
         {
-            var guessAnalyzer = new GuessAnalyzer("start");
-
             byte[] fileContents = File.ReadAllBytes(DictionaryFilePath);
             var engDictionary = new EnglishDictionary(new MemoryStream(fileContents));
             var guessValidator = new GuessValidator(engDictionary);

@@ -15,8 +15,7 @@ namespace WordleTests
         {
             // Arrange            
             var mockValidator = CreateAndConfigureMockValidator(false);
-            var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
-            
+
             // Act
             var wordleGame = new WordleGame("TodoRemove", mockValidator);
             
@@ -29,7 +28,6 @@ namespace WordleTests
         {
             // Arrange
             var mockValidator = CreateAndConfigureMockValidator(false);
-            var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
 
             // Act
             var wordleGame = new WordleGame("TodoRemove", mockValidator);
@@ -44,7 +42,6 @@ namespace WordleTests
             // Arrange
             string userGuess = "InvalidGuess";
             var mockValidator = CreateAndConfigureMockValidator(false);
-            var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsIncorrect();
             
             var wordleGame = new WordleGame("TodoRemove", mockValidator);
             int initialTurnsRemaining = wordleGame.TurnsRemaining();
@@ -64,7 +61,6 @@ namespace WordleTests
             // Arrange 
             var mockValidator = MockRepository.GenerateStub<IWordValidator>();
             mockValidator.Stub(v => v.Validate(userGuess)).IgnoreArguments().Return(new ValidatorResult());
-            var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
             var wordleGame = new WordleGame("TodoRemove", mockValidator);
             
             // Act
@@ -80,7 +76,6 @@ namespace WordleTests
             // Arrange 
             var invalidatedUserGuess = "NotValid";
             var mockInvalidatingValidator = CreateAndConfigureMockValidator(false);
-            var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
             var wordleGame = new WordleGame("TodoRemove", mockInvalidatingValidator);
 
             // Act
@@ -96,7 +91,6 @@ namespace WordleTests
             // Arrange 
             var userGuess = "valid";
             var mockValidatingValidator = CreateAndConfigureMockValidator(true);
-            var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsIncorrect();
             var wordleGame = new WordleGame("TodoRemove", mockValidatingValidator);
 
             // Act
@@ -113,7 +107,6 @@ namespace WordleTests
             // Arrange 
             var userGuess = "valid";
             var mockValidator = CreateAndConfigureMockValidator(true);
-            var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsIncorrect();
             var wordleGame = new WordleGame("TodoRemove", mockValidator);
             
             int initialTurnsRemaining = wordleGame.TurnsRemaining();
@@ -132,7 +125,6 @@ namespace WordleTests
             // Arrange
             var invalidUserGuess = "InvalidGuess";
             var mockValidator = CreateAndConfigureMockValidator(false);
-            var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
             var wordleGame = new WordleGame("TodoRemove", mockValidator);
 
             // Act
@@ -148,8 +140,6 @@ namespace WordleTests
             // Arrange
             var validUserGuess = "valid";
             var mockValidator = CreateAndConfigureMockValidator(true);
-            var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsCorrect();
-
             var wordleGame = new WordleGame("TodoRemove", mockValidator);
 
             // Act
@@ -164,8 +154,6 @@ namespace WordleTests
         {
             // Arrange
             var guessNot5Letters = "TooLong";
-            var mockGuessAnalyzer = MockRepository.GenerateStub<IGuessAnalyzer>();
-
             var mockEnglishDictionary = MockRepository.GenerateStub<IEnglishDictionary>();
             mockEnglishDictionary
                 .Stub(d => d.IsInDictionary(guessNot5Letters))
@@ -189,8 +177,6 @@ namespace WordleTests
             var answer = "bingo"; // TODO remove 
             var correctGuess = answer; 
             var mockValidator = CreateAndConfigureMockValidator(true);
-            var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsCorrect();
-            
             var wordleGame = new WordleGame(answer, mockValidator);
             
             // Act 
@@ -208,7 +194,6 @@ namespace WordleTests
         {
             // Arrange
             var mockValidator = CreateAndConfigureMockValidator(true);
-            var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsIncorrect();
             var wordleGame = new WordleGame("TodoRemove", mockValidator);
 
             // Act 
@@ -243,7 +228,6 @@ namespace WordleTests
             // Arrange
             var incorrectGuess = "false";
             var mockValidator = CreateAndConfigureMockValidator(true);
-            var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsIncorrect();
 
             var wordleGame = new WordleGame("TodoRemove", mockValidator);
  
@@ -263,7 +247,6 @@ namespace WordleTests
             // Arrange
             var invalidGuess = "guessWillBeInvalidated";
             var mockValidator = CreateAndConfigureMockValidator(false);
-            var mockGuessAnalyzer = CreateMockGuessAnalyzerThatAlwaysReturnsCorrect();
 
             var wordleGame = new WordleGame("TodoRemove", mockValidator);
 
