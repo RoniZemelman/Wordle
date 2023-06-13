@@ -22,7 +22,7 @@ namespace WordleTests
             _fileContents = File.ReadAllBytes(TestingDictionaryFilePath);
         }
 
-        // TODO move the above to separate utils file - shared by EngDictionaryTests...
+        // TODO move the above to separate utils file - duplicated in EngDictionaryTests...
 
         [Test] // Remove 
         public static void Constructor_AnswerGeneratorCreated_NotNull()
@@ -51,25 +51,29 @@ namespace WordleTests
             Assert.AreEqual(ExpectedNumOfAnswers, numOfAnswers);
         }
 
-        [Test]  // Sanity Check test - attempt to cover/validate total answers provided to user
-        public static void GenerateAnswer_MethodCalledForExpectedNumOfAnswers_EachAnswerIsValidWordle()
+        [Test]  // Sanity Check test - attempt to cover/validate total answers
+                // provided to user
+        public static void GenerateAnswer_MethodCalledForExpectedNumOfAnswers_EachAnswerIsValid()
         {
             // Arrange
             var memoryStream = new MemoryStream(_fileContents);
             var engDictionary = new EnglishDictionary(memoryStream);
             var wordleValidator = new GuessValidator(engDictionary);
-
             var answerGenerator = new AnswerGenerator(engDictionary);
 
-            // Act + Assert _expectedNumOfAnswersTimes...
-            for (int count = 0; count < ExpectedNumOfAnswers; ++count)
+            // Act 
+            var answerIsValid = true;
+            for (int count = 0;
+                 answerIsValid && (count < ExpectedNumOfAnswers); 
+                 ++count)
             {
                 var answer = answerGenerator.GenerateAnswer();
-                var validateAnswerResult = wordleValidator.Validate(answer);
-
-                Assert.IsTrue(validateAnswerResult.IsValidGuess());
+                var validationResult = wordleValidator.Validate(answer);
+                answerIsValid = validationResult.IsValidGuess();
             }
-                // Maybe just assert Is5Letters + IsAllChars since we know its in the dictionary
+
+            // Assert
+            Assert.IsTrue(answerIsValid);
         }
 
     }
