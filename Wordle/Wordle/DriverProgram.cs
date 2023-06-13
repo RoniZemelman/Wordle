@@ -10,30 +10,18 @@ namespace Wordle
         private static readonly string DictionaryFilePath =
             "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt";
 
-        private static string _currAnswer; // TODO thread safety
-
-        // TODO move to separate class
-        private static string GenerateAnswer(EnglishDictionary englishDictionary)
-        {
-            var guessValidator = new GuessValidator(englishDictionary);
-            var dictionaryWords = englishDictionary.GetDictionaryWords();
-            var answersArray = dictionaryWords.Where(word => guessValidator.Validate(word).IsValidGuess()).ToArray();
-            var numOfPossibleAnswers = answersArray.Length;
-            var random = new Random();
-
-            return answersArray[random.Next(numOfPossibleAnswers)];
-        }
+        private static string _currentAnswer; // TODO thread safety
 
         private static WordleGame CreateGame()
         {
-            byte[] fileContents = File.ReadAllBytes(DictionaryFilePath);
+            var fileContents = File.ReadAllBytes(DictionaryFilePath);
             var engDictionary = new EnglishDictionary(new MemoryStream(fileContents));
             var validator = new GuessValidator(engDictionary);
             var answerGenerator = new AnswerGenerator(engDictionary);
 
-            _currAnswer = answerGenerator.GenerateAnswer(); //GenerateAnswer(engDictionary);
+            _currentAnswer = answerGenerator.GenerateAnswer(); 
 
-            return new WordleGame(_currAnswer, validator);
+            return new WordleGame(_currentAnswer, validator);
         }
 
         private static void DisplayValidationErrors(string guess, GuessResult guessResult)
@@ -106,21 +94,39 @@ namespace Wordle
                 return;
             }
 
-            Console.WriteLine($"Sorry! You lost. Correct Answer: {_currAnswer}");
+            Console.WriteLine($"Sorry! You lost. Correct Answer: {_currentAnswer}");
         }
 
         public static void Main(string[] args)
         {
             Console.WriteLine($"Welcome to WordleGame! " +
-                              $" Please enter a {WordleGame.NumLettersInWord} letter word." +
-                              $" Here are the color key:"
-                              + "\nGreen = letter is correct (in correct location)" +
-                              "\nYellow  = letter is in the word but wrong location"
-                              +"\nRed = letter is not in the answer.");
+                              $" Please enter a {WordleGame.NumLettersInWord} letter word.");
+
+            DisplayKey();
 
             var wordleGame = CreateGame();
-
             RunGame(wordleGame);
+        }
+
+        private static void DisplayKey()
+        {
+            Console.WriteLine("\n\nCOLOR KEY");
+            
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("\nGreen:  ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("letter is correct (in correct location)");
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("Yellow:  ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("letter is correct (in correct location)");
+
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Red:  ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("letter is not in the answer.");
         }
     }
 }
