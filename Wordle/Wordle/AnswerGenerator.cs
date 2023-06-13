@@ -12,5 +12,10 @@ namespace Wordle
         {
 
         }
+
+        public int NumOfAnswers()
+        {
+            return 1000;
+        }
     }
 }
