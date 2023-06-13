@@ -14,6 +14,7 @@ namespace WordleTests
 
         private const string TestingDictionaryFilePath = "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt";
         private static byte[] _fileContents;
+        private const int ExpectedNumOfAnswers = 1379;
 
         [OneTimeSetUp]
         public static void ReadFileContentsIntoMainMemory()
@@ -42,16 +43,15 @@ namespace WordleTests
             // Arrange
             var memoryStream = new MemoryStream(_fileContents);
             var answerGenerator = new AnswerGenerator(new EnglishDictionary(memoryStream));
-            var expectedNumOfAnswers = 1379;
 
             // Act
             var numOfAnswers = answerGenerator.NumOfAnswers();
 
             // Assert
-            Assert.AreEqual(expectedNumOfAnswers, numOfAnswers);
+            Assert.AreEqual(ExpectedNumOfAnswers, numOfAnswers);
         }
 
-        [Test]
+        [Test]  // Sanity Check test - attempt to cover/validate total answers provided to user
         public static void GenerateAnswer_MethodCalledForExpectedNumOfAnswers_EachAnswerIsValidWordle()
         {
             // Arrange
@@ -60,15 +60,16 @@ namespace WordleTests
             var wordleValidator = new GuessValidator(engDictionary);
 
             var answerGenerator = new AnswerGenerator(engDictionary);
-            var expectedNumOfAnswers = 1379;
 
-            // Act
-            var answer = answerGenerator.GenerateAnswer();
-            var validateAnswerResult = wordleValidator.Validate(answer); 
+            // Act + Assert _expectedNumOfAnswersTimes...
+            for (int count = 0; count < ExpectedNumOfAnswers; ++count)
+            {
+                var answer = answerGenerator.GenerateAnswer();
+                var validateAnswerResult = wordleValidator.Validate(answer);
 
-            // Assert
-            Assert.IsTrue(validateAnswerResult.IsValidGuess());  // Maybe just check Is5Letters
-                                                                // + IsAllChars since we know its in the dictionary
+                Assert.IsTrue(validateAnswerResult.IsValidGuess());
+            }
+                // Maybe just assert Is5Letters + IsAllChars since we know its in the dictionary
         }
 
     }

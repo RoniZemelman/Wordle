@@ -10,7 +10,7 @@ namespace Wordle
         private static readonly string DictionaryFilePath =
             "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt";
 
-        private static string _currAnswer; // TODO not thread safe
+        private static string _currAnswer; // TODO thread safety
 
         // TODO move to separate class
         private static string GenerateAnswer(EnglishDictionary englishDictionary)
@@ -29,8 +29,9 @@ namespace Wordle
             byte[] fileContents = File.ReadAllBytes(DictionaryFilePath);
             var engDictionary = new EnglishDictionary(new MemoryStream(fileContents));
             var validator = new GuessValidator(engDictionary);
-            
-            _currAnswer = GenerateAnswer(engDictionary);
+            var answerGenerator = new AnswerGenerator(engDictionary);
+
+            _currAnswer = answerGenerator.GenerateAnswer(); //GenerateAnswer(engDictionary);
 
             return new WordleGame(_currAnswer, validator);
         }
