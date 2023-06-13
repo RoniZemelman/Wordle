@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnswerGenerator.cs" />
     <Compile Include="GuessResult.cs" />
     <Compile Include="GuessAnalyzer.cs" />
     <Compile Include="DriverProgram.cs" />

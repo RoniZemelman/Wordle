@@ -13,10 +13,11 @@ namespace Wordle
         private static string _currAnswer; // TODO not thread safe
 
         // TODO move to separate class
-        private static string GenerateAnswer(EnglishDictionary englishDictionary, GuessValidator guessValidator)
+        private static string GenerateAnswer(EnglishDictionary englishDictionary)
         {
-            var wordsArray = englishDictionary.GetDictionaryWords();
-            var answersArray = wordsArray.Where(word => guessValidator.Validate(word).IsValidGuess()).ToArray();
+            var guessValidator = new GuessValidator(englishDictionary);
+            var dictionaryWords = englishDictionary.GetDictionaryWords();
+            var answersArray = dictionaryWords.Where(word => guessValidator.Validate(word).IsValidGuess()).ToArray();
             var numOfPossibleAnswers = answersArray.Length;
             var random = new Random();
 
@@ -29,7 +30,7 @@ namespace Wordle
             var engDictionary = new EnglishDictionary(new MemoryStream(fileContents));
             var validator = new GuessValidator(engDictionary);
             
-            _currAnswer = GenerateAnswer(engDictionary, validator);
+            _currAnswer = GenerateAnswer(engDictionary);
 
             return new WordleGame(_currAnswer, validator);
         }
