@@ -42,13 +42,33 @@ namespace WordleTests
             // Arrange
             var memoryStream = new MemoryStream(_fileContents);
             var answerGenerator = new AnswerGenerator(new EnglishDictionary(memoryStream));
-            var expectedNumOfAnswers = 1000;
+            var expectedNumOfAnswers = 1379;
 
             // Act
             var numOfAnswers = answerGenerator.NumOfAnswers();
 
             // Assert
             Assert.AreEqual(expectedNumOfAnswers, numOfAnswers);
+        }
+
+        [Test]
+        public static void GenerateAnswer_MethodCalledForExpectedNumOfAnswers_EachAnswerIsValidWordle()
+        {
+            // Arrange
+            var memoryStream = new MemoryStream(_fileContents);
+            var engDictionary = new EnglishDictionary(memoryStream);
+            var wordleValidator = new GuessValidator(engDictionary);
+
+            var answerGenerator = new AnswerGenerator(engDictionary);
+            var expectedNumOfAnswers = 1379;
+
+            // Act
+            var answer = answerGenerator.GenerateAnswer();
+            var validateAnswerResult = wordleValidator.Validate(answer); 
+
+            // Assert
+            Assert.IsTrue(validateAnswerResult.IsValidGuess());  // Maybe just check Is5Letters
+                                                                // + IsAllChars since we know its in the dictionary
         }
 
     }
