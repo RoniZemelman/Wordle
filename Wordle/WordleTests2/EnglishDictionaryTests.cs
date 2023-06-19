@@ -9,7 +9,7 @@ namespace WordleTests
 {
     class EnglishDictionaryTests
     {
-        
+        // TODO remove path, configure memory stream individually
         private static readonly string TestingDictionaryFilePath = "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt";
         private static byte[] _fileContents;
 

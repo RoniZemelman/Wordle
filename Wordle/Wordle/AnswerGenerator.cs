@@ -16,7 +16,7 @@ namespace Wordle
 
         public AnswerGenerator(EnglishDictionary engDictionary)
         {
-            _guessValidator = new GuessValidator(engDictionary);
+            _guessValidator = new GuessValidator(engDictionary); // TODO remove and inject
             _answers = CreateAnswersArray(engDictionary);
 
             _randomizer = new Random();
@@ -44,7 +44,7 @@ namespace Wordle
         {
             var randomIndex = _randomizer.Next(NumOfAnswers());
 
-            return _answers[randomIndex];
+            return _answers[randomIndex]; // TODO: null when empty
         }
     }
 }

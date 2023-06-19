@@ -15,11 +15,11 @@ namespace Wordle
         private static WordleGame CreateGame()
         {
             var fileContents = File.ReadAllBytes(DictionaryFilePath);
-            var engDictionary = new EnglishDictionary(new MemoryStream(fileContents));
+            var engDictionary = new EnglishDictionary(new MemoryStream(fileContents)); // try catch IO exception?
+            
             var validator = new GuessValidator(engDictionary);
             var answerGenerator = new AnswerGenerator(engDictionary);
-
-            _currentAnswer = answerGenerator.GenerateAnswer(); 
+            _currentAnswer = answerGenerator.GenerateAnswer();
 
             return new WordleGame(_currentAnswer, validator);
         }
