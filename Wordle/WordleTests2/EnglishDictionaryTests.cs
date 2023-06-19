@@ -1,14 +1,16 @@
-﻿using System.IO;
-using System.Security.Cryptography;
-using Castle.Core.Resource;
+﻿using System;
+using System.IO;
+using System.Configuration;
 using NUnit.Framework;
 using Wordle;
+
 
 namespace WordleTests
 {
     class EnglishDictionaryTests
     {
-        private const string TestingDictionaryFilePath = "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt";
+        
+        private static readonly string TestingDictionaryFilePath = "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt";
         private static byte[] _fileContents;
 
         [OneTimeSetUp]
@@ -22,7 +24,7 @@ namespace WordleTests
         [TestCase("shtuyot")]
         public static void IsInDictionary_WordNotInDictionary_False(string word)
         {
-            //// Arrange
+            // Arrange
             var engDictionary = new EnglishDictionary(new MemoryStream(_fileContents));
 
             // Act

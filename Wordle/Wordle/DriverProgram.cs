@@ -7,7 +7,7 @@ namespace Wordle
 {
     class DriverProgram
     {
-        private static readonly string DictionaryFilePath =
+        private static readonly string DictionaryFilePath = 
             "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt";
 
         private static string _currentAnswer; // TODO thread safety
@@ -99,7 +99,7 @@ namespace Wordle
 
         public static void Main(string[] args)
         {
-            Console.WriteLine($"Welcome to WordleGame! " +
+            Console.WriteLine("Welcome to WordleGame! " +
                               $" Please enter a {WordleGame.NumLettersInWord} letter word.");
 
             DisplayKey();
