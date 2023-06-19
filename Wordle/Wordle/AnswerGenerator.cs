@@ -27,7 +27,11 @@ namespace Wordle
             var dictionaryWords = engDictionary.GetDictionaryWords();
             
             return dictionaryWords
-                .Where(word => _guessValidator.Validate(word).IsValidGuess())
+                .Where(word =>
+                {
+                    var validatorResult = _guessValidator.Validate(word);
+                    return validatorResult.IsValidGuess();
+                }) 
                 .ToArray();
         }
 
