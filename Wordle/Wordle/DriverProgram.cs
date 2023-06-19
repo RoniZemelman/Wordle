@@ -18,7 +18,7 @@ namespace Wordle
             var engDictionary = new EnglishDictionary(new MemoryStream(fileContents)); // try catch IO exception?
             
             var validator = new GuessValidator(engDictionary);
-            var answerGenerator = new AnswerGenerator(engDictionary);
+            var answerGenerator = new AnswerGenerator(engDictionary, validator);
             _currentAnswer = answerGenerator.GenerateAnswer();
 
             return new WordleGame(_currentAnswer, validator);

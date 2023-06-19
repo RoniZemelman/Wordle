@@ -29,7 +29,8 @@ namespace WordleTests
         {
             // Arrange
             var memoryStream = new MemoryStream(_fileContents);
-            var answerGenerator = new AnswerGenerator(new EnglishDictionary(memoryStream));
+            var engDictionary = new EnglishDictionary(memoryStream);
+            var answerGenerator = new AnswerGenerator(engDictionary, new GuessValidator(engDictionary));
 
             // Act
             var numOfAnswers = answerGenerator.NumOfAnswers();
@@ -45,7 +46,7 @@ namespace WordleTests
             var memoryStream = new MemoryStream(_fileContents);
             var engDictionary = new EnglishDictionary(memoryStream);
             var wordleValidator = new GuessValidator(engDictionary);
-            var answerGenerator = new AnswerGenerator(engDictionary);
+            var answerGenerator = new AnswerGenerator(engDictionary, wordleValidator);
 
             // Act 
             var answerIsValid = true;

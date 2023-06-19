@@ -9,14 +9,14 @@ namespace Wordle
     public class AnswerGenerator
     {
         private readonly string[] _answers;
-        private readonly GuessValidator _guessValidator;
+        private readonly IWordValidator _guessValidator;
         private readonly Random _randomizer; 
 
 
 
-        public AnswerGenerator(EnglishDictionary engDictionary)
+        public AnswerGenerator(EnglishDictionary engDictionary, IWordValidator validator)
         {
-            _guessValidator = new GuessValidator(engDictionary); // TODO remove and inject
+            _guessValidator = validator; 
             _answers = CreateAnswersArray(engDictionary);
 
             _randomizer = new Random();
