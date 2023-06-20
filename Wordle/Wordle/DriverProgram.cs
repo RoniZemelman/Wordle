@@ -8,18 +8,18 @@ namespace Wordle
     class DriverProgram
     {
         private static readonly string DictionaryFilePath = 
-            "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt";
+            "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt"; // TODO move to config file
 
         private static string _currentAnswer; // TODO thread safety
 
         private static WordleGame CreateGame()
         {
             var fileContents = File.ReadAllBytes(DictionaryFilePath);
-            var engDictionary = new EnglishDictionary(new MemoryStream(fileContents)); // try catch IO exception?
+            var engDictionary = new EnglishDictionary(new MemoryStream(fileContents)); 
             
             var validator = new GuessValidator(engDictionary);
-            var answerGenerator = new AnswerGenerator(engDictionary, validator);
-            _currentAnswer = answerGenerator.GenerateAnswer();
+            //var answerGenerator = new AnswerGenerator(engDictionary, validator);
+            _currentAnswer = "bingo"; //answerGenerator.GenerateAnswer();
 
             return new WordleGame(_currentAnswer, validator);
         }
@@ -102,13 +102,13 @@ namespace Wordle
             Console.WriteLine("Welcome to WordleGame! " +
                               $" Please enter a {WordleGame.NumLettersInWord} letter word.");
 
-            DisplayKey();
+            DisplayResultColors();
 
             var wordleGame = CreateGame();
             RunGame(wordleGame);
         }
 
-        private static void DisplayKey()
+        private static void DisplayResultColors()
         {
             Console.WriteLine("\n\nCOLOR KEY");
             
