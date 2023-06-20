@@ -11,6 +11,18 @@ namespace WordleTests
 {
     class AnswerGeneratorTests
     {
-        
+        [Test]
+        public static void GenerateAnswer_EmptyStringParam_Null()
+        {
+            // arrange
+            string[] emptyStringArray = Array.Empty<string>();
+            var answerGenerator = new AnswerGenerator(emptyStringArray);
+
+            // act
+            var answerResult = answerGenerator.GenerateAnswer();
+
+            // assert
+            Assert.IsNull(answerResult);
+        }
     }
 }

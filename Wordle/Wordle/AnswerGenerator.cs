@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace Wordle
 {
-    
-    
+    public class AnswerGenerator
+    {
+        public AnswerGenerator(string[] dictionaryWords)
+        {
+
+        }
+
+        public string GenerateAnswer()
+        {
+            return null;
+        }
+    }
 }
