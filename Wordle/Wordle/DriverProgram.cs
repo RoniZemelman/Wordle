@@ -18,8 +18,10 @@ namespace Wordle
             var engDictionary = new EnglishDictionary(new MemoryStream(fileContents)); 
             
             var validator = new GuessValidator(engDictionary);
-            //var answerGenerator = new AnswerGenerator(engDictionary, validator);
-            _currentAnswer = "bingo"; //answerGenerator.GenerateAnswer();
+            var answerGenerator = new AnswerGenerator( validator, engDictionary.GetDictionaryWords());
+            _currentAnswer = answerGenerator.GenerateAnswer();
+
+            // Console.WriteLine("Answer: " + _currentAnswer);
 
             return new WordleGame(_currentAnswer, validator);
         }
