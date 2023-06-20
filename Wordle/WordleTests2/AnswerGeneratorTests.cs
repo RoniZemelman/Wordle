@@ -44,7 +44,7 @@ namespace WordleTests
             
             // act
             var wordResult = answerGenerator.GenerateAnswer();
-
+            
             // assert
             Assert.AreEqual(validWord, wordResult);
         }
@@ -58,7 +58,7 @@ namespace WordleTests
             var mockValidator = MockRepository.GenerateStub<IWordValidator>();
             mockValidator.Stub(validator => validator.Validate(""))
                 .IgnoreArguments()
-                .Return(new ValidatorResult(false, false,false));
+                .Return(new ValidatorResult()); 
 
             var answerGenerator = new AnswerGenerator(mockValidator, arrayWith1ValidWord);
 
@@ -68,5 +68,28 @@ namespace WordleTests
             // assert
             Assert.IsNull(wordResult);
         }
+
+        [Test] public static void GenerateAnswer_ValidatorInvalidates1WordValidatesOther_OnlyReturnsValidWord()
+        {
+            // arrange 
+            string[] arrayWith1ValidWord = { "valid", "invalidWord2" };
+
+            var mockValidator = MockRepository.GenerateStub<IWordValidator>();
+            mockValidator.Stub(validator => validator.Validate("valid"))
+                .Return(new ValidatorResult(true, true, true));
+            mockValidator.Stub(validator => validator.Validate("invalidWord2"))
+                .Return(new ValidatorResult());
+
+            var answerGenerator = new AnswerGenerator(mockValidator, arrayWith1ValidWord);
+
+            // act
+            var wordResult1 = answerGenerator.GenerateAnswer();
+            var wordResult2 = answerGenerator.GenerateAnswer();
+
+            // assert
+            Assert.AreEqual("valid", wordResult1);
+            Assert.AreEqual("valid", wordResult2);
+        }
+
     }
 }
