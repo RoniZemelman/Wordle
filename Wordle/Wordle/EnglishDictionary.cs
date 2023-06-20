@@ -29,8 +29,6 @@ namespace Wordle
             }
         }
 
-        // TODO performance considerations of ToArray? But need to create new object for security...
-        // Add this method to IEnglishDictionary interface?
         public string[] GetDictionaryWords()
         {
             return _setOfWords.ToArray();

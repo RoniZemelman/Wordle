@@ -12,9 +12,7 @@ namespace WordleTests
     class EnglishDictionaryTests
     {
         [Test]
-        [TestCase("blahblah")]
-        [TestCase("shtuyot")]
-        public static void IsInDictionary_WordNotInDictionary_False(string wordNotInDictionary)
+        public static void IsInDictionary_WordNotInMemoryStream_False()
         {
             // Arrange
             string[] arrayOfWords = {"all\n", "eat\n"};
@@ -23,7 +21,7 @@ namespace WordleTests
             var engDictionary = new EnglishDictionary(new MemoryStream(wordsAsBytes)); // _fileContents));
 
             // Act
-            var isInDictionary = engDictionary.IsInDictionary(wordNotInDictionary);
+            var isInDictionary = engDictionary.IsInDictionary("blahblah");
             
             // Assert
             Assert.IsFalse(isInDictionary);
@@ -32,7 +30,7 @@ namespace WordleTests
         [Test]
         [TestCase("all")]
         [TestCase("eat")]
-        public static void IsInDictionary_RealWordFromDictionaryFile_True(string word)
+        public static void IsInDictionary_WordInMemoryStream_True(string word)
         {
             // Arrange
             string[] arrayOfWords = { "all\n", "eat\n" };
@@ -45,6 +43,23 @@ namespace WordleTests
 
             // Assert
             Assert.IsTrue(isInDictionary);
+        }
+
+        [Test]
+
+        public static void GetDictionaryWords_Invoked_ResultingWordsAreEqualToInputMemoryStreamWords()
+        {
+            // Arrange
+            string[] inputWords = { "all", "eat" };
+            var wordsAsBytes = inputWords.SelectMany(word => Encoding.ASCII.GetBytes(word + '\n')).ToArray();
+
+            var engDictionary = new EnglishDictionary(new MemoryStream(wordsAsBytes));
+
+            // Act
+            var dictionaryWordsResult = engDictionary.GetDictionaryWords();
+
+            // Assert
+            Assert.AreEqual(inputWords, dictionaryWordsResult);
         }
     }
 }
