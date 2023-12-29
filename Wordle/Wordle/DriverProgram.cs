@@ -7,11 +7,9 @@ namespace Wordle
 {
     class DriverProgram
     {
-        private static readonly string DictionaryFilePath = 
-            "C:\\Users\\user\\source\\repos\\Wordle\\WordleTests2\\10000words.txt"; // TODO move to config file
+        private static readonly string DictionaryFilePath = "..\\..\\data\\10000words.txt"; // TODO move to config file
 
         private static string _currentAnswer; // TODO thread safety
-
         private static WordleGame CreateGame()
         {
             var fileContents = File.ReadAllBytes(DictionaryFilePath);
@@ -84,7 +82,7 @@ namespace Wordle
 
                 DisplayGuessResultAnalysis(guessResult);
             }
-
+            
             DisplayGameResult(wordleGame);
         }
 
