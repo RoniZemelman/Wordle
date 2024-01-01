@@ -120,7 +120,7 @@ namespace Wordle
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("Yellow:  ");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("letter is correct (in correct location)");
+            Console.WriteLine("letter is correct (in wrong location)");
 
 
             Console.ForegroundColor = ConsoleColor.Red;
