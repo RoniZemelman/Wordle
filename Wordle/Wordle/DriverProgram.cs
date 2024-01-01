@@ -7,7 +7,7 @@ namespace Wordle
 {
     class DriverProgram
     {
-        private static readonly string DictionaryFilePath = "..\\..\\data\\10000words.txt"; // TODO move to config file
+        private static readonly string DictionaryFilePath = "..\\..\\data\\word_list.txt"; // TODO move to config file
 
         private static string _currentAnswer; // TODO thread safety
         private static WordleGame CreateGame()
@@ -32,7 +32,7 @@ namespace Wordle
             if (!guessResult.ValidationResult.IsAllChars)
                 Console.WriteLine($"'{guess}' is not all characters");
 
-            if (!guessResult.ValidationResult.IsInDictionary)
+            if (!guessResult.ValidationResult.IsInDictionary && guessResult.ValidationResult.Is5Letters)
                 Console.WriteLine($"'{guess}' is not in dictionary.");
         }
         private static void DisplayGuessResultAnalysis(GuessResult guessResult)
